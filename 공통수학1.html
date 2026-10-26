@@ -1,0 +1,3554 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>공통수학1 개념 총정리 | 다항식 · 방정식과 부등식 · 경우의 수 · 행렬</title>
+<style>
+  :root{
+    --bg:#F6F8F7;
+    --panel:#FFFFFF;
+    --ink:#16233B;
+    --body:#33415C;
+    --muted:#6B7A90;
+    --line:#DCE6E2;
+    --line-soft:#E9EFED;
+    --c1:#2563EB;   /* 다항식 - blue */
+    --c1-soft:#EAF1FE;
+    --c2:#059669;   /* 방정식과 부등식 - green */
+    --c2-soft:#E7F6EF;
+    --c3:#D97706;   /* 경우의 수 - amber */
+    --c3-soft:#FDF0DF;
+    --c4:#7C3AED;   /* 행렬 - purple */
+    --c4-soft:#F1EAFE;
+    --amber:#B45309;
+    --amber-soft:#FEF3E2;
+    --example-bg:#FBFDFC;
+    --tip-text:#7C4A0A;
+    --grid-line:#EEF2F0;
+    --axis-line:#A9B7C9;
+    --axis-text:#8C9AB0;
+    --graph-faint:#B7C0CE;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0F1520; --panel:#161E2C; --ink:#EDF1F7; --body:#C3CEDD; --muted:#93A0B4;
+      --line:#2A3547; --line-soft:#212B3B;
+      --c1-soft:#1B2A47; --c2-soft:#132A20; --c3-soft:#332411; --c4-soft:#241A3D; --amber-soft:#332411;
+      --example-bg:#1B2536; --tip-text:#F0C387;
+      --grid-line:#212C3F; --axis-line:#45536D; --axis-text:#8493AD; --graph-faint:#3A4760;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0F1520; --panel:#161E2C; --ink:#EDF1F7; --body:#C3CEDD; --muted:#93A0B4;
+    --line:#2A3547; --line-soft:#212B3B;
+    --c1-soft:#1B2A47; --c2-soft:#132A20; --c3-soft:#332411; --c4-soft:#241A3D; --amber-soft:#332411;
+    --example-bg:#1B2536; --tip-text:#F0C387;
+    --grid-line:#212C3F; --axis-line:#45536D; --axis-text:#8493AD; --graph-faint:#3A4760;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth; scroll-padding-top:env(safe-area-inset-top,0px);}
+  :root{ padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); }
+  body{
+    margin:0;
+    font-family:"Noto Sans KR","Malgun Gothic",system-ui,-apple-system,sans-serif;
+    background:var(--bg);
+    color:var(--body);
+    line-height:1.62;
+  }
+  .math{
+    font-family:"Georgia","Times New Roman",serif;
+    font-style:italic;
+  }
+  .sqrt{
+    display:inline-flex;
+    align-items:flex-start;
+    vertical-align:middle;
+  }
+  .sqrt-ico{
+    width:0.56em;
+    height:0.92em;
+    flex:0 0 auto;
+    overflow:visible;
+    margin-right:-1px;
+  }
+  .sqrt-ico path{
+    fill:none;
+    stroke:currentColor;
+    stroke-width:1.6;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    vector-effect:non-scaling-stroke;
+  }
+  .rt{
+    display:inline-block;
+    border-top:1.4px solid currentColor;
+    padding:2px 3px 0 2px;
+  }
+  .term-chip{
+    position:absolute; top:14px; height:36px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:9px; font-family:"Georgia","Times New Roman",serif; font-style:italic; font-weight:700;
+    font-size:14px; color:#fff; white-space:nowrap;
+    transition:left .55s cubic-bezier(.22,.8,.25,1), opacity .35s ease;
+    box-shadow:0 3px 8px -3px rgba(0,0,0,.35);
+  }
+  .term-group-box{
+    position:absolute; top:4px; height:56px; border-radius:12px;
+    border:2px dashed; opacity:0;
+    transition:opacity .35s ease, left .5s ease, width .5s ease;
+    pointer-events:none;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    background:
+      linear-gradient(135deg, #101B30 0%, #16233B 55%, #2A1B3D 100%);
+    color:#F3F6F5;
+    padding:56px 24px 44px;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
+    background-size:34px 34px;
+    mask-image:linear-gradient(180deg, rgba(0,0,0,.9), rgba(0,0,0,.15));
+  }
+  .hero-inner{position:relative; max-width:1180px; margin:0 auto;}
+  .hero-eyebrow{
+    font-size:13px; color:#B7A6F5; letter-spacing:.02em; margin:0 0 10px;
+  }
+  .hero h1{
+    font-size:clamp(26px,4vw,38px);
+    margin:0 0 12px;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  .hero p{ margin:0; color:#B9C6D9; font-size:15px; max-width:640px;}
+  .hero-curve{
+    position:absolute; right:-40px; bottom:-30px; width:340px; height:220px;
+    opacity:.9; pointer-events:none;
+  }
+  @media (max-width:720px){ .hero-curve{display:none;} }
+
+  /* ---------- LAYOUT ---------- */
+  .layout{
+    max-width:1180px; margin:0 auto;
+    display:grid;
+    grid-template-columns:250px 1fr;
+    gap:0;
+    align-items:start;
+  }
+  @media (max-width:900px){
+    .layout{grid-template-columns:1fr;}
+  }
+
+  /* ---------- SIDEBAR ---------- */
+  .sidebar{
+    position:sticky; top:0;
+    height:100vh;
+    overflow-y:auto;
+    padding:22px 14px 40px 24px;
+    border-right:1px solid var(--line);
+    background:var(--bg);
+  }
+  @media (max-width:900px){
+    .sidebar{
+      position:static; height:auto; overflow:visible;
+      border-right:none; border-bottom:1px solid var(--line);
+      padding:16px 16px 8px;
+    }
+  }
+  .sidebar-title{
+    font-size:11px; color:var(--muted); letter-spacing:.06em;
+    margin:4px 0 12px; text-transform:uppercase;
+  }
+  .toc-chapter{margin-bottom:6px;}
+  .toc-chapter-head{
+    display:flex; align-items:center; gap:8px;
+    font-size:13.5px; font-weight:700; color:var(--ink);
+    padding:9px 10px; border-radius:8px; cursor:default;
+  }
+  .toc-dot{width:8px; height:8px; border-radius:50%; flex:0 0 auto;}
+  .toc-list{list-style:none; margin:2px 0 10px; padding:0 0 0 26px;}
+  .toc-list li{margin:1px 0;}
+  .toc-list a{
+    display:block;
+    font-size:12.8px; color:var(--muted); text-decoration:none;
+    padding:5px 8px; border-radius:6px; border-left:2px solid transparent;
+  }
+  .toc-list a:hover{ background:var(--line-soft); color:var(--ink);}
+  .toc-list a.active{
+    color:var(--ink); font-weight:700; background:var(--line-soft);
+  }
+
+  /* ---------- MAIN ---------- */
+  main{padding:36px 28px 100px;}
+  @media (max-width:600px){ main{padding:26px 16px 80px;} }
+
+  .chapter-banner{
+    display:flex; align-items:baseline; gap:12px;
+    margin:52px 0 22px; padding-top:6px;
+  }
+  .chapter-banner:first-of-type{margin-top:8px;}
+  .chapter-num{
+    font-size:13px; font-weight:700; color:#fff;
+    padding:4px 10px; border-radius:20px;
+  }
+  .chapter-banner h2{ margin:0; font-size:21px; color:var(--ink); font-weight:700;}
+  .chapter-sub{ margin:0 0 26px; color:var(--muted); font-size:13.5px;}
+
+  .concept{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:22px 24px;
+    margin-bottom:16px;
+    scroll-margin-top:18px;
+  }
+  .concept-head{
+    display:flex; align-items:center; gap:10px; margin-bottom:10px;
+  }
+  .concept-num{
+    font-size:12.5px; font-weight:800; color:#fff;
+    width:30px; height:30px; border-radius:9px;
+    display:flex; align-items:center; justify-content:center;
+    flex:0 0 auto;
+  }
+  .concept h3{ margin:0; font-size:17px; color:var(--ink); font-weight:700;}
+
+  .def{ font-size:14.5px; color:var(--body); }
+  .def p{ margin:0 0 8px; }
+  .def ul{ margin:6px 0 8px; padding-left:20px; }
+  .def li{ margin:3px 0; }
+
+  .formula{
+    background:var(--soft, #F3F6F5);
+    border-left:3px solid var(--accent, #999);
+    border-radius:0 8px 8px 0;
+    padding:10px 14px;
+    margin:10px 0;
+    font-size:15px;
+    overflow-x:auto;
+  }
+  .formula .math{color:var(--ink);}
+
+  details.example{
+    margin-top:12px;
+    border:1px dashed var(--line);
+    border-radius:10px;
+    background:var(--example-bg);
+    padding:0 14px;
+  }
+  details.example summary{
+    cursor:pointer;
+    list-style:none;
+    padding:11px 0;
+    font-size:13.5px;
+    font-weight:700;
+    color:var(--accent,#333);
+    display:flex; align-items:center; gap:6px;
+  }
+  details.example summary::before{
+    content:"▸";
+    display:inline-block;
+    transition:transform .15s ease;
+    font-size:11px;
+  }
+  details.example[open] summary::before{ transform:rotate(90deg); }
+  .example-body{ padding:0 0 14px; font-size:14px; color:var(--body); }
+  .example-body p{margin:6px 0;}
+  .tag{
+    display:inline-block; font-size:11px; font-weight:700;
+    padding:2px 8px; border-radius:12px; margin-right:6px;
+  }
+  .tip{
+    margin-top:10px; font-size:13px; padding:9px 12px;
+    background:var(--amber-soft); color:var(--tip-text);
+    border-radius:8px; border-left:3px solid var(--amber);
+  }
+
+  /* chapter accent bindings */
+  .ch1 .concept-num, .ch1 .toc-dot, .ch1 .chapter-num{background:var(--c1);}
+  .ch1 .formula{--soft:var(--c1-soft); --accent:var(--c1);}
+  .ch1 details.example summary{--accent:var(--c1); color:var(--c1);}
+  .ch1 .concept{border-top:3px solid var(--c1);}
+  .ch1 .wgt{--soft:var(--c1-soft); --accent:var(--c1);}
+
+  .ch2 .concept-num, .ch2 .toc-dot, .ch2 .chapter-num{background:var(--c2);}
+  .ch2 .formula{--soft:var(--c2-soft); --accent:var(--c2);}
+  .ch2 details.example summary{--accent:var(--c2); color:var(--c2);}
+  .ch2 .concept{border-top:3px solid var(--c2);}
+  .ch2 .wgt{--soft:var(--c2-soft); --accent:var(--c2);}
+
+  .ch3 .concept-num, .ch3 .toc-dot, .ch3 .chapter-num{background:var(--c3);}
+  .ch3 .formula{--soft:var(--c3-soft); --accent:var(--c3);}
+  .ch3 details.example summary{--accent:var(--c3); color:var(--c3);}
+  .ch3 .concept{border-top:3px solid var(--c3);}
+  .ch3 .wgt{--soft:var(--c3-soft); --accent:var(--c3);}
+
+  .ch4 .concept-num, .ch4 .toc-dot, .ch4 .chapter-num{background:var(--c4);}
+  .ch4 .formula{--soft:var(--c4-soft); --accent:var(--c4);}
+  .ch4 details.example summary{--accent:var(--c4); color:var(--c4);}
+  .ch4 .concept{border-top:3px solid var(--c4);}
+  .ch4 .wgt{--soft:var(--c4-soft); --accent:var(--c4);}
+
+  footer{
+    text-align:center; color:var(--muted); font-size:12.5px;
+    padding:24px; border-top:1px solid var(--line);
+  }
+
+  /* mobile chapter jump bar */
+  .mobile-jump{
+    display:none;
+    gap:8px; padding:10px 16px; overflow-x:auto;
+    border-bottom:1px solid var(--line); background:var(--panel);
+  }
+  .mobile-jump a{
+    flex:0 0 auto; font-size:12.5px; font-weight:700; color:#fff;
+    padding:7px 12px; border-radius:20px; text-decoration:none; white-space:nowrap;
+  }
+  @media (max-width:900px){ .mobile-jump{display:flex;} }
+
+  /* ---------- ANIMATIONS ---------- */
+  #scroll-progress{
+    position:fixed; top:0; left:0; height:3px; width:0%;
+    background:linear-gradient(90deg, var(--c1), var(--c2), var(--c3), var(--c4));
+    z-index:999;
+  }
+
+  @keyframes fadeInDown{
+    from{ opacity:0; transform:translateY(-14px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  @keyframes fadeIn{
+    from{ opacity:0; }
+    to{ opacity:1; }
+  }
+  @keyframes popDot{
+    0%{ transform:scale(1); }
+    50%{ transform:scale(1.55); }
+    100%{ transform:scale(1); }
+  }
+
+  .hero-inner > *{ opacity:0; animation:fadeInDown .7s ease forwards; }
+  .hero-eyebrow{ animation-delay:.05s; }
+  .hero h1{ animation-delay:.15s; }
+  .hero p{ animation-delay:.25s; }
+  .hero-curve{ opacity:0; animation:fadeIn 1s ease .35s forwards; }
+
+  .concept, .chapter-banner, .chapter-sub{
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity .55s cubic-bezier(.22,.61,.36,1), transform .55s cubic-bezier(.22,.61,.36,1),
+               box-shadow .25s ease, border-color .25s ease;
+  }
+  .concept.in-view, .chapter-banner.in-view, .chapter-sub.in-view{
+    opacity:1;
+    transform:translateY(0);
+  }
+  .concept:hover{
+    box-shadow:0 10px 26px -14px rgba(22,35,59,.22);
+  }
+  .concept-num{ transition:transform .25s ease; }
+  .concept:hover .concept-num{ transform:scale(1.1) rotate(-4deg); }
+
+  .toc-list a{ transition:background .2s ease, color .2s ease, padding-left .2s ease; }
+  .toc-list a:hover{ padding-left:11px; }
+  .toc-dot{ transition:transform .25s ease; }
+  .toc-chapter-head:hover .toc-dot{ animation:popDot .5s ease; }
+
+  details.example summary{ transition:color .2s ease; }
+  .example-body.fade-in{ animation:fadeIn .35s ease; }
+
+  .mobile-jump a{ transition:transform .15s ease; }
+  .mobile-jump a:active{ transform:scale(.95); }
+
+  @media (prefers-reduced-motion: reduce){
+    *:not(.intro-orb):not(.intro-symbol):not(.dot):not(.intro-arrow), :not(.intro)::before, *::after{
+      animation-duration:.001ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:.001ms !important;
+      scroll-behavior:auto !important;
+    }
+    .concept, .chapter-banner, .chapter-sub{ opacity:1 !important; transform:none !important; }
+  }
+
+  /* ---------- INTRO SCREEN ---------- */
+  .intro{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:64px 24px 56px;
+    text-align:center;
+    overflow:hidden;
+    background:linear-gradient(165deg, #0A1122 0%, #101B30 48%, #1C1533 100%);
+    color:#F3F6F5;
+  }
+  .intro::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+    background-size:38px 38px;
+    mask-image:radial-gradient(circle at 50% 40%, rgba(0,0,0,.85), transparent 72%);
+    pointer-events:none;
+    animation:introGridPulse 6s ease-in-out infinite;
+  }
+  .intro-orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(6px);
+    pointer-events:none;
+    will-change:transform;
+  }
+  .intro-orb-1{
+    width:560px; height:560px; left:-6%; top:-10%;
+    background:radial-gradient(circle, rgba(37,99,235,.60), transparent 68%);
+    animation:introDrift1 13s ease-in-out infinite;
+  }
+  .intro-orb-2{
+    width:520px; height:520px; right:-8%; top:8%;
+    background:radial-gradient(circle, rgba(124,58,237,.55), transparent 68%);
+    animation:introDrift2 16s ease-in-out infinite;
+  }
+  .intro-orb-3{
+    width:600px; height:600px; left:20%; bottom:-22%;
+    background:radial-gradient(circle, rgba(217,119,6,.45), transparent 68%);
+    animation:introDrift3 18s ease-in-out infinite;
+  }
+  .intro-orb-4{
+    width:380px; height:380px; right:12%; bottom:-12%;
+    background:radial-gradient(circle, rgba(5,150,105,.42), transparent 68%);
+    animation:introDrift1 15s ease-in-out infinite reverse;
+  }
+  @keyframes introGridPulse{
+    0%,100%{ opacity:.75; }
+    50%{ opacity:1; }
+  }
+  @keyframes introDrift1{
+    0%,100%{ transform:translate(0,0) scale(1); }
+    50%{ transform:translate(9%,12%) scale(1.15); }
+  }
+  @keyframes introDrift2{
+    0%,100%{ transform:translate(0,0) scale(1); }
+    50%{ transform:translate(-11%,9%) scale(1.12); }
+  }
+  @keyframes introDrift3{
+    0%,100%{ transform:translate(0,0) scale(1); }
+    50%{ transform:translate(8%,-11%) scale(1.18); }
+  }
+  .intro-symbol{
+    position:absolute;
+    font-family:"Georgia","Times New Roman",serif;
+    font-style:italic;
+    color:rgba(255,255,255,.22);
+    pointer-events:none;
+    user-select:none;
+    z-index:1;
+    animation:introFloatUp linear infinite;
+  }
+  @keyframes introFloatUp{
+    0%{ transform:translateY(0) rotate(0deg); opacity:0; }
+    10%{ opacity:1; }
+    90%{ opacity:1; }
+    100%{ transform:translateY(-92vh) rotate(12deg); opacity:0; }
+  }
+  .intro-inner{ position:relative; z-index:2; max-width:760px; margin:0 auto; }
+  .intro-inner > *{ opacity:0; animation:fadeInDown .8s ease forwards; }
+  .intro-eyebrow{ animation-delay:.05s; }
+  .intro-title{ animation-delay:.18s; }
+  .intro-subtitle{ animation-delay:.28s; }
+  .intro-desc{ animation-delay:.38s; }
+  /* 배지·통계·버튼은 그룹 페이드 대신 각 항목이 순서대로 튀어 오르듯 등장 */
+  .intro-badges, .intro-stats{ opacity:1; animation:none; }
+  @keyframes introPopUp{
+    from{ opacity:0; transform:translateY(12px) scale(.94); }
+    to{ opacity:1; transform:translateY(0) scale(1); }
+  }
+  .intro-badge{ opacity:0; animation:introPopUp .5s cubic-bezier(.22,.61,.36,1) forwards; }
+  .intro-badge:nth-child(1){ animation-delay:.52s; }
+  .intro-badge:nth-child(2){ animation-delay:.60s; }
+  .intro-badge:nth-child(3){ animation-delay:.68s; }
+  .intro-badge:nth-child(4){ animation-delay:.76s; }
+  .intro-stat{ opacity:0; animation:introPopUp .5s cubic-bezier(.22,.61,.36,1) forwards; }
+  .intro-stat:nth-child(1){ animation-delay:.90s; }
+  .intro-stat:nth-child(2){ animation-delay:.98s; }
+  .intro-stat:nth-child(3){ animation-delay:1.06s; }
+
+  .intro-eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:12.5px; letter-spacing:.14em; text-transform:uppercase;
+    color:#C9BCF7; margin:0 0 22px;
+    border:1px solid rgba(201,188,247,.35);
+    border-radius:999px; padding:7px 16px;
+    background:rgba(255,255,255,.03);
+  }
+  .intro-eyebrow .dot{ width:6px; height:6px; border-radius:50%; background:#B7A6F5; animation:popDot 1.8s ease infinite; }
+
+  .intro-title{
+    margin:0 0 8px;
+    font-weight:800;
+    letter-spacing:-0.02em;
+    font-size:clamp(40px,7vw,68px);
+    line-height:1.08;
+    background:linear-gradient(100deg, #FFFFFF 20%, #CBD8F5 55%, #B7A6F5 85%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .intro-subtitle{
+    margin:0 0 26px;
+    font-size:clamp(16px,2.4vw,20px);
+    font-weight:700;
+    color:#B9C6D9;
+    letter-spacing:.01em;
+  }
+  .intro-desc{
+    margin:0 auto 30px;
+    max-width:560px;
+    font-size:15px;
+    color:#AEBBD1;
+    line-height:1.75;
+  }
+  .intro-badges{
+    display:flex; flex-wrap:wrap; justify-content:center; gap:10px;
+    margin:0 0 34px;
+  }
+  .intro-badge{
+    display:flex; align-items:center; gap:8px;
+    font-size:13px; font-weight:700; color:#EDEFF7;
+    padding:8px 14px 8px 10px; border-radius:999px;
+    background:rgba(255,255,255,.055);
+    border:1px solid rgba(255,255,255,.10);
+  }
+  .intro-badge .chip{ width:9px; height:9px; border-radius:50%; flex:0 0 auto; }
+
+  .intro-stats{
+    display:flex; justify-content:center; gap:0;
+    margin:0 0 40px;
+    border-top:1px solid rgba(255,255,255,.12);
+    border-bottom:1px solid rgba(255,255,255,.12);
+    padding:22px 0;
+  }
+  .intro-stat{ padding:0 28px; }
+  .intro-stat + .intro-stat{ border-left:1px solid rgba(255,255,255,.12); }
+  .intro-stat b{
+    display:block; font-size:clamp(24px,4vw,32px); font-weight:800; color:#fff;
+    line-height:1;
+  }
+  .intro-stat span{
+    display:block; margin-top:6px; font-size:12px; color:#9FADC4; letter-spacing:.02em;
+  }
+
+  .intro-cta{
+    display:inline-flex; flex-direction:column; align-items:center; gap:10px;
+    opacity:0; animation:introPopUp .6s cubic-bezier(.22,.61,.36,1) 1.20s forwards;
+  }
+  .intro-cta a{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:14px; font-weight:700; color:#101B30;
+    background:linear-gradient(100deg,#F3F6F5,#DCE6E2);
+    padding:13px 26px; border-radius:999px; text-decoration:none;
+    box-shadow:0 14px 30px -12px rgba(0,0,0,.55);
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .intro-cta a:hover{ transform:translateY(-2px); box-shadow:0 18px 34px -12px rgba(0,0,0,.6); }
+  .intro-cta small{ color:#7E8BA3; font-size:11.5px; letter-spacing:.03em; }
+  .intro-cta svg{ animation:introBounce 1.6s ease-in-out infinite; }
+
+  @keyframes introBounce{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(4px); }
+  }
+
+  @media (max-width:600px){
+    .intro{ padding:56px 18px 44px; }
+    .intro-stats{ flex-wrap:wrap; row-gap:16px; }
+    .intro-stat{ padding:0 16px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .intro-inner > *, .intro-badge, .intro-stat{ opacity:1 !important; animation:none !important; }
+  }
+
+  /* ---------- MATRIX NOTATION ---------- */
+  .matrix-wrap{
+    display:inline-flex;
+    align-items:stretch;
+    vertical-align:middle;
+    margin:0 3px;
+  }
+  .matrix-bracket{
+    display:inline-block;
+    width:5px;
+    border-top:2px solid currentColor;
+    border-bottom:2px solid currentColor;
+  }
+  .matrix-bracket.l{ border-left:2px solid currentColor; margin-right:6px; }
+  .matrix-bracket.r{ border-right:2px solid currentColor; margin-left:6px; }
+  .matrix-grid{
+    display:inline-grid;
+    row-gap:4px;
+    column-gap:16px;
+    padding:3px 1px;
+    align-items:center;
+  }
+  .matrix-grid span{
+    font-family:"Georgia","Times New Roman",serif;
+    font-style:italic;
+    text-align:center;
+    white-space:nowrap;
+    line-height:1.1;
+  }
+
+  /* ================= INTERACTIVE WIDGETS (Brilliant-style) ================= */
+  .wgt{
+    margin-top:14px;
+    background:var(--soft,#F3F6F5);
+    border:1px solid var(--line-soft);
+    border-radius:12px;
+    padding:16px 18px 18px;
+  }
+  .wgt + .wgt{ margin-top:10px; }
+  .wgt-title{
+    display:flex; align-items:center; gap:7px;
+    font-size:11.5px; font-weight:800; letter-spacing:.04em;
+    color:var(--accent,#333); text-transform:uppercase;
+    margin:0 0 12px;
+  }
+  .wgt-title::before{
+    content:""; width:7px; height:7px; border-radius:2px;
+    background:var(--accent,#333); display:inline-block;
+    transform:rotate(45deg); flex:0 0 auto;
+  }
+  .wgt-sub{ font-size:12.5px; color:var(--muted); margin:-6px 0 10px; }
+  .wgt-row{
+    display:flex; align-items:center; gap:10px;
+    margin:9px 0; font-size:13px; flex-wrap:wrap;
+  }
+  .wgt-row label{ flex:0 0 auto; color:var(--body); font-weight:700; min-width:0; white-space:nowrap;}
+  .wgt-row input[type=range]{
+    flex:1 1 110px; min-width:90px;
+    -webkit-appearance:none; appearance:none;
+    height:5px; border-radius:4px;
+    background:var(--line);
+    outline:none; cursor:pointer;
+  }
+  .wgt-row input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none; appearance:none;
+    width:17px; height:17px; border-radius:50%;
+    background:var(--accent,#333); cursor:pointer;
+    border:2.5px solid #fff; box-shadow:0 1px 5px rgba(0,0,0,.35);
+  }
+  .wgt-row input[type=range]::-moz-range-thumb{
+    width:17px; height:17px; border-radius:50%;
+    background:var(--accent,#333); cursor:pointer;
+    border:2.5px solid #fff; box-shadow:0 1px 5px rgba(0,0,0,.35);
+    -moz-appearance:none; appearance:none;
+  }
+  .wgt-row input[type=range]::-moz-range-progress{ background:var(--accent,#333); height:5px; border-radius:4px; }
+  .wgt-val{
+    font-family:"Georgia","Times New Roman",serif; font-style:italic;
+    font-weight:700; color:var(--accent,#333); font-size:13.5px;
+    min-width:38px; text-align:center;
+    background:var(--panel); border-radius:6px; padding:2px 7px;
+    border:1px solid var(--line); flex:0 0 auto;
+  }
+  .wgt-canvas-wrap{
+    background:var(--panel); border:1px solid var(--line); border-radius:10px;
+    padding:8px; margin:10px 0; overflow-x:auto; text-align:center;
+  }
+  .wgt-canvas-wrap svg{ display:inline-block; max-width:100%; height:auto; }
+  .wgt-out{
+    font-size:13.5px; color:var(--body); background:var(--panel);
+    border:1px solid var(--line); border-radius:8px; padding:9px 13px;
+    margin-top:8px; line-height:1.65;
+  }
+  .wgt-out b{ color:var(--ink); }
+  .wgt-out .math{ color:var(--ink); }
+  .wgt-btns{ display:flex; gap:8px; flex-wrap:wrap; margin:8px 0 2px; }
+  .wgt-btn{
+    font-size:12.5px; font-weight:700; color:#fff;
+    background:var(--accent,#333); border:none; border-radius:999px;
+    padding:7px 15px; cursor:pointer; transition:transform .15s ease, opacity .15s ease, box-shadow .15s ease;
+    box-shadow:0 4px 10px -4px rgba(0,0,0,.3);
+  }
+  .wgt-btn:hover{ opacity:.88; }
+  .wgt-btn:active{ transform:scale(.94); }
+  .wgt-btn.ghost{
+    background:var(--panel); color:var(--accent,#333); border:1.5px solid var(--accent,#333);
+    box-shadow:none;
+  }
+  .wgt-btn.ghost.active{ background:var(--accent,#333); color:#fff; }
+  .wgt-btn:disabled{ opacity:.32; cursor:default; box-shadow:none; }
+  .wgt-badge{
+    display:inline-block; font-size:11px; font-weight:800;
+    padding:3px 10px; border-radius:999px; color:#fff; letter-spacing:.01em;
+  }
+  .wgt-badge.green{background:#059669;}
+  .wgt-badge.amber{background:#D97706;}
+  .wgt-badge.red{background:#DC2626;}
+  .wgt-badge.blue{background:#2563EB;}
+  .wgt-badge.purple{background:#7C3AED;}
+  .wgt-badge.gray{background:#6B7A90;}
+  .wgt-check{
+    display:inline-flex; align-items:center; gap:5px; font-size:12.5px; font-weight:700;
+  }
+  .wgt-check.ok{ color:#059669; }
+  .wgt-check.no{ color:#DC2626; }
+
+  .mat-input{
+    width:46px; text-align:center; font-family:"Georgia","Times New Roman",serif; font-style:italic;
+    border:1px solid var(--line); border-radius:6px; padding:5px 2px; font-size:14px;
+    background:var(--panel); color:var(--ink);
+  }
+  .mat-input:focus{ outline:2px solid var(--accent,#333); outline-offset:1px; }
+  .mat-block{ display:inline-flex; align-items:center; gap:7px; margin:4px 8px 4px 0; vertical-align:middle;}
+  .mat-bracket{ width:6px; align-self:stretch; border-top:2.2px solid var(--ink); border-bottom:2.2px solid var(--ink); }
+  .mat-bracket.l{ border-left:2.2px solid var(--ink); border-radius:2px 0 0 2px;}
+  .mat-bracket.r{ border-right:2.2px solid var(--ink); border-radius:0 2px 2px 0;}
+  .mat-grid{ display:inline-grid; gap:6px 10px; align-items:center; padding:4px 2px; }
+  .mat-grid span.cell{
+    font-family:"Georgia","Times New Roman",serif; font-style:italic; text-align:center;
+    min-width:28px; padding:4px 3px; border-radius:6px; transition:background .25s ease, transform .2s ease;
+  }
+  .mat-grid span.cell.hl{ background:var(--soft,#FDF0DF); font-weight:700; transform:scale(1.08); }
+  .mat-eq{ font-size:16px; font-weight:700; color:var(--muted); margin:0 2px;}
+
+  .wgt-seat{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:34px; height:34px; border-radius:8px; margin:3px;
+    background:var(--panel); border:1.6px dashed var(--line);
+    font-size:12.5px; font-weight:700; color:var(--muted);
+    transition:all .25s cubic-bezier(.2,.7,.3,1.3);
+  }
+  .wgt-seat.filled{
+    border-style:solid; border-color:var(--accent,#333);
+    background:var(--accent,#333); color:#fff; transform:translateY(-2px);
+  }
+  .wgt-dot{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:30px; height:30px; border-radius:50%; margin:3px;
+    background:var(--panel); border:1.6px solid var(--line);
+    font-size:12px; font-weight:700; color:var(--muted); cursor:pointer;
+    transition:all .2s ease; user-select:none;
+  }
+  .wgt-dot.picked{ background:var(--accent,#333); border-color:var(--accent,#333); color:#fff; transform:scale(1.12); }
+  .wgt-dot:hover{ border-color:var(--accent,#333); }
+
+  .wgt-pill-row{ display:flex; flex-wrap:wrap; gap:6px; margin:6px 0; }
+
+  .wgt-tag-x{
+    display:inline-block; padding:3px 9px; border-radius:7px; font-size:13px;
+    font-family:"Georgia","Times New Roman",serif; font-style:italic; font-weight:700;
+    transition:background .3s ease, color .3s ease;
+  }
+  @media (max-width:520px){
+    .wgt{ padding:13px 13px 15px; }
+    .wgt-row label{ min-width:0; }
+  }
+
+</style>
+</head>
+<body>
+<noscript><style>.concept,.chapter-banner,.chapter-sub,.hero-inner>*,.hero-curve,.intro-inner>*{opacity:1!important;transform:none!important;animation:none!important;}</style></noscript>
+<div id="scroll-progress"></div>
+
+<section class="intro" id="intro">
+  <div class="intro-orb intro-orb-1"></div>
+  <div class="intro-orb intro-orb-2"></div>
+  <div class="intro-orb intro-orb-3"></div>
+  <div class="intro-orb intro-orb-4"></div>
+  <span class="intro-symbol" style="left:8%; top:70%; font-size:34px; animation-duration:14s; animation-delay:0s;">∑</span>
+  <span class="intro-symbol" style="left:18%; top:85%; font-size:22px; animation-duration:18s; animation-delay:2s;">π</span>
+  <span class="intro-symbol" style="left:32%; top:78%; font-size:28px; animation-duration:16s; animation-delay:5s;">√x</span>
+  <span class="intro-symbol" style="left:62%; top:90%; font-size:24px; animation-duration:19s; animation-delay:1s;">×</span>
+  <span class="intro-symbol" style="left:75%; top:75%; font-size:30px; animation-duration:15s; animation-delay:4s;">ƒ(x)</span>
+  <span class="intro-symbol" style="left:88%; top:88%; font-size:20px; animation-duration:17s; animation-delay:7s;">Δ</span>
+  <span class="intro-symbol" style="left:48%; top:95%; font-size:22px; animation-duration:20s; animation-delay:3s;">∞</span>
+  <span class="intro-symbol" style="left:6%; top:20%; font-size:20px; animation-duration:22s; animation-delay:6s;">A²</span>
+  <div class="intro-inner">
+    <p class="intro-eyebrow"><span class="dot"></span>상무고등학교 · 유환수 선생님 자료</p>
+    <h1 class="intro-title">공통수학1</h1>
+    <p class="intro-subtitle">개념 총정리 — 정의부터 실전 예제까지 한 번에</p>
+    <p class="intro-desc">
+      교과서 곳곳에 흩어진 내용을 대단원별 흐름으로 다시 엮었습니다.
+      각 개념은 <b style="color:#DDE3F0;">정의 → 공식 → 예제</b> 순서로 정리되어 있으니,
+      예제는 먼저 스스로 풀어본 뒤 펼쳐서 확인해 보세요.
+    </p>
+    <div class="intro-badges">
+      <span class="intro-badge"><span class="chip" style="background:#2563EB;"></span>Ⅰ. 다항식</span>
+      <span class="intro-badge"><span class="chip" style="background:#059669;"></span>Ⅱ. 방정식과 부등식</span>
+      <span class="intro-badge"><span class="chip" style="background:#D97706;"></span>Ⅲ. 경우의 수</span>
+      <span class="intro-badge"><span class="chip" style="background:#7C3AED;"></span>Ⅳ. 행렬</span>
+    </div>
+    <div class="intro-stats">
+      <div class="intro-stat"><b>4</b><span>대단원</span></div>
+      <div class="intro-stat"><b>39</b><span>핵심 개념</span></div>
+      <div class="intro-stat"><b>1</b><span>완결된 학습 흐름</span></div>
+    </div>
+    <div class="intro-cta">
+      <a href="#hero">
+        개념 총정리 시작하기
+        <svg class="intro-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 4v16m0 0l-6-6m6 6l6-6"/></svg>
+      </a>
+      <small>스크롤하여 이동</small>
+    </div>
+  </div>
+</section>
+
+<div class="hero" id="hero">
+  <div class="hero-inner">
+    <p class="hero-eyebrow">상무고 유환수 작성 · 공통수학1 개념 총정리</p>
+    <h1>다항식 · 방정식과 부등식 · 경우의 수 · 행렬</h1>
+    <p>대단원별로 다시 묶은 39개 핵심 개념. 정의 → 공식 → 예제 순으로 확인하고, 예제는 먼저 스스로 풀어본 뒤 펼쳐보세요.</p>
+  </div>
+  <svg class="hero-curve" viewBox="0 0 340 220" fill="none">
+    <path d="M10 200 C 80 40, 120 20, 170 110 C 220 200, 260 40, 330 10" stroke="#B7A6F5" stroke-width="2.5" opacity="0.85"/>
+    <path d="M10 170 L 330 170" stroke="#3A4B66" stroke-width="1"/>
+    <path d="M40 20 L 40 210" stroke="#3A4B66" stroke-width="1"/>
+    <circle cx="170" cy="110" r="4" fill="#B7A6F5"/>
+  </svg>
+</div>
+
+<div class="mobile-jump">
+  <a href="#ch1" style="background:#2563EB;">① 다항식</a>
+  <a href="#ch2" style="background:#059669;">② 방정식과 부등식</a>
+  <a href="#ch3" style="background:#D97706;">③ 경우의 수</a>
+  <a href="#ch4" style="background:#7C3AED;">④ 행렬</a>
+</div>
+
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <p class="sidebar-title">목차</p>
+
+    <div class="toc-chapter">
+      <div class="toc-chapter-head"><span class="toc-dot" style="background:#2563EB;"></span>Ⅰ. 다항식</div>
+      <ul class="toc-list">
+        <li><a href="#c1">#1 다항식의 덧셈과 뺄셈</a></li>
+        <li><a href="#c2">#2 다항식의 곱셈</a></li>
+        <li><a href="#c3">#3 곱셈 공식</a></li>
+        <li><a href="#c4">#4 다항식의 나눗셈</a></li>
+        <li><a href="#c5">#5 항등식의 개념과 성질</a></li>
+        <li><a href="#c6">#6 미정계수 구하기</a></li>
+        <li><a href="#c7">#7 나머지 정리</a></li>
+        <li><a href="#c8">#8 인수 정리</a></li>
+        <li><a href="#c9">#9 조립제법</a></li>
+        <li><a href="#c10">#10 인수분해 공식</a></li>
+        <li><a href="#c11">#11 바로 적용되지 않는 인수분해</a></li>
+      </ul>
+    </div>
+
+    <div class="toc-chapter">
+      <div class="toc-chapter-head"><span class="toc-dot" style="background:#059669;"></span>Ⅱ. 방정식과 부등식</div>
+      <ul class="toc-list">
+        <li><a href="#c12">#12 복소수</a></li>
+        <li><a href="#c13">#13 복소수 간의 연산</a></li>
+        <li><a href="#c14">#14 음수의 제곱근</a></li>
+        <li><a href="#c15">#15 이차방정식의 판별식</a></li>
+        <li><a href="#c16">#16 D/4를 이용한 판별</a></li>
+        <li><a href="#c17">#17 근과 계수의 관계</a></li>
+        <li><a href="#c18">#18 두 수를 근으로 하는 이차방정식</a></li>
+        <li><a href="#c19">#19 이차방정식과 이차함수</a></li>
+        <li><a href="#c20">#20 그래프와 직선의 위치관계</a></li>
+        <li><a href="#c21">#21 이차함수의 최대·최소</a></li>
+        <li><a href="#c22">#22 삼·사차방정식의 풀이</a></li>
+        <li><a href="#c23">#23 x³-1=0의 한 허근</a></li>
+        <li><a href="#c24">#24 연립이차방정식</a></li>
+        <li><a href="#c25">#25 절댓값 일차부등식</a></li>
+        <li><a href="#c26">#26 이차부등식의 풀이 ①</a></li>
+        <li><a href="#c27">#27 이차부등식의 풀이 ②(모든 경우)</a></li>
+        <li><a href="#c28">#28 연립부등식의 풀이</a></li>
+      </ul>
+    </div>
+
+    <div class="toc-chapter">
+      <div class="toc-chapter-head"><span class="toc-dot" style="background:#D97706;"></span>Ⅲ. 경우의 수</div>
+      <ul class="toc-list">
+        <li><a href="#c29">#29 경우의 수</a></li>
+        <li><a href="#c30">#30 순열</a></li>
+        <li><a href="#c31">#31 조합</a></li>
+        <li><a href="#c32">#32 조합의 활용</a></li>
+      </ul>
+    </div>
+
+    <div class="toc-chapter">
+      <div class="toc-chapter-head"><span class="toc-dot" style="background:#7C3AED;"></span>Ⅳ. 행렬</div>
+      <ul class="toc-list">
+        <li><a href="#c33">#33 행렬</a></li>
+        <li><a href="#c34">#34 두 행렬이 같을 조건</a></li>
+        <li><a href="#c35">#35 행렬의 덧셈과 뺄셈</a></li>
+        <li><a href="#c36">#36 행렬의 실수배</a></li>
+        <li><a href="#c37">#37 행렬의 곱셈이 가능할 조건</a></li>
+        <li><a href="#c38">#38 행렬의 곱셈</a></li>
+        <li><a href="#c39">#39 단위행렬과 그 성질</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+
+  <!-- ================= CHAPTER 1 : 다항식 ================= -->
+  <div id="ch1" class="ch1">
+    <div class="chapter-banner">
+      <span class="chapter-num">Ⅰ</span>
+      <h2>다항식</h2>
+    </div>
+    <p class="chapter-sub">다항식의 사칙연산부터 항등식, 나머지 정리, 인수분해까지 — 이후 모든 대수 계산의 기초가 되는 단원입니다.</p>
+
+    <section class="concept" id="c1">
+      <div class="concept-head"><span class="concept-num">1</span><h3>다항식의 덧셈과 뺄셈</h3></div>
+      <div class="def">
+        <p><b>덧셈:</b> 동류항끼리 모아서 정리한다. <b>뺄셈:</b> 빼는 식의 각 항의 부호를 바꾸어 더한다.</p>
+        <div class="formula"><span class="math">A - B = A + (-B)</span></div>
+        <p><b>다항식 덧셈의 성질</b> — 세 다항식 <span class="math">A, B, C</span>에 대하여</p>
+        <ul>
+          <li>교환법칙: <span class="math">A+B = B+A</span></li>
+          <li>결합법칙: <span class="math">(A+B)+C = A+(B+C)</span></li>
+        </ul>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기</summary>
+        <div class="example-body">
+          <p><b>Q.</b> <span class="math">(x³-2xy+4x)-(2x³+xy-2y)</span>를 계산하시오.</p>
+          <p><b>A.</b> 부호를 바꾸어 더하면 <span class="math">x³-2xy+4x-2x³-xy+2y = -x³-3xy+4x+2y</span></p>
+        </div>
+      </details>
+    <div class="tip">뺄셈에서는 괄호를 풀 때 각 항의 부호를 하나씩 바꾸는 것을 빠뜨리기 쉽다. <span class="math">-(2x³+xy-2y)</span>처럼 모든 항에 부호를 적용했는지 확인하는 습관을 들이자.</div>
+    
+<div class="wgt" id="wgt1">
+  <p class="wgt-title">교환법칙 · 결합법칙으로 정리하기</p>
+  <p class="wgt-sub"><span class="math">(x³-2xy+4x)-(2x³+xy-2y)</span> 을 항을 옮기고(교환) 묶어서(결합) 정리하는 과정을 단계별로 확인해보세요.</p>
+  <div class="wgt-btns" style="align-items:center;">
+    <button class="wgt-btn ghost" id="w1_prev">◀ 이전</button>
+    <span id="w1_stepidx" style="font-size:12.5px;color:var(--muted);font-weight:700;min-width:46px;text-align:center;"></span>
+    <button class="wgt-btn" id="w1_next">다음 ▶</button>
+  </div>
+  <div class="wgt-canvas-wrap" style="padding:22px 14px 28px;">
+    <div id="w1_stage" style="position:relative; height:70px;"></div>
+  </div>
+  <div class="wgt-out" id="w1_caption"></div>
+  <hr style="border:none;border-top:1px solid var(--line);margin:16px 0;">
+  <p class="wgt-sub" style="margin-top:0;">직접 값도 확인해보세요: x, y를 바꿔도 정리 전·후 식의 값은 항상 같습니다.</p>
+  <div class="wgt-row"><label>x =</label><input type="range" id="w1_x" min="-5" max="5" step="1" value="2"><span class="wgt-val" id="w1_xv">2</span></div>
+  <div class="wgt-row"><label>y =</label><input type="range" id="w1_y" min="-5" max="5" step="1" value="1"><span class="wgt-val" id="w1_yv">1</span></div>
+  <div class="wgt-out" id="w1_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c2">
+      <div class="concept-head"><span class="concept-num">2</span><h3>다항식의 곱셈</h3></div>
+      <div class="def">
+        <p>분배법칙을 이용하여 식을 전개한 후 동류항끼리 모아서 정리한다.</p>
+        <p><b>다항식 곱셈의 성질</b> — 세 다항식 <span class="math">A, B, C</span>에 대하여</p>
+        <ul>
+          <li>교환법칙: <span class="math">AB = BA</span></li>
+          <li>결합법칙: <span class="math">(AB)C = A(BC)</span></li>
+          <li>분배법칙: <span class="math">A(B+C) = AB+AC</span>, <span class="math">(A+B)C = AC+BC</span></li>
+        </ul>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기</summary>
+        <div class="example-body">
+          <p><b>Q.</b> 다항식 <span class="math">(4x²-x+a)(x²+x-7)</span>의 전개식에서 <span class="math">x²</span>의 계수가 <span class="math">-23</span>일 때, <span class="math">a</span>의 값은?</p>
+          <p><b>A.</b> <span class="math">x²</span>항이 나오는 조합은 <span class="math">4x²×(-7)</span>, <span class="math">(-x)×x</span>, <span class="math">a×x²</span>이므로 계수 합은 <span class="math">-28-1+a = a-29</span>. <span class="math">a-29=-23</span>에서 <span class="math">a=6</span></p>
+        </div>
+      </details>
+    <div class="tip">특정 차수의 계수만 물어보는 문제는 전체를 다 전개할 필요 없이, 그 차수를 만드는 항의 조합만 골라 계산하면 시간을 크게 줄일 수 있다.</div>
+    
+<div class="wgt" id="wgt2">
+  <p class="wgt-title">넓이로 보는 분배법칙</p>
+  <p class="wgt-sub">직사각형의 넓이로 (x+a)(x+b)의 전개 결과를 눈으로 확인해보세요.</p>
+  <div class="wgt-row"><label>a =</label><input type="range" id="w2_a" min="1" max="6" step="1" value="2"><span class="wgt-val" id="w2_av">2</span></div>
+  <div class="wgt-row"><label>b =</label><input type="range" id="w2_b" min="1" max="6" step="1" value="3"><span class="wgt-val" id="w2_bv">3</span></div>
+  <div class="wgt-canvas-wrap" id="w2_svg"></div>
+  <div class="wgt-out" id="w2_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c3">
+      <div class="concept-head"><span class="concept-num">3</span><h3>곱셈 공식</h3></div>
+      <div class="def">
+        <div class="formula">
+          <span class="math">(a+b+c)² = a²+b²+c²+2ab+2bc+2ca</span><br>
+          <span class="math">(a+b)³ = a³+3a²b+3ab²+b³</span>, &nbsp; <span class="math">(a-b)³ = a³-3a²b+3ab²-b³</span><br>
+          <span class="math">(a+b)(a²-ab+b²) = a³+b³</span>, &nbsp; <span class="math">(a-b)(a²+ab+b²) = a³-b³</span>
+        </div>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기 ①</summary>
+        <div class="example-body">
+          <p><b>Q.</b> <span class="math">x=<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">2</span></span>+1, y=<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">2</span></span>-1</span>일 때, <span class="math">x³+y³</span>의 값을 구하시오.</p>
+          <p><b>A.</b> <span class="math">x+y=2<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">2</span></span>, xy=1</span>이므로 <span class="math">x³+y³=(x+y)³-3xy(x+y)=16<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">2</span></span>-6<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">2</span></span>=10<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">2</span></span></span></p>
+        </div>
+      </details>
+      <details class="example">
+        <summary>예제 풀어보기 ②</summary>
+        <div class="example-body">
+          <p><b>Q.</b> <span class="math">x²-4x+1=0</span>일 때, <span class="math">x³+1/x³</span>의 값을 구하시오.</p>
+          <p><b>A.</b> 양변을 <span class="math">x</span>로 나누면 <span class="math">x+1/x=4</span>. <span class="math">x³+1/x³=(x+1/x)³-3(x+1/x)=64-12=52</span></p>
+        </div>
+      </details>
+    <div class="tip"><span class="math">x+1/x, x³+1/x³</span>처럼 대칭식이 나오면 <span class="math">x</span>를 직접 구하지 않고 곱셈 공식을 변형해서 풀이하는 것이 훨씬 빠르다.</div>
+    
+<div class="wgt" id="wgt3">
+  <p class="wgt-title">곱셈 공식의 기하학적 증명</p>
+  <p class="wgt-sub">한 변이 (a+b)인 정사각형을 네 조각으로 나누어 (a+b)² = a²+2ab+b² 를 확인해보세요.</p>
+  <div class="wgt-row"><label>a =</label><input type="range" id="w3_a" min="1" max="5" step="1" value="2"><span class="wgt-val" id="w3_av">2</span></div>
+  <div class="wgt-row"><label>b =</label><input type="range" id="w3_b" min="1" max="5" step="1" value="1"><span class="wgt-val" id="w3_bv">1</span></div>
+  <div class="wgt-canvas-wrap" id="w3_svg"></div>
+  <div class="wgt-out" id="w3_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c4">
+      <div class="concept-head"><span class="concept-num">4</span><h3>다항식의 나눗셈</h3></div>
+      <div class="def">
+        <p>다항식 <span class="math">A</span>를 다항식 <span class="math">B(B≠0)</span>로 나누었을 때의 몫을 <span class="math">Q</span>, 나머지를 <span class="math">R</span>이라 하면 다음과 같이 나타낼 수 있다. 이때 <span class="math">R</span>의 차수는 <span class="math">B</span>의 차수보다 낮다.</p>
+        <div class="formula"><span class="math">A = BQ + R</span></div>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기</summary>
+        <div class="example-body">
+          <p><b>Q.</b> <span class="math">(x³-5x²+x+6)÷(x-1)</span>의 몫과 나머지를 구하시오.</p>
+          <p><b>A.</b> 직접 나누면 몫은 <span class="math">x²-4x-3</span>, 나머지는 <span class="math">3</span></p>
+        </div>
+      </details>
+    <div class="tip">나눗셈을 끝낸 뒤에는 <span class="math">A=BQ+R</span>에 대입해 검산하는 습관을 들이면 계산 실수를 크게 줄일 수 있다.</div>
+    
+<div class="wgt" id="w4_stepper">
+  <p class="wgt-title">단계별로 나눗셈 따라가기</p>
+  <div class="wgt-step-body"></div>
+  <div class="wgt-btns" style="align-items:center;">
+    <button class="wgt-btn ghost wgt-step-prev">◀ 이전</button>
+    <span class="wgt-step-idx" style="font-size:12.5px;color:var(--muted);font-weight:700;"></span>
+    <button class="wgt-btn wgt-step-next">다음 ▶</button>
+  </div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c5">
+      <div class="concept-head"><span class="concept-num">5</span><h3>항등식의 개념과 성질</h3></div>
+      <div class="def">
+        <p><b>항등식:</b> 모든 <span class="math">x</span>에 대하여(즉, <span class="math">x</span>의 값에 관계없이) 성립하는 등식.</p>
+        <div class="formula">
+          <span class="math">ax²+bx+c=0</span>이 <span class="math">x</span>에 대한 항등식이면 <span class="math">a=b=c=0</span><br>
+          <span class="math">ax²+bx+c=a'x²+b'x+c'</span>이 항등식이면 <span class="math">a=a', b=b', c=c'</span>
+        </div>
+      </div>
+    <div class="tip">항등식과 방정식을 혼동하지 않도록 주의하자. 방정식은 특정 <span class="math">x</span>값에서만 성립하지만, 항등식은 모든 <span class="math">x</span>에서 항상 성립한다.</div>
+    
+<div class="wgt" id="wgt5">
+  <p class="wgt-title">항등식 vs 방정식 실험실</p>
+  <div class="wgt-btns">
+    <button class="wgt-btn ghost active" id="w5_mode_id">항등식 예시: 2(x+1)=2x+2</button>
+    <button class="wgt-btn ghost" id="w5_mode_eq">방정식 예시: x+1=3</button>
+  </div>
+  <div class="wgt-row"><label>x =</label><input type="range" id="w5_x" min="-5" max="5" step="1" value="0"><span class="wgt-val" id="w5_xv">0</span></div>
+  <div class="wgt-out" id="w5_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c6">
+      <div class="concept-head"><span class="concept-num">6</span><h3>항등식에서 미정계수 구하기</h3></div>
+      <div class="def">
+        <ul>
+          <li><b>계수비교법:</b> 좌변과 우변의 같은 차수 항의 계수가 각각 같음을 이용한다.</li>
+          <li><b>수치대입법:</b> 모든 <span class="math">x</span>에 대해 성립하므로 몇 개의 <span class="math">x</span>만 대입하여 미정계수를 구한다.</li>
+        </ul>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기</summary>
+        <div class="example-body">
+          <p><b>Q.</b> 다항식 <span class="math">P(x)</span>에 대하여 <span class="math">x</span>의 값에 관계없이 등식 <span class="math">(x²-1)P(x)+ax+b = x³-2x²+4x-3</span>이 성립한다. 상수 <span class="math">a, b</span>의 값을 구하시오.</p>
+          <p><b>A.</b> 좌변이 <span class="math">x²-1</span>로 나누어떨어지려면 우변이 <span class="math">x=±1</span>에서 <span class="math">ax+b</span>를 뺀 값이 0이어야 한다. <span class="math">x=1</span>: <span class="math">a+b=0</span>. <span class="math">x=-1</span>: <span class="math">a-b=10</span>. 연립하면 <span class="math">a=5, b=-5</span></p>
+        </div>
+      </details>
+    <div class="tip">계수비교법과 수치대입법 중 어느 쪽이 빠른지는 문제마다 다르다. 인수가 뚜렷하게 보이면 수치대입법이, 전개가 간단하면 계수비교법이 유리하다.</div>
+    
+<div class="wgt" id="wgt6">
+  <p class="wgt-title">미정계수 맞히기 게임</p>
+  <p class="wgt-sub">(x+1)(x-2) = x² + ax + b 가 <b>모든 x</b>에 대해 성립하도록 a, b를 맞혀보세요.</p>
+  <div class="wgt-row"><label>a =</label><input type="range" id="w6_a" min="-5" max="5" step="1" value="0"><span class="wgt-val" id="w6_av">0</span></div>
+  <div class="wgt-row"><label>b =</label><input type="range" id="w6_b" min="-6" max="4" step="1" value="0"><span class="wgt-val" id="w6_bv">0</span></div>
+  <div class="wgt-row"><label>대입할 x =</label><input type="range" id="w6_x" min="-4" max="4" step="1" value="0"><span class="wgt-val" id="w6_xv">0</span></div>
+  <div class="wgt-out" id="w6_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c7">
+      <div class="concept-head"><span class="concept-num">7</span><h3>나머지 정리</h3></div>
+      <div class="def">
+        <p>다항식 <span class="math">P(x)</span>를 일차식 <span class="math">x-a</span>로 나누었을 때의 나머지를 <span class="math">R</span>이라 하면 <span class="math">R=P(a)</span>이다.</p>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기</summary>
+        <div class="example-body">
+          <p><b>Q.</b> 다항식 <span class="math">P(x)=x³+ax²+2x-5</span>를 <span class="math">x+1</span>로 나누었을 때의 나머지가 1일 때, <span class="math">P(x)</span>를 <span class="math">x-1</span>로 나누었을 때의 나머지는?</p>
+          <p><b>A.</b> <span class="math">P(-1)=a-8=1</span>에서 <span class="math">a=9</span>. <span class="math">P(1)=1+9+2-5=7</span></p>
+        </div>
+      </details>
+    <div class="tip">나머지 정리는 몫을 구하지 않고 나머지만 빠르게 알고 싶을 때 유용하다. 몫까지 필요하다면 조립제법(#9)을 함께 사용하자.</div>
+    
+<div class="wgt" id="wgt7">
+  <p class="wgt-title">나머지정리 탐색기</p>
+  <p class="wgt-sub">P(x) = x³+9x²+2x-5 를 x-t 로 나눈 나머지는 P(t) 입니다. t를 움직여 확인해보세요.</p>
+  <div class="wgt-row"><label>t =</label><input type="range" id="w7_t" min="-4" max="3" step="0.5" value="-1"><span class="wgt-val" id="w7_tv">-1</span></div>
+  <div class="wgt-canvas-wrap" id="w7_graph"></div>
+  <div class="wgt-out" id="w7_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c8">
+      <div class="concept-head"><span class="concept-num">8</span><h3>인수 정리</h3></div>
+      <div class="def">
+        <p>다항식 <span class="math">P(x)</span>에 대하여 <span class="math">P(α)=0</span>이면 <span class="math">P(x)</span>는 일차식 <span class="math">x-α</span>로 나누어떨어진다. 즉, <span class="math">(x-α)</span>라는 인수를 가진다.</p>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기</summary>
+        <div class="example-body">
+          <p><b>Q.</b> 다항식 <span class="math">x³+ax²+6x+8</span>이 <span class="math">x-2</span>로 나누어떨어지도록 상수 <span class="math">a</span>값을 정하시오.</p>
+          <p><b>A.</b> <span class="math">P(2)=8+4a+12+8=4a+28=0</span>에서 <span class="math">a=-7</span></p>
+        </div>
+      </details>
+    <div class="tip"><span class="math">P(α)=0</span>이 되는 <span class="math">α</span>는 대개 상수항의 약수 중에서 찾는다. 처음부터 여러 값을 차례로 대입해 보며 인수를 찾는 연습이 필요하다.</div>
+    
+<div class="wgt" id="wgt8">
+  <p class="wgt-title">인수정리로 인수 찾기</p>
+  <p class="wgt-sub">P(x) = x³-7x²+6x+8 에서 P(α)=0 이 되는 α를 슬라이더로 찾아보세요.</p>
+  <div class="wgt-row"><label>α =</label><input type="range" id="w8_a" min="-3" max="6" step="1" value="0"><span class="wgt-val" id="w8_av">0</span></div>
+  <div class="wgt-canvas-wrap" id="w8_graph"></div>
+  <div class="wgt-out" id="w8_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c9">
+      <div class="concept-head"><span class="concept-num">9</span><h3>조립제법</h3></div>
+      <div class="def">
+        <p>다항식을 일차식으로 나눌 때, 계수만을 이용하여 몫과 나머지를 구하는 방법을 조립제법이라 한다. 다항식을 <span class="math">(x-α)</span>로 빠르게 나누는 방법이라 기억해도 좋다.</p>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기</summary>
+        <div class="example-body">
+          <p><b>Q.</b> <span class="math">(x³-5x²+x+6)÷(x-1)</span>의 몫과 나머지를 조립제법을 활용하여 구하시오.</p>
+          <p><b>A.</b> 계수 <span class="math">1, -5, 1, 6</span>에 <span class="math">1</span>을 곱해 내려가면 몫 <span class="math">x²-4x-3</span>, 나머지 <span class="math">3</span></p>
+        </div>
+      </details>
+    <div class="tip">조립제법은 반드시 <span class="math">x-α</span> 꼴, 즉 일차항의 계수가 1일 때만 바로 적용된다. 계수가 1이 아니면 먼저 식을 정리한 뒤 사용하자.</div>
+    
+<div class="wgt" id="wgt9">
+  <p class="wgt-title">조립제법 계산기</p>
+  <p class="wgt-sub">x³-5x²+x+6 을 x-α 로 조립제법 해보세요. α를 바꾸면 몫과 나머지가 즉시 다시 계산됩니다.</p>
+  <div class="wgt-row"><label>α =</label><input type="range" id="w9_a" min="-3" max="4" step="1" value="1"><span class="wgt-val" id="w9_av">1</span></div>
+  <div class="wgt-canvas-wrap" id="w9_table" style="overflow-x:auto;"></div>
+  <div class="wgt-out" id="w9_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c10">
+      <div class="concept-head"><span class="concept-num">10</span><h3>인수분해 공식</h3></div>
+      <div class="def">
+        <div class="formula">
+          <span class="math">a²+b²+c²+2ab+2bc+2ca = (a+b+c)²</span><br>
+          <span class="math">a³+3a²b+3ab²+b³ = (a+b)³</span>, &nbsp; <span class="math">a³-3a²b+3ab²-b³ = (a-b)³</span><br>
+          <span class="math">a³+b³ = (a+b)(a²-ab+b²)</span>, &nbsp; <span class="math">a³-b³ = (a-b)(a²+ab+b²)</span>
+        </div>
+      </div>
+    <div class="tip">공식은 좌변에서 우변으로(인수분해)뿐 아니라 우변에서 좌변으로(전개)도 자유롭게 오갈 수 있어야 진짜 익힌 것이다. 양방향으로 모두 연습해두자.</div>
+    
+<div class="wgt" id="wgt10">
+  <p class="wgt-title">인수분해 공식 검증기</p>
+  <div class="wgt-pill-row" id="w10_pills">
+    <button class="wgt-btn ghost active" data-f="0">a²+2ab+b²</button>
+    <button class="wgt-btn ghost" data-f="1">a²-2ab+b²</button>
+    <button class="wgt-btn ghost" data-f="2">a²-b²</button>
+    <button class="wgt-btn ghost" data-f="3">a³+b³</button>
+  </div>
+  <div class="wgt-row"><label>a =</label><input type="range" id="w10_a" min="-5" max="5" step="1" value="2"><span class="wgt-val" id="w10_av">2</span></div>
+  <div class="wgt-row"><label>b =</label><input type="range" id="w10_b" min="-5" max="5" step="1" value="1"><span class="wgt-val" id="w10_bv">1</span></div>
+  <div class="wgt-out" id="w10_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c11">
+      <div class="concept-head"><span class="concept-num">11</span><h3>공식이 바로 적용되지 않는 인수분해</h3></div>
+      <div class="def">
+        <ul>
+          <li>공통부분을 하나의 문자로 바꾸어 인수분해해 본다.</li>
+          <li>짝수차항(사차·이차·상수항)만 있는 다항식은 <span class="math">x²=X</span>로 치환하거나 <span class="math">A²-B²</span> 꼴로 변형해 본다.</li>
+          <li>삼차 이상의 다항식은 인수정리와 조립제법을 활용한다.</li>
+        </ul>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기 ①</summary>
+        <div class="example-body">
+          <p><b>Q.</b> 다항식 <span class="math">(x²-x)(x²-x-1)-2</span>를 인수분해하면 <span class="math">(x+1)(x-a)(x²-x+b)</span>일 때, <span class="math">a+b</span>의 값을 구하시오.</p>
+          <p><b>A.</b> <span class="math">t=x²-x</span>로 치환하면 <span class="math">t(t-1)-2=(t-2)(t+1)</span>. <span class="math">t-2=(x-2)(x+1)</span>이므로 전체는 <span class="math">(x-2)(x+1)(x²-x+1)</span>. 따라서 <span class="math">a=2, b=1</span>이고 <span class="math">a+b=3</span></p>
+        </div>
+      </details>
+      <details class="example">
+        <summary>예제 풀어보기 ②</summary>
+        <div class="example-body">
+          <p><b>Q.</b> <span class="math">x⁴+3x²y²+4y⁴</span>을 인수분해하시오.</p>
+          <p><b>A.</b> <span class="math">x⁴+4x²y²+4y⁴-x²y²=(x²+2y²)²-(xy)²=(x²-xy+2y²)(x²+xy+2y²)</span></p>
+        </div>
+      </details>
+      <details class="example">
+        <summary>예제 풀어보기 ③</summary>
+        <div class="example-body">
+          <p><b>Q.</b> <span class="math">2x³+3x²-8x+3</span>을 인수분해하시오.</p>
+          <p><b>A.</b> <span class="math">x=1</span>을 대입하면 0이므로 <span class="math">(x-1)</span>이 인수. 조립제법으로 나누면 몫 <span class="math">2x²+5x-3=(2x-1)(x+3)</span>. 따라서 <span class="math">(x-1)(2x-1)(x+3)</span></p>
+        </div>
+      </details>
+    <div class="tip">공통부분을 치환해서 풀었다면, 마지막에 반드시 원래 변수로 다시 바꿔 주는 것을 잊지 말자. 치환한 문자로 답을 써버리는 실수가 특히 흔하다.</div>
+    
+<div class="wgt" id="wgt11">
+  <p class="wgt-title">치환 인수분해 체험</p>
+  <p class="wgt-sub">(x²-x)² - 2(x²-x) - 8 에서 반복되는 덩어리를 t로 치환해보세요.</p>
+  <div class="wgt-btns">
+    <button class="wgt-btn" id="w11_sub">t = x²-x 로 치환하기</button>
+    <button class="wgt-btn ghost" id="w11_reset">되돌리기</button>
+  </div>
+  <div class="wgt-canvas-wrap" style="text-align:center;padding:22px 10px;">
+    <span id="w11_expr" style="font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:18px;"></span>
+  </div>
+  <div class="wgt-out" id="w11_out"></div>
+</div>
+
+    </section>
+  </div>
+
+  <!-- ================= CHAPTER 2 : 방정식과 부등식 ================= -->
+  <div id="ch2" class="ch2">
+    <div class="chapter-banner">
+      <span class="chapter-num">Ⅱ</span>
+      <h2>방정식과 부등식</h2>
+    </div>
+    <p class="chapter-sub">복소수의 도입으로 확장된 수 체계 위에서 이차방정식·이차함수·부등식을 다루는 단원입니다.</p>
+
+    <section class="concept" id="c12">
+      <div class="concept-head"><span class="concept-num">12</span><h3>복소수</h3></div>
+      <div class="def">
+        <p>제곱하여 <span class="math">-1</span>이 되는 상상의 수를 기호 <span class="math">i</span>로 쓰고, 이를 허수단위라 부른다.</p>
+        <p>실수 <span class="math">a, b</span>에 대하여 <span class="math">a+bi</span>의 꼴로 나타낼 수 있는 모든 수를 복소수라 하고, <span class="math">a</span>를 실수부분, <span class="math">b</span>를 허수부분이라 한다. (<span class="math">b≠0</span>인 복소수는 허수, 허수 중 <span class="math">a=0</span>인 복소수는 순허수)</p>
+        <p>두 복소수 <span class="math">z₁=a+bi</span>, <span class="math">z₂=c+di</span>에 대해 <span class="math">z₁=z₂</span>이면 <span class="math">a=c, b=d</span>이다.</p>
+        <p>복소수 <span class="math">z=a+bi</span>에 대하여 <span class="math">a-bi</span>를 <span class="math">z</span>의 켤레복소수라 하고 <span class="math">z̄</span>로 표기한다.</p>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기</summary>
+        <div class="example-body">
+          <p><b>Q.</b> 복소수 <span class="math">3-<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">3</span></span>i</span>와 <span class="math">-4</span>의 켤레복소수를 각각 구하시오.</p>
+          <p><b>A.</b> <span class="math">3+<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">3</span></span>i</span> / <span class="math">-4</span> (실수의 켤레복소수는 자기 자신)</p>
+        </div>
+      </details>
+    <div class="tip">실수는 허수부분이 0인 복소수의 특수한 경우다. 그래서 실수의 켤레복소수는 항상 자기 자신이 된다.</div>
+    
+<div class="wgt" id="wgt12">
+  <p class="wgt-title">복소평면에서 보는 켤레복소수</p>
+  <p class="wgt-sub">a, b를 바꾸며 z=a+bi 와 켤레복소수 z̄=a-bi 의 관계를 확인해보세요.</p>
+  <div class="wgt-row"><label>a =</label><input type="range" id="w12_a" min="-4" max="4" step="1" value="3"><span class="wgt-val" id="w12_av">3</span></div>
+  <div class="wgt-row"><label>b =</label><input type="range" id="w12_b" min="-4" max="4" step="1" value="2"><span class="wgt-val" id="w12_bv">2</span></div>
+  <div class="wgt-canvas-wrap" id="w12_plane"></div>
+  <div class="wgt-out" id="w12_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c13">
+      <div class="concept-head"><span class="concept-num">13</span><h3>복소수 간의 연산</h3></div>
+      <div class="def">
+        <p>허수단위 <span class="math">i</span>를 하나의 문자로 생각하고 정리한다.</p>
+        <div class="formula">
+          <span class="math">(a+bi)-(c+di) = (a-c)+(b-d)i</span><br>
+          <span class="math">(a+bi)÷(c+di) = (ac+bd)/(c²+d²) + (bc-ad)/(c²+d²)i</span>
+        </div>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기 ①</summary>
+        <div class="example-body">
+          <p><b>Q.</b> 등식 <span class="math">z(3-i)+z̄(2-i)=5</span>를 만족시키는 복소수 <span class="math">z</span>를 구하시오.</p>
+          <p><b>A.</b> <span class="math">z=a+bi</span>로 놓으면 좌변 <span class="math">=5a+(b-2a)i</span>. 실수부·허수부 비교로 <span class="math">a=1, b=2</span>, 즉 <span class="math">z=1+2i</span></p>
+        </div>
+      </details>
+      <details class="example">
+        <summary>예제 풀어보기 ②</summary>
+        <div class="example-body">
+          <p><b>Q.</b> <span class="math">z=(1+i)/<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">2</span></span></span>일 때, <span class="math">z²+z⁴+z⁶+z⁸+z¹⁰</span>의 값을 구하시오.</p>
+          <p><b>A.</b> <span class="math">z²=i</span>이므로 <span class="math">z⁴=-1, z⁶=-i, z⁸=1, z¹⁰=i</span>. 합은 <span class="math">i-1-i+1+i = i</span></p>
+        </div>
+      </details>
+    <div class="tip">복소수의 나눗셈은 분모의 켤레복소수를 분자·분모에 함께 곱해 분모를 실수로 만든 뒤 계산하는 것이 기본 전략이다.</div>
+    
+<div class="wgt" id="wgt13">
+  <p class="wgt-title">복소수의 덧셈, 벡터로 보기</p>
+  <p class="wgt-sub">두 복소수를 벡터처럼 더하면 평행사변형의 꼭짓점이 z₁+z₂ 가 됩니다.</p>
+  <div class="wgt-row"><label>z₁ a=</label><input type="range" id="w13_a1" min="-4" max="4" step="1" value="3"><span class="wgt-val" id="w13_a1v">3</span>
+    <label>b=</label><input type="range" id="w13_b1" min="-4" max="4" step="1" value="1"><span class="wgt-val" id="w13_b1v">1</span></div>
+  <div class="wgt-row"><label>z₂ a=</label><input type="range" id="w13_a2" min="-4" max="4" step="1" value="1"><span class="wgt-val" id="w13_a2v">1</span>
+    <label>b=</label><input type="range" id="w13_b2" min="-4" max="4" step="1" value="3"><span class="wgt-val" id="w13_b2v">3</span></div>
+  <div class="wgt-canvas-wrap" id="w13_plane"></div>
+  <div class="wgt-out" id="w13_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c14">
+      <div class="concept-head"><span class="concept-num">14</span><h3>음수의 제곱근</h3></div>
+      <div class="def">
+        <p><span class="math">a&gt;0</span>일 때, <span class="math">-a</span>의 제곱근은 <span class="math"><span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">a</span></span> i</span>와 <span class="math">-<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">a</span></span> i</span>이다. (<span class="math"><span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">-a</span></span>=<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">a</span></span> i</span>)</p>
+        <p><span class="math">a&gt;0, b&gt;0</span>일 때, <span class="math"><span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">-a</span></span>×<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">-b</span></span> = -<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">ab</span></span></span>, &nbsp; <span class="math"><span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">a</span></span> / <span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">-b</span></span> = -<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">a/b</span></span> i</span></p>
+        <p>즉, <span class="math"><span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">음수</span></span>×<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">음수</span></span></span>와 <span class="math"><span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">양수</span></span>/<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">음수</span></span></span>는 부호에 조심해야 한다.</p>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기</summary>
+        <div class="example-body">
+          <p><b>Q.</b> <span class="math"><span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">-6</span></span>×<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">-6</span></span> + <span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">8</span></span>×<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">-8</span></span> + <span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">16</span></span>/<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">-4</span></span> = a+bi</span>일 때, 실수 <span class="math">a, b</span>의 값을 구하시오.</p>
+          <p><b>A.</b> <span class="math"><span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">-6</span></span>×<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">-6</span></span>=-6</span>, <span class="math"><span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">8</span></span>×<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">-8</span></span>=8i</span>, <span class="math"><span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">16</span></span>/<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">-4</span></span>=-2i</span>. 합은 <span class="math">-6+6i</span>이므로 <span class="math">a=-6, b=6</span></p>
+        </div>
+      </details>
+    <div class="tip"><span class="math"><span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">-a</span></span>×<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">-b</span></span>=-<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">ab</span></span></span>는 <b>두 수가 모두 음수</b>일 때만 성립한다. 하나라도 양수이면 그냥 <span class="math"><span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">ab</span></span></span>이므로 부호를 먼저 확인하자.</div>
+    
+<div class="wgt" id="wgt14">
+  <p class="wgt-title">부호 확인기</p>
+  <p class="wgt-sub">A, B의 부호를 바꿔가며 <span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">A</span></span> × <span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">B</span></span> 의 결과가 어떻게 달라지는지 확인해보세요.</p>
+  <div class="wgt-row"><label>A =</label><input type="range" id="w14_A" min="-9" max="9" step="1" value="-6"><span class="wgt-val" id="w14_Av">-6</span></div>
+  <div class="wgt-row"><label>B =</label><input type="range" id="w14_B" min="-9" max="9" step="1" value="-6"><span class="wgt-val" id="w14_Bv">-6</span></div>
+  <div class="wgt-out" id="w14_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c15">
+      <div class="concept-head"><span class="concept-num">15</span><h3>이차방정식의 판별식(D)</h3></div>
+      <div class="def">
+        <p>계수가 실수인 이차방정식 <span class="math">ax²+bx+c=0</span>에서 <span class="math">D=b²-4ac</span>라 할 때</p>
+        <ul>
+          <li><span class="math">D&gt;0</span>이면 서로 다른 두 실근을 갖는다.</li>
+          <li><span class="math">D=0</span>이면 중근(서로 같은 두 실근)을 갖는다.</li>
+          <li><span class="math">D&lt;0</span>이면 서로 다른 두 허근을 갖는다. (두 허근은 켤레 관계)</li>
+        </ul>
+      </div>
+    <div class="tip">판별식의 부호만 확인하면 근을 직접 구하지 않고도 실근·중근·허근 여부를 바로 알 수 있어 시간을 절약할 수 있다.</div>
+    
+<div class="wgt" id="wgt15">
+  <p class="wgt-title">판별식 실험실</p>
+  <p class="wgt-sub">a, b, c를 바꾸면 D=b²-4ac 의 부호에 따라 그래프와 근의 개수가 실시간으로 바뀝니다.</p>
+  <div class="wgt-row"><label>a =</label><input type="range" id="w15_a" min="-3" max="3" step="1" value="1"><span class="wgt-val" id="w15_av">1</span></div>
+  <div class="wgt-row"><label>b =</label><input type="range" id="w15_b" min="-8" max="8" step="1" value="-2"><span class="wgt-val" id="w15_bv">-2</span></div>
+  <div class="wgt-row"><label>c =</label><input type="range" id="w15_c" min="-8" max="8" step="1" value="-3"><span class="wgt-val" id="w15_cv">-3</span></div>
+  <div class="wgt-canvas-wrap" id="w15_graph"></div>
+  <div class="wgt-out" id="w15_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c16">
+      <div class="concept-head"><span class="concept-num">16</span><h3>D/4(=D')를 이용한 근의 판별</h3></div>
+      <div class="def">
+        <p>이차방정식의 일차항의 계수가 짝수일 땐, <span class="math">D/4 = (b')²-ac = D'</span>로 근을 판별하면 계산이 수월하다.</p>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기</summary>
+        <div class="example-body">
+          <p><b>Q.</b> <span class="math">x</span>에 대한 이차방정식 <span class="math">x²-2kx+k²-k+3=0</span>이 서로 다른 두 실근을 갖도록 하는 정수 <span class="math">k</span>의 최솟값을 구하시오.</p>
+          <p><b>A.</b> <span class="math">D/4=k²-(k²-k+3)=k-3&gt;0</span>에서 <span class="math">k&gt;3</span>. 정수 최솟값은 <span class="math">4</span></p>
+        </div>
+      </details>
+    <div class="tip"><span class="math">D/4</span>는 일차항의 계수가 짝수일 때만 쓸 수 있는 방법이다. 홀수라면 원래의 <span class="math">D=b²-4ac</span>를 사용해야 한다.</div>
+    
+<div class="wgt" id="wgt16">
+  <p class="wgt-title">D/4 라이브 그래프</p>
+  <p class="wgt-sub">x²-2kx+k²-k+3=0 에서 k를 바꾸며 D/4=k-3 의 부호와 그래프를 확인해보세요.</p>
+  <div class="wgt-row"><label>k =</label><input type="range" id="w16_k" min="-2" max="8" step="0.5" value="1"><span class="wgt-val" id="w16_kv">1</span></div>
+  <div class="wgt-canvas-wrap" id="w16_graph"></div>
+  <div class="wgt-out" id="w16_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c17">
+      <div class="concept-head"><span class="concept-num">17</span><h3>이차방정식의 근과 계수와의 관계</h3></div>
+      <div class="def">
+        <p>이차방정식 <span class="math">ax²+bx+c=0</span>의 두 근을 <span class="math">α, β</span>라 하면</p>
+        <div class="formula"><span class="math">α+β = -b/a, &nbsp; αβ = c/a</span></div>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기</summary>
+        <div class="example-body">
+          <p><b>Q.</b> 이차방정식 <span class="math">x²-3x+a=0</span>의 두 근이 <span class="math">α, β</span>이고, 이차방정식 <span class="math">x²+x+b=0</span>의 두 근이 <span class="math">α+β, αβ</span>일 때, 실수 <span class="math">a, b</span>의 값을 구하시오.</p>
+          <p><b>A.</b> <span class="math">α+β=3, αβ=a</span>. 이 두 값이 <span class="math">x²+x+b=0</span>의 근이므로 합 <span class="math">3+a=-1</span>에서 <span class="math">a=-4</span>, 곱 <span class="math">3a=b</span>에서 <span class="math">b=-12</span></p>
+        </div>
+      </details>
+    <div class="tip">두 근을 직접 구하지 않고도 근과 계수의 관계만으로 대칭식의 값을 구할 수 있어 계산이 훨씬 간단해진다.</div>
+    
+<div class="wgt" id="wgt17">
+  <p class="wgt-title">근과 계수 관계 확인기</p>
+  <p class="wgt-sub">x²+bx+c=0 의 b, c를 바꾸면 두 근이 계산되고, 합·곱 공식과 항상 일치함을 확인할 수 있습니다.</p>
+  <div class="wgt-row"><label>b =</label><input type="range" id="w17_b" min="-6" max="6" step="1" value="-3"><span class="wgt-val" id="w17_bv">-3</span></div>
+  <div class="wgt-row"><label>c =</label><input type="range" id="w17_c" min="-6" max="6" step="1" value="2"><span class="wgt-val" id="w17_cv">2</span></div>
+  <div class="wgt-out" id="w17_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c18">
+      <div class="concept-head"><span class="concept-num">18</span><h3>두 수를 근으로 하는 이차방정식</h3></div>
+      <div class="def">
+        <p>두 수 <span class="math">α, β</span>를 근으로 하고 <span class="math">x²</span>의 계수가 1인 이차방정식은</p>
+        <div class="formula"><span class="math">(x-α)(x-β)=0, &nbsp; 즉 x²-(두 근의 합)x+(두 근의 곱)=0</span></div>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기</summary>
+        <div class="example-body">
+          <p><b>Q.</b> 다음을 만족시키는 두 수 <span class="math">α</span>와 <span class="math">β</span>를 구하시오. <span class="math">α+β=2, αβ=4</span></p>
+          <p><b>A.</b> <span class="math">x²-2x+4=0</span>의 근이므로 <span class="math">x = 1±<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">3</span></span> i</span>, 즉 <span class="math">α, β = 1+<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">3</span></span>i, 1-<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">3</span></span>i</span></p>
+        </div>
+      </details>
+    <div class="tip"><span class="math">x²</span>의 계수가 <span class="math">k</span>인 경우는 <span class="math">k{x²-(두 근의 합)x+(두 근의 곱)}=0</span> 꼴이 된다는 것도 함께 기억해두자.</div>
+    
+<div class="wgt" id="wgt18">
+  <p class="wgt-title">두 근으로부터 방정식 만들기</p>
+  <p class="wgt-sub">원하는 두 근의 합(s)과 곱(p)을 정하면, 그 근을 갖는 이차방정식이 즉시 만들어집니다.</p>
+  <div class="wgt-row"><label>합 s =</label><input type="range" id="w18_s" min="-6" max="6" step="1" value="2"><span class="wgt-val" id="w18_sv">2</span></div>
+  <div class="wgt-row"><label>곱 p =</label><input type="range" id="w18_p" min="-8" max="8" step="1" value="4"><span class="wgt-val" id="w18_pv">4</span></div>
+  <div class="wgt-out" id="w18_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c19">
+      <div class="concept-head"><span class="concept-num">19</span><h3>이차방정식과 이차함수의 관계</h3></div>
+      <div class="def">
+        <p>이차함수 <span class="math">y=ax²+bx+c</span>의 그래프와 <span class="math">x</span>축의 교점의 개수는 판별식 <span class="math">D(=b²-4ac)</span>의 부호에 따라 다음과 같다.</p>
+        <ul>
+          <li><span class="math">D&gt;0</span>이면 2개 (서로 다른 두 점)</li>
+          <li><span class="math">D=0</span>이면 1개 (한 점, 접한다)</li>
+          <li><span class="math">D&lt;0</span>이면 0개 (만나지 않는다)</li>
+        </ul>
+      </div>
+    <div class="tip">'교점의 개수'와 '실근의 개수'는 같은 의미다. 그래프에 관한 문제를 방정식의 문제로 바꿔 생각하는 연습이 중요하다.</div>
+    
+<div class="wgt" id="wgt19">
+  <p class="wgt-title">교점 개수 실험</p>
+  <p class="wgt-sub">y=x²+bx+c 그래프가 x축과 만나는 점의 개수 = 방정식의 실근 개수임을 확인해보세요.</p>
+  <div class="wgt-row"><label>b =</label><input type="range" id="w19_b" min="-6" max="6" step="1" value="-1"><span class="wgt-val" id="w19_bv">-1</span></div>
+  <div class="wgt-row"><label>c =</label><input type="range" id="w19_c" min="-6" max="6" step="1" value="-2"><span class="wgt-val" id="w19_cv">-2</span></div>
+  <div class="wgt-canvas-wrap" id="w19_graph"></div>
+  <div class="wgt-out" id="w19_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c20">
+      <div class="concept-head"><span class="concept-num">20</span><h3>이차함수의 그래프와 직선의 위치관계</h3></div>
+      <div class="def">
+        <p>이차함수 <span class="math">y=ax²+bx+c</span>의 그래프와 직선 <span class="math">y=mx+n</span>의 위치관계는 이차방정식 <span class="math">ax²+(b-m)x+(c-n)=0</span>의 판별식 <span class="math">D</span>의 부호로 알 수 있다.</p>
+        <ul>
+          <li><span class="math">D&gt;0</span>이면 서로 다른 두 점에서 만난다.</li>
+          <li><span class="math">D=0</span>이면 한 점에서 만난다. (접한다)</li>
+          <li><span class="math">D&lt;0</span>이면 만나지 않는다.</li>
+        </ul>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기</summary>
+        <div class="example-body">
+          <p><b>Q.</b> 이차함수 <span class="math">y=2x²+3x</span>의 그래프와 직선 <span class="math">y=5x+m-3</span>이 만나지 않도록 하는 자연수 <span class="math">m</span>의 개수를 구하시오.</p>
+          <p><b>A.</b> <span class="math">2x²-2x+(3-m)=0</span>에서 <span class="math">D=8m-20&lt;0</span>이면 <span class="math">m&lt;2.5</span>. 자연수 <span class="math">m=1, 2</span>이므로 개수는 <span class="math">2</span></p>
+        </div>
+      </details>
+    <div class="tip">직선과의 위치관계도 결국 두 식을 연립한 이차방정식의 판별식 문제로 환원된다는 점을 기억해두면 접근이 쉬워진다.</div>
+    
+<div class="wgt" id="wgt20">
+  <p class="wgt-title">포물선과 직선, 위치관계 실험</p>
+  <p class="wgt-sub">고정된 포물선 y=2x²+3x 에 직선 y=mx+n 을 움직여 겹치는 방식을 관찰해보세요.</p>
+  <div class="wgt-row"><label>m =</label><input type="range" id="w20_m" min="-4" max="10" step="1" value="5"><span class="wgt-val" id="w20_mv">5</span></div>
+  <div class="wgt-row"><label>n =</label><input type="range" id="w20_n" min="-10" max="6" step="1" value="-3"><span class="wgt-val" id="w20_nv">-3</span></div>
+  <div class="wgt-canvas-wrap" id="w20_graph"></div>
+  <div class="wgt-out" id="w20_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c21">
+      <div class="concept-head"><span class="concept-num">21</span><h3>이차함수의 최대와 최소</h3></div>
+      <div class="def">
+        <p><span class="math">x</span>값의 범위가 <span class="math">α≤x≤β</span>일 때 이차함수 <span class="math">y=a(x-p)²+q</span>의 최댓값·최솟값은 다음과 같다.</p>
+        <ul>
+          <li><span class="math">α≤p≤β</span>이면, <span class="math">f(p), f(α), f(β)</span> 중 가장 큰 값이 최댓값, 가장 작은 값이 최솟값이다.</li>
+          <li><span class="math">p&lt;α</span> 또는 <span class="math">p&gt;β</span>이면, <span class="math">f(α), f(β)</span> 중 큰 값이 최댓값, 작은 값이 최솟값이다.</li>
+        </ul>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기</summary>
+        <div class="example-body">
+          <p><b>Q.</b> <span class="math">-3≤x≤3</span>일 때, 이차함수 <span class="math">y=(2-x)(4+x)+k</span>의 최댓값이 8이다. 주어진 범위에서 이 함수의 최솟값을 구하시오.</p>
+          <p><b>A.</b> 정리하면 <span class="math">y=-(x+1)²+9+k</span>. 꼭짓점 <span class="math">x=-1</span>에서 최댓값 <span class="math">9+k=8</span>이므로 <span class="math">k=-1</span>, 즉 <span class="math">y=-(x+1)²+8</span>. 구간의 양 끝 중 <span class="math">x=3</span>이 꼭짓점에서 더 멀므로 최솟값은 <span class="math">y(3)=-8</span></p>
+        </div>
+      </details>
+    <div class="tip">꼭짓점이 주어진 구간 <b>안</b>에 있는지 <b>밖</b>에 있는지부터 먼저 확인하는 것이 실수를 줄이는 핵심이다.</div>
+    
+<div class="wgt" id="wgt21">
+  <p class="wgt-title">최대·최소 구간 탐색기</p>
+  <p class="wgt-sub">y=-(x+1)²+8 에서 구간 [α, β]를 움직이며 최댓값·최솟값이 어떻게 변하는지 확인해보세요.</p>
+  <div class="wgt-row"><label>α =</label><input type="range" id="w21_lo" min="-5" max="5" step="0.5" value="-3"><span class="wgt-val" id="w21_lov">-3</span></div>
+  <div class="wgt-row"><label>β =</label><input type="range" id="w21_hi" min="-5" max="5" step="0.5" value="3"><span class="wgt-val" id="w21_hiv">3</span></div>
+  <div class="wgt-canvas-wrap" id="w21_graph"></div>
+  <div class="wgt-out" id="w21_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c22">
+      <div class="concept-head"><span class="concept-num">22</span><h3>삼차방정식과 사차방정식의 풀이</h3></div>
+      <div class="def">
+        <ul>
+          <li>인수분해 공식을 이용한다.</li>
+          <li>바로 인수분해가 안 되면 공통부분 치환(<span class="math">x²-3x=X</span> 등), <span class="math">A²-B²</span> 꼴로 고치기, 혹은 인수정리·조립제법으로 인수분해한다.</li>
+        </ul>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기</summary>
+        <div class="example-body">
+          <p><b>Q.</b> 방정식 <span class="math">x³-x²-kx+k=0</span>이 한 개의 실근과 두 개의 허근을 가질 때, 정수 <span class="math">k</span>의 최댓값을 구하시오.</p>
+          <p><b>A.</b> <span class="math">x³-x²-kx+k=(x-1)(x²-k)</span>. <span class="math">x²-k=0</span>이 허근을 가지려면 <span class="math">k&lt;0</span>이어야 하므로 정수 최댓값은 <span class="math">k=-1</span></p>
+        </div>
+      </details>
+    <div class="tip">인수분해가 끝난 뒤에는 각 인수를 0으로 놓아 실근과 허근의 개수를 다시 한 번 세어보며 조건을 확인하자.</div>
+    
+<div class="wgt" id="wgt22">
+  <p class="wgt-title">k 값에 따른 근의 개수 변화</p>
+  <p class="wgt-sub">x³-x²-kx+k=0 에서 k를 바꾸며 실근·허근의 개수가 바뀌는 모습을 관찰해보세요.</p>
+  <div class="wgt-row"><label>k =</label><input type="range" id="w22_k" min="-5" max="5" step="0.5" value="-1"><span class="wgt-val" id="w22_kv">-1</span></div>
+  <div class="wgt-canvas-wrap" id="w22_graph"></div>
+  <div class="wgt-out" id="w22_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c23">
+      <div class="concept-head"><span class="concept-num">23</span><h3>x³-1=0의 한 허근(ω)</h3></div>
+      <div class="def">
+        <div class="formula">
+          <span class="math">ω³=1</span> (<span class="math">ω̄³=1</span>) &nbsp; / &nbsp; <span class="math">ω²+ω+1=0</span> (<span class="math">ω̄²+ω̄+1=0</span>)<br>
+          <span class="math">ω+ω̄=-1, &nbsp; ωω̄=1, &nbsp; ω̄=ω², &nbsp; ω=ω̄²</span>
+        </div>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기</summary>
+        <div class="example-body">
+          <p><b>Q.</b> <span class="math">x³+1=0</span>의 한 허근을 <span class="math">ω</span>라고 할 때, <span class="math">1/(1-ω)+1/(1-ω̄)</span>의 값을 구하시오.</p>
+          <p><b>A.</b> 통분하면 <span class="math">{2-(ω+ω̄)}/{1-(ω+ω̄)+ωω̄}</span>이고, <span class="math">ω+ω̄=1, ωω̄=1</span>이므로 값은 <span class="math">1</span></p>
+        </div>
+      </details>
+    <div class="tip"><span class="math">ω</span>의 성질은 매번 유도하기보다 자연스럽게 이해하면 실전 문제에서 시간을 크게 절약할 수 있다.</div>
+    
+<div class="wgt" id="wgt23">
+  <p class="wgt-title">단위원 위의 세 점, 1·ω·ω²</p>
+  <div class="wgt-canvas-wrap" id="w23_plane"></div>
+  <div class="wgt-btns"><button class="wgt-btn" id="w23_toggle">ω+ω² 벡터 합 보기</button></div>
+  <div class="wgt-out" id="w23_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c24">
+      <div class="concept-head"><span class="concept-num">24</span><h3>연립이차방정식 (미지수: x, y)</h3></div>
+      <div class="def">
+        <ul>
+          <li>일차식과 이차식의 연립: 일차식을 한 미지수에 관해 정리한 뒤 대입하여 미지수가 1개인 이차방정식을 푼다.</li>
+          <li>이차식과 이차식의 연립: 한 이차식을 인수분해한 뒤, 위 방법을 2번 적용하여 푼다.</li>
+        </ul>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기</summary>
+        <div class="example-body">
+          <p><b>Q.</b> 연립방정식 <span class="math">{x²+y²=5, 2x²+3xy-2y²=0}</span>의 해를 <span class="math">x=α, y=β</span>라 할 때, <span class="math">α+β</span>의 최댓값을 구하시오.</p>
+          <p><b>A.</b> <span class="math">2x²+3xy-2y²=(2x-y)(x+2y)=0</span>이므로 <span class="math">y=2x</span> 또는 <span class="math">x=-2y</span>. 각각 대입하면 해는 <span class="math">(1,2),(-1,-2),(-2,1),(2,-1)</span>이고 <span class="math">α+β</span>의 최댓값은 <span class="math">3</span></p>
+        </div>
+      </details>
+    <div class="tip">인수분해된 두 식 중 하나를 선택할 때, 두 경우를 <b>모두</b> 끝까지 확인해야 해를 빠뜨리지 않는다.</div>
+    
+<div class="wgt" id="wgt24">
+  <p class="wgt-title">원과 두 직선의 교점 탐색기</p>
+  <p class="wgt-sub">원의 반지름을 조절하며 x²+y²=R 과 2x²+3xy-2y²=0(두 직선) 의 교점이 어떻게 움직이는지 확인해보세요.</p>
+  <div class="wgt-row"><label>R =</label><input type="range" id="w24_R" min="1" max="12" step="1" value="5"><span class="wgt-val" id="w24_Rv">5</span></div>
+  <div class="wgt-canvas-wrap" id="w24_graph"></div>
+  <div class="wgt-out" id="w24_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c25">
+      <div class="concept-head"><span class="concept-num">25</span><h3>절댓값 기호를 포함한 일차부등식</h3></div>
+      <div class="def">
+        <p>(절댓값의 의미 활용) <span class="math">|x|&lt;a</span>의 해는 <span class="math">-a&lt;x&lt;a</span>, <span class="math">|x|&gt;a</span>의 해는 <span class="math">x&lt;-a</span> 또는 <span class="math">x&gt;a</span>.</p>
+        <p>(그 외의 경우) 절댓값 기호 안의 값이 0이 되는 값을 기준으로 구간을 나눈 뒤, 절댓값 기호를 없애고 푼다.</p>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기 ①</summary>
+        <div class="example-body">
+          <p><b>Q.</b> <span class="math">|3x-2|&gt;7</span>을 푸시오.</p>
+          <p><b>A.</b> <span class="math">3x-2&gt;7</span> 또는 <span class="math">3x-2&lt;-7</span>이므로 <span class="math">x&lt;-5/3</span> 또는 <span class="math">x&gt;3</span></p>
+        </div>
+      </details>
+      <details class="example">
+        <summary>예제 풀어보기 ②</summary>
+        <div class="example-body">
+          <p><b>Q.</b> <span class="math">2|x-3|+|x+5|≤11</span>을 푸시오.</p>
+          <p><b>A.</b> 기준점 <span class="math">x=-5, 3</span>으로 구간을 나누어 풀면 <span class="math">0≤x≤4</span></p>
+        </div>
+      </details>
+    <div class="tip">구간을 나눌 때는 절댓값 안의 식이 0이 되는 지점을 경계로 포함하여 빠짐없이 나누는 것이 중요하다.</div>
+    
+<div class="wgt" id="wgt25">
+  <p class="wgt-title">절댓값 부등식 수직선</p>
+  <div class="wgt-btns">
+    <button class="wgt-btn ghost active" id="w25_gt">|3x-2| &gt; k</button>
+    <button class="wgt-btn ghost" id="w25_lt">|3x-2| &lt; k</button>
+  </div>
+  <div class="wgt-row"><label>k =</label><input type="range" id="w25_k" min="0" max="12" step="1" value="7"><span class="wgt-val" id="w25_kv">7</span></div>
+  <div class="wgt-canvas-wrap" id="w25_line"></div>
+  <div class="wgt-out" id="w25_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c26">
+      <div class="concept-head"><span class="concept-num">26</span><h3>이차부등식의 풀이 (이차식=0의 두 실근 α, β)</h3></div>
+      <div class="def">
+        <p>이차항의 계수가 양수일 때의 해의 형태를 기억해두면 좋다.</p>
+        <ul>
+          <li>이차부등식 <span class="math">f(x)&lt;0</span>의 해는 두 근의 사이, 즉 <span class="math">α&lt;x&lt;β</span>. (<span class="math">f(x)≤0</span>이면 <span class="math">α≤x≤β</span>)</li>
+          <li>이차부등식 <span class="math">f(x)&gt;0</span>의 해는 두 근의 바깥쪽, 즉 <span class="math">x&lt;α</span> 또는 <span class="math">x&gt;β</span>. (<span class="math">f(x)≥0</span>이면 <span class="math">x≤α</span> 또는 <span class="math">x≥β</span>)</li>
+        </ul>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기 ①</summary>
+        <div class="example-body">
+          <p><b>Q.</b> 이차부등식 <span class="math">-x²+x+6&gt;0</span>의 해를 구하시오.</p>
+          <p><b>A.</b> 양변에 <span class="math">-1</span>을 곱해 정리하면 <span class="math">(x-3)(x+2)&lt;0</span>이므로 <span class="math">-2&lt;x&lt;3</span></p>
+        </div>
+      </details>
+      <details class="example">
+        <summary>예제 풀어보기 ②</summary>
+        <div class="example-body">
+          <p><b>Q.</b> 이차부등식 <span class="math">x²+ax+b&lt;0</span>의 해가 <span class="math">-1&lt;x&lt;4</span>일 때, <span class="math">x²+bx-a≥0</span>의 해를 구하시오.</p>
+          <p><b>A.</b> 근과 계수의 관계로 <span class="math">a=-3, b=-4</span>. <span class="math">x²-4x+3≥0</span>에서 <span class="math">(x-1)(x-3)≥0</span>이므로 <span class="math">x≤1</span> 또는 <span class="math">x≥3</span></p>
+        </div>
+      </details>
+    <div class="tip">이차항의 계수가 음수이면 먼저 양변에 <span class="math">-1</span>을 곱해 부등호 방향을 바꾼 뒤 표준형으로 풀면 실수를 줄일 수 있다.</div>
+    
+<div class="wgt" id="wgt26">
+  <p class="wgt-title">이차부등식 풀이 실험실</p>
+  <p class="wgt-sub">두 근 α, β를 옮기고 부등호를 바꿔가며 해가 "두 근 사이"인지 "두 근 바깥"인지 비교해보세요.</p>
+  <div class="wgt-btns">
+    <button class="wgt-btn ghost active" id="w26_lt">f(x) &lt; 0</button>
+    <button class="wgt-btn ghost" id="w26_gt">f(x) &gt; 0</button>
+  </div>
+  <div class="wgt-row"><label>α =</label><input type="range" id="w26_al" min="-6" max="6" step="1" value="-2"><span class="wgt-val" id="w26_alv">-2</span></div>
+  <div class="wgt-row"><label>β =</label><input type="range" id="w26_be" min="-6" max="6" step="1" value="3"><span class="wgt-val" id="w26_bev">3</span></div>
+  <div class="wgt-canvas-wrap" id="w26_graph"></div>
+  <div class="wgt-canvas-wrap" id="w26_line"></div>
+  <div class="wgt-out" id="w26_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c27">
+      <div class="concept-head"><span class="concept-num">27</span><h3>이차부등식의 풀이 (모든 경우)</h3></div>
+      <div class="def">
+        <p><span class="math">f(x)=ax²+bx+c (a&gt;0)</span>일 때, 판별식의 부호에 따라 해의 형태가 달라진다. <span class="math">D&gt;0</span>이면 위와 같이 두 근 사이/바깥쪽으로 나뉘고, <span class="math">D=0</span>이면 중근 하나로 좁혀지며, <span class="math">D&lt;0</span>이면 모든 실수이거나 해가 없다.</p>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기</summary>
+        <div class="example-body">
+          <p><b>Q.</b> 이차부등식 <span class="math">4x²+2(a-1)x+a+2≤0</span>이 해를 갖지 않도록 하는 정수 <span class="math">a</span>의 최댓값을 구하시오.</p>
+          <p><b>A.</b> 해가 없으려면 <span class="math">D/4=(a-1)²-4(a+2)&lt;0</span>, 즉 <span class="math">a²-6a-7&lt;0</span>에서 <span class="math">-1&lt;a&lt;7</span>. 정수 최댓값은 <span class="math">6</span></p>
+        </div>
+      </details>
+    <div class="tip">표에 정리된 여러 경우를 통째로 외우기보다, 직접 그래프를 그려보며 이해하면 훨씬 오래 기억에 남는다.</div>
+    
+<div class="wgt" id="wgt27">
+  <p class="wgt-title">판별식 부호별 이차부등식</p>
+  <p class="wgt-sub">f(x)=x²-4x+c 에서 c를 바꾸면 D의 부호가 바뀌며 f(x)&lt;0 의 해가 세 가지 경우로 달라집니다.</p>
+  <div class="wgt-row"><label>c =</label><input type="range" id="w27_c" min="-4" max="8" step="0.5" value="0"><span class="wgt-val" id="w27_cv">0</span></div>
+  <div class="wgt-canvas-wrap" id="w27_graph"></div>
+  <div class="wgt-canvas-wrap" id="w27_line"></div>
+  <div class="wgt-out" id="w27_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c28">
+      <div class="concept-head"><span class="concept-num">28</span><h3>연립부등식의 풀이</h3></div>
+      <div class="def">
+        <p>각 부등식의 해를 구한 뒤, 두 개의 부등식을 동시에 만족하는 <span class="math">x</span>의 범위를 찾는다. <span class="math">A&lt;B&lt;C</span> 꼴은 연립부등식 <span class="math">{A&lt;B, B&lt;C}</span>로 변형하여 해결한다.</p>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기</summary>
+        <div class="example-body">
+          <p><b>Q.</b> 연립부등식 <span class="math">{x²-12x+32≤0, x²-(a+1)x+a≤0}</span>의 정수인 해가 1개뿐일 때, 실수 <span class="math">a</span>값의 범위를 구하시오.</p>
+          <p><b>A.</b> 첫 부등식의 해는 <span class="math">4≤x≤8</span>. 둘째 부등식은 <span class="math">(x-1)(x-a)≤0</span>으로 <span class="math">a≥1</span>일 때 <span class="math">1≤x≤a</span>. 두 해의 교집합이 정수 <span class="math">x=4</span> 하나뿐이려면 <span class="math">4≤a&lt;5</span></p>
+        </div>
+      </details>
+    <div class="tip">각 부등식의 해를 수직선 위에 함께 표시해보면 교집합을 한눈에 확인할 수 있어 실수를 줄일 수 있다.</div>
+    
+<div class="wgt" id="wgt28">
+  <p class="wgt-title">연립부등식 교집합 탐색기</p>
+  <p class="wgt-sub">첫 부등식의 해 [4,8]은 고정, 둘째 부등식의 해를 결정하는 a를 움직이며 교집합의 정수해 개수를 확인해보세요.</p>
+  <div class="wgt-row"><label>a =</label><input type="range" id="w28_a" min="0" max="10" step="0.5" value="4.5"><span class="wgt-val" id="w28_av">4.5</span></div>
+  <div class="wgt-canvas-wrap" id="w28_line"></div>
+  <div class="wgt-out" id="w28_out"></div>
+</div>
+
+    </section>
+  </div>
+
+  <!-- ================= CHAPTER 3 : 경우의 수 ================= -->
+  <div id="ch3" class="ch3">
+    <div class="chapter-banner">
+      <span class="chapter-num">Ⅲ</span>
+      <h2>경우의 수</h2>
+    </div>
+    <p class="chapter-sub">합의 법칙·곱의 법칙에서 시작해 순열과 조합, 그 활용까지 이어지는 단원입니다.</p>
+
+    <section class="concept" id="c29">
+      <div class="concept-head"><span class="concept-num">29</span><h3>경우의 수</h3></div>
+      <div class="def">
+        <ul>
+          <li><b>합의 법칙:</b> 두 사건 <span class="math">A, B</span>가 동시에 일어나지 않을 때, <span class="math">A</span> 또는 <span class="math">B</span>가 일어나는 경우의 수는 <span class="math">m+n</span>이다. (각각 <span class="math">m, n</span>가지)</li>
+          <li><b>곱의 법칙:</b> 사건 <span class="math">A</span>가 일어나는 경우의 수가 <span class="math">m</span>, 그 각각에 대해 <span class="math">B</span>가 일어나는 경우의 수가 <span class="math">n</span>이면, 두 사건이 잇달아 일어나는 경우의 수는 <span class="math">m×n</span>이다.</li>
+        </ul>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기</summary>
+        <div class="example-body">
+          <p><b>Q.</b> 100원짜리 동전 2개, 500원짜리 동전 2개, 1000원짜리 지폐 3장이 있다. 이들을 일부 또는 전부 사용하여 지불하는 경우의 수를 구하시오. (0원 지불은 제외)</p>
+          <p><b>A.</b> 각각 사용 개수는 <span class="math">0~2, 0~2, 0~3</span>개로 <span class="math">3×3×4=36</span>가지인데, 모두 0개인 경우 1가지를 제외하면 <span class="math">35</span></p>
+        </div>
+      </details>
+    <div class="tip">문제에서 '또는'이라는 표현은 합의 법칙(덧셈)과, '그리고·잇달아'라는 표현은 곱의 법칙(곱셈)과 연결된다는 것을 문장에서 캐치하는 연습을 하자.</div>
+    
+<div class="wgt" id="wgt29">
+  <p class="wgt-title">합의 법칙 vs 곱의 법칙 시각화</p>
+  <div class="wgt-btns">
+    <button class="wgt-btn ghost active" id="w29_sum">합의 법칙 (m+n)</button>
+    <button class="wgt-btn ghost" id="w29_prod">곱의 법칙 (m×n)</button>
+  </div>
+  <div class="wgt-row"><label>m =</label><input type="range" id="w29_m" min="1" max="6" step="1" value="3"><span class="wgt-val" id="w29_mv">3</span></div>
+  <div class="wgt-row"><label>n =</label><input type="range" id="w29_n" min="1" max="6" step="1" value="4"><span class="wgt-val" id="w29_nv">4</span></div>
+  <div class="wgt-canvas-wrap" id="w29_viz"></div>
+  <div class="wgt-out" id="w29_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c30">
+      <div class="concept-head"><span class="concept-num">30</span><h3>순열</h3></div>
+      <div class="def">
+        <p>서로 다른 <span class="math">n</span>개에서 <span class="math">r</span>개(<span class="math">0&lt;r≤n</span>)를 택하여 일렬로 나열하는 것을 <span class="math">n</span>개에서 <span class="math">r</span>개를 택하는 순열이라 하고, 그 수를 <span class="math">ₙPᵣ</span>로 나타낸다.</p>
+        <div class="formula">
+          <span class="math">ₙPᵣ = n×(n-1)×⋯×(n-r+1) = n!/(n-r)!</span><br>
+          <span class="math">ₙPₙ = n!, &nbsp; ₙP₀ = 1, &nbsp; 0! = 1</span>
+        </div>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기</summary>
+        <div class="example-body">
+          <p><b>Q.</b> 어른 4명과 어린이 3명으로 구성된 가족이 사진을 찍으려 한다. 어린이 3명이 서로 이웃하도록 7명이 한 줄로 서는 경우의 수를 구하시오.</p>
+          <p><b>A.</b> 어린이 3명을 한 묶음으로 보면 <span class="math">5</span>단위를 배열하는 <span class="math">5!=120</span>가지, 묶음 내부 배열 <span class="math">3!=6</span>가지. 곱의 법칙으로 <span class="math">120×6=720</span></p>
+        </div>
+      </details>
+    <div class="tip">'이웃하도록'이라는 조건은 이웃한 대상을 하나의 묶음으로 생각한 뒤, 묶음 내부의 순서까지 별도로 곱해주는 것이 핵심이다.</div>
+    
+<div class="wgt" id="wgt30">
+  <p class="wgt-title">순열 계산기</p>
+  <p class="wgt-sub">n명 중 r명을 뽑아 순서대로 세우는 방법의 수를 자리 채우기로 확인해보세요.</p>
+  <div class="wgt-row"><label>n =</label><input type="range" id="w30_n" min="3" max="8" step="1" value="5"><span class="wgt-val" id="w30_nv">5</span></div>
+  <div class="wgt-row"><label>r =</label><input type="range" id="w30_r" min="1" max="8" step="1" value="3"><span class="wgt-val" id="w30_rv">3</span></div>
+  <div class="wgt-canvas-wrap" id="w30_seats"></div>
+  <div class="wgt-out" id="w30_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c31">
+      <div class="concept-head"><span class="concept-num">31</span><h3>조합</h3></div>
+      <div class="def">
+        <p>서로 다른 <span class="math">n</span>개에서 순서를 생각하지 않고 <span class="math">r</span>개(<span class="math">0&lt;r≤n</span>)를 택하는 것을 조합이라 하고, 그 수를 <span class="math">ₙCᵣ</span>로 나타낸다.</p>
+        <div class="formula">
+          <span class="math">ₙCᵣ = ₙPᵣ/r! = n!/{(n-r)!r!}</span><br>
+          <span class="math">ₙCₙ = 1, &nbsp; ₙC₀ = 1, &nbsp; ₙCᵣ = ₙCₙ₋ᵣ</span>
+        </div>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기</summary>
+        <div class="example-body">
+          <p><b>Q.</b> 10명의 학생이 모든 사람과 한 번씩 악수를 할 때, 악수의 총 횟수를 구하시오.</p>
+          <p><b>A.</b> 순서를 구분하지 않는 조합이므로 <span class="math">₁₀C₂ = 45</span></p>
+        </div>
+      </details>
+    <div class="tip">조합은 순서를 따지지 않으므로, 순열의 수를 구한 뒤 중복되는 순서의 수(<span class="math">r!</span>)로 나눈다는 원리를 기억해두면 공식을 외우기 쉽다.</div>
+    
+<div class="wgt" id="wgt31">
+  <p class="wgt-title">조합 계산기 &amp; 선택 게임</p>
+  <div class="wgt-row"><label>n =</label><input type="range" id="w31_n" min="3" max="10" step="1" value="6"><span class="wgt-val" id="w31_nv">6</span></div>
+  <div class="wgt-row"><label>r =</label><input type="range" id="w31_r" min="0" max="10" step="1" value="2"><span class="wgt-val" id="w31_rv">2</span></div>
+  <p class="wgt-sub">아래 점을 클릭해 r개를 골라보세요. 순서는 상관없습니다.</p>
+  <div class="wgt-canvas-wrap" id="w31_dots"></div>
+  <div class="wgt-out" id="w31_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c32">
+      <div class="concept-head"><span class="concept-num">32</span><h3>조합의 활용</h3></div>
+      <div class="def">
+        <p><span class="math">n</span>개를 <span class="math">p</span>개, <span class="math">q</span>개, <span class="math">r</span>개(<span class="math">p+q+r=n</span>)의 그룹으로 나누는 경우의 수를 구할 때, 조합의 수를 활용할 수 있다.</p>
+        <ul>
+          <li><span class="math">p, q, r</span>이 모두 다를 때: <span class="math">ₙCₚ × (n-p)Cq × (n-p-q)Cr</span></li>
+          <li><span class="math">p, q, r</span> 중 두 개가 같을 때: 위 식을 <span class="math">2!</span>로 나눈다.</li>
+          <li><span class="math">p, q, r</span>이 모두 같을 때: 위 식을 <span class="math">3!</span>로 나눈다.</li>
+        </ul>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기</summary>
+        <div class="example-body">
+          <p><b>Q.</b> 6개의 축구팀이 참가한 대회에서 그림과 같은 토너먼트 방식으로 경기를 진행하려 한다. 대진표를 작성하는 경우의 수를 구하시오.</p>
+          <p><b>A.</b> 6개 팀을 대진표의 자리에 배정하는 방법은 <span class="math">6!</span>가지이지만, 그림처럼 1회전에서 맞붙는 두 팀의 좌우 순서는 대진표상 같은 대진으로 보므로, 1회전 경기 수만큼 <span class="math">2</span>로 나누어 준다. 1회전 경기가 2번 있는 대진표라면 <span class="math">6!/(2×2)=180</span></p>
+        </div>
+      </details>
+      <div class="tip">토너먼트 대진표 문제는 그림의 구조(부전승 유무, 1회전 경기 수)에 따라 나누는 값이 달라지므로, 실제 시험에서는 주어진 그림을 보고 대칭이 되는 자리를 직접 확인해야 한다.</div>
+    
+<div class="wgt" id="wgt32">
+  <p class="wgt-title">그룹 나누기 계산기</p>
+  <p class="wgt-sub">8명을 p, q, r명의 세 그룹으로 나누는 경우의 수를 확인해보세요. (그룹 이름이 없으면 크기가 같은 그룹 수만큼 나누어야 합니다)</p>
+  <div class="wgt-row"><label>p =</label><input type="range" id="w32_p" min="1" max="6" step="1" value="3"><span class="wgt-val" id="w32_pv">3</span></div>
+  <div class="wgt-row"><label>q =</label><input type="range" id="w32_q" min="1" max="6" step="1" value="3"><span class="wgt-val" id="w32_qv">3</span></div>
+  <div class="wgt-out" id="w32_out"></div>
+</div>
+
+    </section>
+  </div>
+
+  <!-- ================= CHAPTER 4 : 행렬 ================= -->
+  <div id="ch4" class="ch4">
+    <div class="chapter-banner">
+      <span class="chapter-num">Ⅳ</span>
+      <h2>행렬</h2>
+    </div>
+    <p class="chapter-sub">수를 직사각형 모양으로 배열한 새로운 대상, 행렬의 정의부터 연산과 단위행렬까지 다루는 단원입니다.</p>
+
+    <section class="concept" id="c33">
+      <div class="concept-head"><span class="concept-num">33</span><h3>행렬</h3></div>
+      <div class="def">
+        <ul>
+          <li><b>행렬:</b> 여러 개의 수 또는 문자를 직사각형 모양으로 배열하여 괄호로 묶어 나타낸 것.</li>
+          <li><b>m×n 행렬:</b> <span class="math">m</span>개의 행과 <span class="math">n</span>개의 열로 이루어진 행렬.</li>
+          <li><b>(i, j) 성분:</b> 행렬에서 제<span class="math">i</span>행과 제<span class="math">j</span>열이 만나는 위치에 있는 성분.</li>
+          <li><b>정사각행렬:</b> 행과 열의 개수가 서로 같은 행렬. (2×2 행렬은 2차 정사각행렬이라고도 부름)</li>
+        </ul>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기</summary>
+        <div class="example-body">
+          <p><b>Q.</b> 2×2 행렬 <span class="math">A</span>의 (i, j) 성분 <span class="math">aᵢⱼ = 2i+j-3</span>일 때, 행렬 <span class="math">A</span>를 구하시오.</p>
+          <p><b>A.</b> <span class="math">a₁₁=0, a₁₂=1, a₂₁=2, a₂₂=3</span>이므로 <span class="math">A = <span class="matrix-wrap"><span class="matrix-bracket l"></span><span class="matrix-grid" style="grid-template-columns:repeat(2,auto);"><span>0</span><span>1</span><span>2</span><span>3</span></span><span class="matrix-bracket r"></span></span></span></p>
+        </div>
+      </details>
+    <div class="tip">(i, j) 성분에서 <span class="math">i</span>는 행, <span class="math">j</span>는 열을 의미한다. 순서를 헷갈리지 않도록 '행 먼저, 열 나중'으로 기억하자.</div>
+    
+<div class="wgt" id="wgt33">
+  <p class="wgt-title">행렬 생성기: aᵢⱼ = 2i+j-3</p>
+  <div class="wgt-row"><label>행(m) =</label><input type="range" id="w33_m" min="1" max="4" step="1" value="2"><span class="wgt-val" id="w33_mv">2</span></div>
+  <div class="wgt-row"><label>열(n) =</label><input type="range" id="w33_n" min="1" max="4" step="1" value="2"><span class="wgt-val" id="w33_nv">2</span></div>
+  <p class="wgt-sub">성분을 클릭하면 그 위치 (i, j)를 알려줍니다.</p>
+  <div class="wgt-canvas-wrap" id="w33_mat" style="text-align:center;"></div>
+  <div class="wgt-out" id="w33_out">성분을 클릭해보세요.</div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c34">
+      <div class="concept-head"><span class="concept-num">34</span><h3>두 행렬이 서로 같을 조건</h3></div>
+      <div class="def">
+        <p>두 행렬 <span class="math">A=<span class="matrix-wrap"><span class="matrix-bracket l"></span><span class="matrix-grid" style="grid-template-columns:repeat(2,auto);"><span>a₁₁</span><span>a₁₂</span><span>a₂₁</span><span>a₂₂</span></span><span class="matrix-bracket r"></span></span></span>와 <span class="math">B=<span class="matrix-wrap"><span class="matrix-bracket l"></span><span class="matrix-grid" style="grid-template-columns:repeat(2,auto);"><span>b₁₁</span><span>b₁₂</span><span>b₂₁</span><span>b₂₂</span></span><span class="matrix-bracket r"></span></span></span>에 대하여</p>
+        <div class="formula"><span class="math">a₁₁=b₁₁, a₁₂=b₁₂, a₂₁=b₂₁, a₂₂=b₂₂</span>이면 <span class="math">A=B</span></div>
+      </div>
+    <div class="tip">두 행렬이 같으려면 먼저 크기(행과 열의 개수)가 같아야 하고, 그 다음 대응하는 모든 성분이 같아야 한다.</div>
+    
+<div class="wgt" id="wgt34">
+  <p class="wgt-title">A = B 조건 확인기</p>
+  <p class="wgt-sub">두 행렬의 성분을 각각 입력해 A와 B가 같은지 확인해보세요.</p>
+  <div style="display:flex;gap:18px;align-items:center;justify-content:center;flex-wrap:wrap;margin:10px 0;">
+    <div>A = <span id="w34_A"></span></div>
+    <div>B = <span id="w34_B"></span></div>
+  </div>
+  <div class="wgt-out" id="w34_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c35">
+      <div class="concept-head"><span class="concept-num">35</span><h3>행렬의 덧셈과 뺄셈</h3></div>
+      <div class="def">
+        <p>같은 위치의 성분끼리 더하거나 뺀다. 모든 성분이 0인 행렬을 영행렬이라 하며 <span class="math">O</span>로 나타내고, 행렬 <span class="math">A</span>의 모든 성분의 부호를 바꾼 행렬을 <span class="math">-A</span>로 나타낸다.</p>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기</summary>
+        <div class="example-body">
+          <p><b>Q.</b> 행렬 <span class="math">A=<span class="matrix-wrap"><span class="matrix-bracket l"></span><span class="matrix-grid" style="grid-template-columns:repeat(3,auto);"><span>2</span><span>-3</span><span>1</span><span>0</span><span>4</span><span>-5</span></span><span class="matrix-bracket r"></span></span></span>에 대하여 <span class="math">X+A=O</span>를 만족하는 행렬 <span class="math">X</span>를 구하시오.</p>
+          <p><b>A.</b> <span class="math">X=-A=<span class="matrix-wrap"><span class="matrix-bracket l"></span><span class="matrix-grid" style="grid-template-columns:repeat(3,auto);"><span>-2</span><span>3</span><span>-1</span><span>0</span><span>-4</span><span>5</span></span><span class="matrix-bracket r"></span></span></span></p>
+        </div>
+      </details>
+    <div class="tip">행렬의 덧셈과 뺄셈은 <b>크기가 같은 행렬끼리만</b> 가능하다. 크기가 다르면 애초에 연산 자체가 정의되지 않는다.</div>
+    
+<div class="wgt" id="wgt35">
+  <p class="wgt-title">행렬 덧셈·뺄셈 계산기</p>
+  <div class="wgt-btns">
+    <button class="wgt-btn ghost active" id="w35_plus">A + B</button>
+    <button class="wgt-btn ghost" id="w35_minus">A - B</button>
+  </div>
+  <div style="display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;margin:10px 0;">
+    <div>A = <span id="w35_A"></span></div>
+    <span class="mat-eq" id="w35_opsign">+</span>
+    <div>B = <span id="w35_B"></span></div>
+  </div>
+  <div class="wgt-out" id="w35_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c36">
+      <div class="concept-head"><span class="concept-num">36</span><h3>행렬의 실수배</h3></div>
+      <div class="def">
+        <p>실수 <span class="math">k</span>와 행렬 <span class="math">A=<span class="matrix-wrap"><span class="matrix-bracket l"></span><span class="matrix-grid" style="grid-template-columns:repeat(2,auto);"><span>a₁₁</span><span>a₁₂</span><span>a₂₁</span><span>a₂₂</span></span><span class="matrix-bracket r"></span></span></span>에 대하여</p>
+        <div class="formula"><span class="math">kA = <span class="matrix-wrap"><span class="matrix-bracket l"></span><span class="matrix-grid" style="grid-template-columns:repeat(2,auto);"><span>ka₁₁</span><span>ka₁₂</span><span>ka₂₁</span><span>ka₂₂</span></span><span class="matrix-bracket r"></span></span></span></div>
+      </div>
+    <div class="tip">실수배는 행렬의 <b>모든</b> 성분에 똑같이 곱해준다. 일부 성분만 곱하고 넘어가지 않도록 주의하자.</div>
+    
+<div class="wgt" id="wgt36">
+  <p class="wgt-title">실수배 계산기</p>
+  <div class="wgt-row"><label>k =</label><input type="range" id="w36_k" min="-4" max="4" step="1" value="2"><span class="wgt-val" id="w36_kv">2</span></div>
+  <div style="display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;margin:10px 0;">
+    <div>A = <span id="w36_A"></span></div>
+  </div>
+  <div class="wgt-out" id="w36_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c37">
+      <div class="concept-head"><span class="concept-num">37</span><h3>행렬의 곱셈이 가능할 조건</h3></div>
+      <div class="def">
+        <p>행렬 <span class="math">A</span>와 행렬 <span class="math">B</span>의 곱셈이 가능하려면 <span class="math">A</span>의 열의 개수와 <span class="math">B</span>의 행의 개수가 같아야 한다. 즉, <span class="math">m×k</span> 행렬 <span class="math">A</span>와 <span class="math">k×n</span> 행렬 <span class="math">B</span>는 <span class="math">AB</span>를 계산할 수 있고, 그 결과는 <span class="math">m×n</span> 행렬이다.</p>
+        <p>행렬 <span class="math">AB</span>의 (i, j) 성분은 행렬 <span class="math">A</span>의 제<span class="math">i</span>행과 행렬 <span class="math">B</span>의 제<span class="math">j</span>열만을 사용하여 계산한다.</p>
+        <p>일반적으로 행렬의 곱셈은 교환법칙이 성립하지 않는다. (<span class="math">AB≠BA</span>)</p>
+      </div>
+    <div class="tip">곱셈이 가능한지부터 먼저 확인하는 습관을 들이면, 애초에 계산할 수 없는 문제에 시간을 낭비하지 않을 수 있다.</div>
+    
+<div class="wgt" id="wgt37">
+  <p class="wgt-title">곱셈 가능 여부 확인기</p>
+  <div class="wgt-row"><label style="min-width:70px;">A: m×k</label>
+    <input type="range" id="w37_m" min="1" max="4" step="1" value="2"><span class="wgt-val" id="w37_mv">2</span>
+    <span style="color:var(--muted);">×</span>
+    <input type="range" id="w37_k1" min="1" max="4" step="1" value="3"><span class="wgt-val" id="w37_k1v">3</span>
+  </div>
+  <div class="wgt-row"><label style="min-width:70px;">B: k×n</label>
+    <input type="range" id="w37_k2" min="1" max="4" step="1" value="3"><span class="wgt-val" id="w37_k2v">3</span>
+    <span style="color:var(--muted);">×</span>
+    <input type="range" id="w37_n" min="1" max="4" step="1" value="2"><span class="wgt-val" id="w37_nv">2</span>
+  </div>
+  <div class="wgt-out" id="w37_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c38">
+      <div class="concept-head"><span class="concept-num">38</span><h3>행렬의 곱셈</h3></div>
+      <div class="def">
+        <p>두 행렬 <span class="math">A=<span class="matrix-wrap"><span class="matrix-bracket l"></span><span class="matrix-grid" style="grid-template-columns:repeat(2,auto);"><span>a₁₁</span><span>a₁₂</span><span>a₂₁</span><span>a₂₂</span></span><span class="matrix-bracket r"></span></span></span>와 <span class="math">B=<span class="matrix-wrap"><span class="matrix-bracket l"></span><span class="matrix-grid" style="grid-template-columns:repeat(2,auto);"><span>b₁₁</span><span>b₁₂</span><span>b₂₁</span><span>b₂₂</span></span><span class="matrix-bracket r"></span></span></span>에 대하여</p>
+        <div class="formula"><span class="math">AB = <span class="matrix-wrap"><span class="matrix-bracket l"></span><span class="matrix-grid" style="grid-template-columns:repeat(2,auto);"><span>a₁₁b₁₁+a₁₂b₂₁</span><span>a₁₁b₁₂+a₁₂b₂₂</span><span>a₂₁b₁₁+a₂₂b₂₁</span><span>a₂₁b₁₂+a₂₂b₂₂</span></span><span class="matrix-bracket r"></span></span></span></div>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기 ①</summary>
+        <div class="example-body">
+          <p><b>Q.</b> 세 행렬 <span class="math">A=<span class="matrix-wrap"><span class="matrix-bracket l"></span><span class="matrix-grid" style="grid-template-columns:repeat(2,auto);"><span>1</span><span>2</span><span>3</span><span>4</span></span><span class="matrix-bracket r"></span></span>, B=<span class="matrix-wrap"><span class="matrix-bracket l"></span><span class="matrix-grid" style="grid-template-columns:repeat(1,auto);"><span>a</span><span>b</span></span><span class="matrix-bracket r"></span></span>, C=<span class="matrix-wrap"><span class="matrix-bracket l"></span><span class="matrix-grid" style="grid-template-columns:repeat(2,auto);"><span>c</span><span>d</span></span><span class="matrix-bracket r"></span></span></span>에 대하여 <span class="math">AB=<span class="matrix-wrap"><span class="matrix-bracket l"></span><span class="matrix-grid" style="grid-template-columns:repeat(1,auto);"><span>-1</span><span>2</span></span><span class="matrix-bracket r"></span></span></span>, <span class="math">CA=<span class="matrix-wrap"><span class="matrix-bracket l"></span><span class="matrix-grid" style="grid-template-columns:repeat(2,auto);"><span>3</span><span>2</span></span><span class="matrix-bracket r"></span></span></span>일 때, <span class="math">BC</span>를 구하시오.</p>
+          <p><b>A.</b> <span class="math">AB</span>에서 <span class="math">a+2b=-1, 3a+4b=2</span>를 풀면 <span class="math">a=4, b=-5/2</span>. <span class="math">CA</span>에서 <span class="math">c+3d=3, 2c+4d=2</span>를 풀면 <span class="math">c=-3, d=2</span>. 따라서 <span class="math">BC = <span class="matrix-wrap"><span class="matrix-bracket l"></span><span class="matrix-grid" style="grid-template-columns:repeat(2,auto);"><span>-12</span><span>8</span><span>15/2</span><span>-5</span></span><span class="matrix-bracket r"></span></span></span></p>
+        </div>
+      </details>
+      <details class="example">
+        <summary>예제 풀어보기 ②</summary>
+        <div class="example-body">
+          <p><b>Q.</b> 두 행렬 <span class="math">A=<span class="matrix-wrap"><span class="matrix-bracket l"></span><span class="matrix-grid" style="grid-template-columns:repeat(2,auto);"><span>a</span><span>-1</span><span>2</span><span>b</span></span><span class="matrix-bracket r"></span></span>, B=<span class="matrix-wrap"><span class="matrix-bracket l"></span><span class="matrix-grid" style="grid-template-columns:repeat(2,auto);"><span>2</span><span>-1</span><span>-4</span><span>2</span></span><span class="matrix-bracket r"></span></span></span>에 대하여 <span class="math">AB=O</span>일 때, <span class="math">a</span>와 <span class="math">b</span>의 값을 구하시오.</p>
+          <p><b>A.</b> <span class="math">AB</span>의 각 성분을 0으로 놓으면 <span class="math">2a+4=0, 4-4b=0</span>에서 <span class="math">a=-2, b=1</span></p>
+        </div>
+      </details>
+    <div class="tip">행렬의 곱셈은 교환법칙이 성립하지 않으므로 <span class="math">AB</span>와 <span class="math">BA</span>를 계산할 때 순서를 절대 바꾸면 안 된다.</div>
+    
+<div class="wgt" id="wgt38">
+  <p class="wgt-title">행렬 곱셈, 한 칸씩 계산하기</p>
+  <div style="display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;margin:10px 0;">
+    <div>A = <span id="w38_A"></span></div>
+    <div>B = <span id="w38_B"></span></div>
+  </div>
+  <div class="wgt-btns"><button class="wgt-btn" id="w38_next">다음 칸 계산 ▶</button><button class="wgt-btn ghost" id="w38_reset">처음부터</button></div>
+  <div class="wgt-canvas-wrap" style="text-align:center;" id="w38_calc"></div>
+  <div style="text-align:center;margin:10px 0;">AB = <span id="w38_result"></span></div>
+  <div class="wgt-out" id="w38_out"></div>
+</div>
+
+    </section>
+
+    <section class="concept" id="c39">
+      <div class="concept-head"><span class="concept-num">39</span><h3>단위행렬과 그 성질</h3></div>
+      <div class="def">
+        <p>정사각행렬 중에서 왼쪽 위에서 오른쪽 아래로 내려가는 대각선 위의 성분은 모두 1이고, 그 외의 성분은 모두 0인 정사각행렬을 단위행렬이라 하며 보통 기호 <span class="math">E</span>로 나타낸다.</p>
+        <p>예를 들어 3차 단위행렬은 <span class="math">E =</span> <span class="matrix-wrap"><span class="matrix-bracket l"></span><span class="matrix-grid" style="grid-template-columns:repeat(3,auto);"><span>1</span><span>0</span><span>0</span><span>0</span><span>1</span><span>0</span><span>0</span><span>0</span><span>1</span></span><span class="matrix-bracket r"></span></span> 이다.</p>
+        <div class="formula"><span class="math">n</span>차 단위행렬 <span class="math">E</span>와 <span class="math">n</span>차 정사각행렬 <span class="math">A</span>에 대하여 <span class="math">AE=EA=A</span></div>
+      </div>
+      <details class="example">
+        <summary>예제 풀어보기</summary>
+        <div class="example-body">
+          <p><b>Q.</b> 행렬 <span class="math">A=<span class="matrix-wrap"><span class="matrix-bracket l"></span><span class="matrix-grid" style="grid-template-columns:repeat(2,auto);"><span>-1</span><span>1</span><span>0</span><span>-3</span></span><span class="matrix-bracket r"></span></span></span>에 대하여 <span class="math">(A+E)(A-E)</span>를 계산하시오. (<span class="math">E</span>는 2차 단위행렬)</p>
+          <p><b>A.</b> <span class="math">E</span>와 <span class="math">A</span>는 교환 가능하므로 <span class="math">(A+E)(A-E)=A²-E</span>. <span class="math">A²=<span class="matrix-wrap"><span class="matrix-bracket l"></span><span class="matrix-grid" style="grid-template-columns:repeat(2,auto);"><span>1</span><span>-4</span><span>0</span><span>9</span></span><span class="matrix-bracket r"></span></span></span>이므로 <span class="math">A²-E=<span class="matrix-wrap"><span class="matrix-bracket l"></span><span class="matrix-grid" style="grid-template-columns:repeat(2,auto);"><span>0</span><span>-4</span><span>0</span><span>8</span></span><span class="matrix-bracket r"></span></span></span></p>
+        </div>
+      </details>
+    <div class="tip">단위행렬 <span class="math">E</span>는 실수의 1과 같은 역할을 한다. 다만 행렬의 곱셈은 일반적으로 교환법칙이 성립하지 않으므로, <span class="math">A</span>와 <span class="math">E</span>가 교환 가능하다는 성질을 쓸 때는 그 이유를 함께 확인하자.</div>
+    
+<div class="wgt" id="wgt39">
+  <p class="wgt-title">단위행렬 체험하기</p>
+  <p class="wgt-sub">A의 성분을 자유롭게 바꿔도 AE와 EA는 항상 A와 같습니다.</p>
+  <div style="display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;margin:10px 0;">
+    <div>A = <span id="w39_A"></span></div>
+    <div>E = <span id="w39_E"></span></div>
+  </div>
+  <div class="wgt-out" id="w39_out"></div>
+</div>
+
+    </section>
+  </div>
+
+  </main>
+</div>
+
+<footer>상무고 유환수 작성 · 공통수학1 개념 총정리 </footer>
+
+<script>
+  // active TOC highlighting
+  const sections = document.querySelectorAll('.concept');
+  const links = document.querySelectorAll('.toc-list a');
+  const linkMap = {};
+  links.forEach(l => linkMap[l.getAttribute('href').slice(1)] = l);
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const link = linkMap[entry.target.id];
+      if(!link) return;
+      if(entry.isIntersecting){
+        links.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+
+  sections.forEach(s => observer.observe(s));
+
+  // scroll-in reveal animation for concept cards and chapter banners
+  const revealTargets = document.querySelectorAll('.concept, .chapter-banner, .chapter-sub');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+
+  revealTargets.forEach(t => revealObserver.observe(t));
+
+  // top scroll-progress bar
+  const progressBar = document.getElementById('scroll-progress');
+  function updateProgress(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    progressBar.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive:true });
+  updateProgress();
+
+  // gentle fade-in each time an example is opened
+  document.querySelectorAll('details.example').forEach(d => {
+    d.addEventListener('toggle', () => {
+      if(d.open){
+        const body = d.querySelector('.example-body');
+        body.classList.remove('fade-in');
+        void body.offsetWidth; // force reflow to restart animation
+        body.classList.add('fade-in');
+      }
+    });
+  });
+</script>
+
+<script>
+/* ============================================================
+   공통수학1 인터랙티브 위젯 라이브러리
+   ============================================================ */
+(function(){
+  "use strict";
+  const SVGNS = "http://www.w3.org/2000/svg";
+  function $(id){ return document.getElementById(id); }
+  function el(tag, attrs){
+    const e = document.createElementNS(SVGNS, tag);
+    for(const k in attrs){ if(attrs[k]!==undefined && attrs[k]!==null) e.setAttribute(k, attrs[k]); }
+    return e;
+  }
+  function txt(x,y,str,opts){
+    opts = opts||{};
+    const t = el("text", Object.assign({x:x,y:y,"font-size":opts.size||11,fill:opts.fill||"var(--axis-text)","text-anchor":opts.anchor||"middle","font-weight":opts.weight||400,"font-family":opts.italic?'Georgia, "Times New Roman", serif':'inherit',"font-style":opts.italic?"italic":"normal"},opts.attrs||{}));
+    t.textContent = str;
+    return t;
+  }
+  function fmt(n, d){
+    d = d===undefined?2:d;
+    if(!isFinite(n)) return n>0?"∞":"-∞";
+    if(Object.is(n,-0)) n = 0;
+    if(Math.abs(n) < 1e-9) return "0";
+    const r = Math.round(n*Math.pow(10,d))/Math.pow(10,d);
+    if(Number.isInteger(r)) return String(r);
+    return String(r);
+  }
+  function signed(n,d){
+    const v = fmt(n,d);
+    return (n>=0 ? "+"+v : v);
+  }
+
+  function makeSVG(vbW, vbH, maxWidth){
+    const svg = el("svg", {viewBox:`0 0 ${vbW} ${vbH}`});
+    svg.style.width = "100%";
+    svg.style.maxWidth = (maxWidth||vbW)+"px";
+    svg.style.height = "auto";
+    svg.style.display = "block";
+    return svg;
+  }
+
+  /* ---------------- Quadratic / function grapher ---------------- */
+  function Graph(containerId, opts){
+    opts = opts||{};
+    this.w = opts.w||300; this.h = opts.h||240;
+    this.xmin = opts.xmin!==undefined?opts.xmin:-6; this.xmax = opts.xmax!==undefined?opts.xmax:6;
+    this.ymin = opts.ymin!==undefined?opts.ymin:-6; this.ymax = opts.ymax!==undefined?opts.ymax:8;
+    this.pad = 8;
+    const holder = $(containerId);
+    this.svg = makeSVG(this.w, this.h, opts.maxWidth||340);
+    holder.appendChild(this.svg);
+    this.sx = (x)=> this.pad + (x-this.xmin)/(this.xmax-this.xmin)*(this.w-2*this.pad);
+    this.sy = (y)=> this.h-this.pad - (y-this.ymin)/(this.ymax-this.ymin)*(this.h-2*this.pad);
+    this.staticLayer = el("g",{});
+    this.dynLayer = el("g",{});
+    this.svg.appendChild(this.staticLayer);
+    this.svg.appendChild(this.dynLayer);
+    this._axes();
+  }
+  Graph.prototype._axes = function(){
+    const g = this.staticLayer;
+    const step = (this.xmax-this.xmin) > 14 ? 2 : 1;
+    for(let gx=Math.ceil(this.xmin/step)*step; gx<=this.xmax; gx+=step){
+      if(Math.abs(gx)<1e-9) continue;
+      g.appendChild(el("line",{x1:this.sx(gx),y1:0,x2:this.sx(gx),y2:this.h,stroke:"var(--grid-line)","stroke-width":1}));
+    }
+    const stepy = (this.ymax-this.ymin) > 14 ? 2 : 1;
+    for(let gy=Math.ceil(this.ymin/stepy)*stepy; gy<=this.ymax; gy+=stepy){
+      if(Math.abs(gy)<1e-9) continue;
+      g.appendChild(el("line",{x1:0,y1:this.sy(gy),x2:this.w,y2:this.sy(gy),stroke:"var(--grid-line)","stroke-width":1}));
+    }
+    g.appendChild(el("line",{x1:0,y1:this.sy(0),x2:this.w,y2:this.sy(0),stroke:"var(--axis-line)","stroke-width":1.3}));
+    g.appendChild(el("line",{x1:this.sx(0),y1:0,x2:this.sx(0),y2:this.h,stroke:"var(--axis-line)","stroke-width":1.3}));
+    g.appendChild(txt(this.w-9, this.sy(0)-6, "x", {size:11,italic:true,fill:"var(--axis-text)",anchor:"end"}));
+    g.appendChild(txt(this.sx(0)+11, 12, "y", {size:11,italic:true,fill:"var(--axis-text)",anchor:"start"}));
+  };
+  Graph.prototype.clear = function(){ this.dynLayer.innerHTML = ""; };
+  Graph.prototype.plot = function(f, color, opts){
+    opts = opts||{};
+    const steps = opts.steps||160;
+    let d = "";
+    let started = false;
+    for(let i=0;i<=steps;i++){
+      const x = this.xmin + (this.xmax-this.xmin)*i/steps;
+      const yv = f(x);
+      if(yv===null || !isFinite(yv)){ started=false; continue; }
+      const y = Math.max(this.ymin-3, Math.min(this.ymax+3, yv));
+      const px = this.sx(x), py = this.sy(y);
+      d += (started?"L":"M")+px.toFixed(1)+","+py.toFixed(1)+" ";
+      started = true;
+    }
+    const p = el("path",{d:d, fill:"none", stroke:color, "stroke-width":opts.width||2.5, "stroke-linecap":"round","stroke-linejoin":"round"});
+    if(opts.dash) p.setAttribute("stroke-dasharray", opts.dash);
+    if(opts.opacity) p.setAttribute("opacity", opts.opacity);
+    this.dynLayer.appendChild(p);
+    return p;
+  };
+  Graph.prototype.point = function(x,y,color,opts){
+    opts=opts||{};
+    const px=this.sx(x), py=this.sy(y);
+    const c = el("circle",{cx:px,cy:py,r:opts.r||4.6,fill:opts.fill!==undefined?opts.fill:color,stroke:opts.stroke||"#fff","stroke-width":opts.sw!==undefined?opts.sw:1.8});
+    this.dynLayer.appendChild(c);
+    if(opts.label){
+      this.dynLayer.appendChild(txt(px+(opts.dx||9), py+(opts.dy||-8), opts.label, {size:11,fill:color,weight:700,anchor:opts.anchor||"start"}));
+    }
+    return c;
+  };
+  Graph.prototype.vline = function(x,color,dash){
+    const px=this.sx(x);
+    const l = el("line",{x1:px,y1:0,x2:px,y2:this.h,stroke:color,"stroke-width":1.4,"stroke-dasharray":dash||"4,4"});
+    this.dynLayer.appendChild(l);
+  };
+  Graph.prototype.hspan = function(x1,x2,color,opacity){
+    const a = Math.max(this.xmin, Math.min(x1,x2));
+    const b = Math.min(this.xmax, Math.max(x1,x2));
+    if(b<=a) return;
+    const r = el("rect",{x:this.sx(a),y:0,width:this.sx(b)-this.sx(a),height:this.h,fill:color,opacity:opacity||0.12});
+    this.dynLayer.insertBefore(r, this.dynLayer.firstChild);
+  };
+  Graph.prototype.text = function(x,y,str,opts){
+    opts=opts||{};
+    this.dynLayer.appendChild(txt(this.sx(x),this.sy(y),str,opts));
+  };
+
+  /* ---------------- Number line ---------------- */
+  function NumberLine(containerId, opts){
+    opts=opts||{};
+    this.min=opts.min!==undefined?opts.min:-8; this.max=opts.max!==undefined?opts.max:8;
+    this.w=opts.w||320; this.h=opts.h||64;
+    const holder=$(containerId);
+    this.svg=makeSVG(this.w,this.h,opts.maxWidth||360);
+    holder.appendChild(this.svg);
+    this.sx = x => 14 + (x-this.min)/(this.max-this.min)*(this.w-28);
+    this.dyn = el("g",{});
+    this._axis();
+    this.svg.appendChild(this.dyn);
+  }
+  NumberLine.prototype._axis = function(){
+    const y = this.h/2 + 4;
+    this.svg.appendChild(el("line",{x1:10,y1:y,x2:this.w-10,y2:y,stroke:"var(--axis-line)","stroke-width":2}));
+    const range = this.max-this.min;
+    const step = range>16?2:1;
+    for(let i=Math.ceil(this.min/step)*step;i<=this.max;i+=step){
+      const x=this.sx(i);
+      this.svg.appendChild(el("line",{x1:x,y1:y-5,x2:x,y2:y+5,stroke:"var(--axis-line)","stroke-width":1.2}));
+      this.svg.appendChild(txt(x,y+19,String(i),{size:10,fill:"var(--axis-text)"}));
+    }
+    this._y = y;
+  };
+  NumberLine.prototype.clear = function(){ this.dyn.innerHTML=""; };
+  NumberLine.prototype.segment = function(a,b,color,openA,openB){
+    const y=this._y;
+    const xa = a===-Infinity ? -6 : this.sx(Math.max(a,this.min-1));
+    const xb = b===Infinity ? this.w+6 : this.sx(Math.min(b,this.max+1));
+    this.dyn.appendChild(el("line",{x1:xa,y1:y,x2:xb,y2:y,stroke:color,"stroke-width":5,"stroke-linecap":"round"}));
+    if(isFinite(a)) this.dyn.appendChild(el("circle",{cx:this.sx(a),cy:y,r:5.2,fill:openA?"#fff":color,stroke:color,"stroke-width":2.4}));
+    if(isFinite(b)) this.dyn.appendChild(el("circle",{cx:this.sx(b),cy:y,r:5.2,fill:openB?"#fff":color,stroke:color,"stroke-width":2.4}));
+  };
+  NumberLine.prototype.mark = function(x,color,label){
+    const y=this._y;
+    this.dyn.appendChild(el("circle",{cx:this.sx(x),cy:y,r:4,fill:color}));
+    if(label) this.dyn.appendChild(txt(this.sx(x),y-11,label,{size:10.5,fill:color,weight:700}));
+  };
+
+  /* ---------------- Complex plane ---------------- */
+  function ComplexPlane(containerId, opts){
+    opts=opts||{};
+    this.r = opts.r||4;
+    this.w=opts.w||240; this.h=opts.h||240;
+    const holder=$(containerId);
+    this.svg=makeSVG(this.w,this.h,opts.maxWidth||260);
+    holder.appendChild(this.svg);
+    const pad=20;
+    this.sx = re => pad + (re+this.r)/(2*this.r)*(this.w-2*pad);
+    this.sy = im => this.h-pad - (im+this.r)/(2*this.r)*(this.h-2*pad);
+    this.dyn = el("g",{});
+    this._axis();
+    this.svg.appendChild(this.dyn);
+  }
+  ComplexPlane.prototype._axis = function(){
+    const g=this.svg;
+    g.appendChild(el("line",{x1:0,y1:this.sy(0),x2:this.w,y2:this.sy(0),stroke:"var(--axis-line)","stroke-width":1.3}));
+    g.appendChild(el("line",{x1:this.sx(0),y1:0,x2:this.sx(0),y2:this.h,stroke:"var(--axis-line)","stroke-width":1.3}));
+    g.appendChild(txt(this.w-8,this.sy(0)-6,"Re",{size:10,fill:"var(--axis-text)",anchor:"end"}));
+    g.appendChild(txt(this.sx(0)+9,11,"Im",{size:10,fill:"var(--axis-text)",anchor:"start"}));
+    for(let i=-Math.floor(this.r);i<=Math.floor(this.r);i++){
+      if(i===0) continue;
+      g.appendChild(txt(this.sx(i),this.sy(0)+13,String(i),{size:9,fill:"var(--graph-faint)"}));
+    }
+  };
+  ComplexPlane.prototype.clear = function(){ this.dyn.innerHTML=""; };
+  ComplexPlane.prototype.pt = function(re,im,color,label,opts){
+    opts=opts||{};
+    const px=this.sx(re),py=this.sy(im);
+    if(opts.vector){
+      this.dyn.appendChild(el("line",{x1:this.sx(0),y1:this.sy(0),x2:px,y2:py,stroke:color,"stroke-width":2,"marker-end":"url(#arrow)"}));
+    }
+    this.dyn.appendChild(el("circle",{cx:px,cy:py,r:5,fill:color,stroke:"#fff","stroke-width":1.6}));
+    if(label) this.dyn.appendChild(txt(px+8,py-8,label,{size:11,fill:color,weight:700,anchor:"start",italic:true}));
+    return {px,py};
+  };
+  ComplexPlane.prototype.line = function(re1,im1,re2,im2,color,dash){
+    this.dyn.appendChild(el("line",{x1:this.sx(re1),y1:this.sy(im1),x2:this.sx(re2),y2:this.sy(im2),stroke:color,"stroke-width":1.4,"stroke-dasharray":dash||"4,3"}));
+  };
+  ComplexPlane.prototype.circle = function(radius,color){
+    this.dyn.appendChild(el("circle",{cx:this.sx(0),cy:this.sy(0),r:(this.sx(radius)-this.sx(0)),fill:"none",stroke:color,"stroke-width":1.3,"stroke-dasharray":"3,3"}));
+  };
+
+  /* ---------------- Matrix rendering ---------------- */
+  function matStatic(values, opts){
+    opts=opts||{};
+    const cols = values[0].length;
+    let html = `<span class="mat-block"><span class="mat-bracket l"></span><span class="mat-grid" style="grid-template-columns:repeat(${cols},1fr);">`;
+    values.forEach((row,i)=>{
+      row.forEach((v,j)=>{
+        const hl = opts.hl && opts.hl(i,j);
+        const idAttr = opts.idPrefix ? ` id="${opts.idPrefix}_${i}_${j}"` : '';
+        html += `<span class="cell${hl?' hl':''}" data-i="${i}" data-j="${j}"${idAttr}>${typeof v==='string'?v:fmt(v)}</span>`;
+      });
+    });
+    html += `</span><span class="mat-bracket r"></span></span>`;
+    return html;
+  }
+  function matInput(values, prefix){
+    const cols = values[0].length;
+    let html = `<span class="mat-block"><span class="mat-bracket l"></span><span class="mat-grid" style="grid-template-columns:repeat(${cols},1fr);">`;
+    values.forEach((row,i)=>{
+      row.forEach((v,j)=>{
+        html += `<input type="number" class="mat-input" id="${prefix}_${i}_${j}" value="${v}" step="1">`;
+      });
+    });
+    html += `</span><span class="mat-bracket r"></span></span>`;
+    return html;
+  }
+  function readMat(prefix, rows, cols){
+    const m=[];
+    for(let i=0;i<rows;i++){
+      const row=[];
+      for(let j=0;j<cols;j++){
+        const e = $(`${prefix}_${i}_${j}`);
+        row.push(e ? (parseFloat(e.value)||0) : 0);
+      }
+      m.push(row);
+    }
+    return m;
+  }
+
+  /* expose */
+  window.WGT = { $, el, txt, fmt, signed, makeSVG, Graph, NumberLine, ComplexPlane, matStatic, matInput, readMat, SVGNS };
+})();
+</script>
+
+<script>
+/* ============================================================
+   개념별 위젯 초기화 — Chapter 1: 다항식 (#1~#11)
+   ============================================================ */
+(function(){
+  "use strict";
+  const {$, el, txt, fmt, signed, makeSVG, Graph, NumberLine, ComplexPlane, matStatic, matInput, readMat} = WGT;
+
+  /* ---- shared small helpers ---- */
+  function evalPoly(coeffs, x){ // coeffs: highest degree first
+    let r = 0;
+    for(let i=0;i<coeffs.length;i++) r = r*x + coeffs[i];
+    return r;
+  }
+  function syntheticDiv(coeffs, alpha){
+    const q = [coeffs[0]];
+    for(let i=1;i<coeffs.length-1;i++){ q.push(coeffs[i] + q[i-1]*alpha); }
+    const remainder = coeffs[coeffs.length-1] + q[q.length-1]*alpha;
+    return {quotient:q, remainder};
+  }
+  function polyStr(coeffs){ // coeffs highest degree first, for cubic->display like x²-4x-3
+    const n = coeffs.length-1;
+    let s = "";
+    coeffs.forEach((c,i)=>{
+      const deg = n-i;
+      if(Math.abs(c) < 1e-9) return;
+      const sign = c<0 ? " - " : (s?" + ":"");
+      const av = Math.abs(c);
+      const coefPart = (av===1 && deg!==0) ? "" : fmt(av);
+      const varPart = deg===0 ? "" : (deg===1 ? "x" : "x"+String(deg).replace(/[0-9]/g,d=>"⁰¹²³⁴⁵⁶⁷⁸⁹"[d]));
+      s += sign + coefPart + varPart;
+    });
+    return s || "0";
+  }
+
+  /* ---- reusable area-model rectangle drawer (concepts #2, #3, #10) ---- */
+  function drawRectModel(containerId, opts){
+    // opts: {wx (px, symbolic side length), a, b (units), unit(px per unit), labelX}
+    const holder = $(containerId);
+    holder.innerHTML = "";
+    const Lx = opts.wx || 64;
+    const unit = opts.unit || 16;
+    const La = opts.a * unit, Lb = opts.b * unit;
+    const pad = 10, gap = 2;
+    const totalW = Lx + La + pad*2 + 30;
+    const totalH = Lx + Lb + pad*2 + 20;
+    const svg = makeSVG(totalW, totalH, opts.maxWidth || 320);
+    const ox = pad + 22, oy = pad;
+    function rect(x,y,w,h,fill,label){
+      svg.appendChild(el('rect',{x,y,width:w-gap,height:h-gap,fill,rx:4,ry:4}));
+      const size = w<40||h<28 ? 10.5 : 13;
+      svg.appendChild(txt(x+w/2,y+h/2+size*0.32,label,{size,fill:'#16233B',weight:700,italic:true}));
+    }
+    rect(ox,oy,Lx,Lx,'#DCEAFE',opts.c1 || 'x²');
+    rect(ox+Lx,oy,La,Lx,'#EAF1FE',opts.c2 || (opts.a+'x'));
+    rect(ox,oy+Lx,Lx,Lb,'#EAF1FE',opts.c3 || (opts.b+'x'));
+    rect(ox+Lx,oy+Lx,La,Lb,'#C7DBFE',opts.c4 || String(opts.a*opts.b));
+    // side labels
+    svg.appendChild(txt(ox+Lx/2, oy-4, opts.topLabel1||'x', {size:11,italic:true,fill:'var(--axis-text)'}));
+    svg.appendChild(txt(ox+Lx+La/2, oy-4, opts.topLabel2||String(opts.a), {size:11,italic:true,fill:'var(--axis-text)'}));
+    svg.appendChild(txt(ox-8, oy+Lx/2+4, opts.sideLabel1||'x', {size:11,italic:true,fill:'var(--axis-text)',anchor:'end'}));
+    svg.appendChild(txt(ox-8, oy+Lx+Lb/2+4, opts.sideLabel2||String(opts.b), {size:11,italic:true,fill:'var(--axis-text)',anchor:'end'}));
+    holder.appendChild(svg);
+  }
+
+  /* ---- simple prev/next stepper ---- */
+  function mountStepper(containerId, steps){
+    const holder = $(containerId);
+    let i = 0;
+    function render(){
+      holder.querySelector('.wgt-step-body').innerHTML = steps[i];
+      holder.querySelector('.wgt-step-idx').textContent = (i+1)+' / '+steps.length;
+      holder.querySelector('.wgt-step-prev').disabled = (i===0);
+      holder.querySelector('.wgt-step-next').disabled = (i===steps.length-1);
+    }
+    holder.querySelector('.wgt-step-prev').addEventListener('click', ()=>{ if(i>0){ i--; render(); } });
+    holder.querySelector('.wgt-step-next').addEventListener('click', ()=>{ if(i<steps.length-1){ i++; render(); } });
+    render();
+  }
+
+  /* ================= #1 덧셈과 뺄셈 : 교환·결합법칙 시각화 ================= */
+  (function(){
+    if(!$('w1_x')) return;
+    const stage = $('w1_stage');
+    const GC = {a:'#2563EB', b:'#059669', c:'#D97706', d:'#7C3AED'};
+    const chips = [
+      {label:'x³', group:'a'},
+      {label:'−2xy', group:'b'},
+      {label:'+4x', group:'c'},
+      {label:'−2x³', group:'a'},
+      {label:'−xy', group:'b'},
+      {label:'+2y', group:'d'}
+    ];
+    const groupedOrder = [0,3,1,4,2,5];
+    const finalChips = [
+      {label:'−x³', group:'a'},
+      {label:'−3xy', group:'b'},
+      {label:'+4x', group:'c'},
+      {label:'+2y', group:'d'}
+    ];
+    const SLOT = 92, CHIP_W = 78;
+    stage.style.width = (chips.length*SLOT + 16) + 'px';
+
+    let elems = [], groupBoxEls = {}, finalEls = [];
+    function mkChip(label, group){
+      const d = document.createElement('div');
+      d.className='term-chip';
+      d.style.background = GC[group];
+      d.style.width = CHIP_W+'px';
+      d.textContent = label;
+      stage.appendChild(d);
+      return d;
+    }
+    elems = chips.map((c,i)=>{ const d=mkChip(c.label,c.group); d.style.left=(i*SLOT)+'px'; return d; });
+    ['a','b','c','d'].forEach(g=>{
+      const b = document.createElement('div');
+      b.className='term-group-box';
+      b.style.borderColor = GC[g];
+      stage.appendChild(b);
+      groupBoxEls[g]=b;
+    });
+    finalEls = finalChips.map((c)=>{ const d=mkChip(c.label,c.group); d.style.opacity='0'; d.style.left='0px'; return d; });
+
+    function layoutOriginal(){
+      chips.forEach((c,i)=>{ elems[i].style.left=(i*SLOT)+'px'; elems[i].style.opacity='1'; });
+      Object.values(groupBoxEls).forEach(b=> b.style.opacity='0');
+      finalEls.forEach(f=> f.style.opacity='0');
+    }
+    function layoutGrouped(showBoxes){
+      groupedOrder.forEach((origIdx, rank)=>{ elems[origIdx].style.left=(rank*SLOT)+'px'; });
+      elems.forEach(e=> e.style.opacity='1');
+      finalEls.forEach(f=> f.style.opacity='0');
+      const groupsSeq = groupedOrder.map(idx=>chips[idx].group);
+      const ranges = {};
+      let i=0;
+      while(i<groupsSeq.length){
+        let j=i;
+        while(j<groupsSeq.length && groupsSeq[j]===groupsSeq[i]) j++;
+        ranges[groupsSeq[i]] = {start:i, count:j-i};
+        i=j;
+      }
+      ['a','b','c','d'].forEach(g=>{
+        const box = groupBoxEls[g];
+        const r = ranges[g];
+        if(showBoxes && r){
+          box.style.left = (r.start*SLOT - 8)+'px';
+          box.style.width = (r.count*SLOT - (SLOT-CHIP_W) + 16)+'px';
+          box.style.opacity='1';
+        } else {
+          box.style.opacity='0';
+        }
+      });
+    }
+    function layoutFinal(){
+      elems.forEach(e=> e.style.opacity='0');
+      Object.values(groupBoxEls).forEach(b=> b.style.opacity='0');
+      finalChips.forEach((c,i)=>{ finalEls[i].style.left=(i*SLOT)+'px'; finalEls[i].style.opacity='1'; });
+    }
+
+    const steps = [
+      {caption:'괄호를 풀어 6개의 항을 늘어놓았습니다. <span class="math">(x³-2xy+4x)-(2x³+xy-2y) = x³-2xy+4x-2x³-xy+2y</span>'},
+      {caption:'<b>① 교환법칙</b> — 더하는 순서를 바꿔도 결과는 같습니다 <span class="math">(a+b=b+a)</span>. 같은 색(동류항)끼리 자리를 옮겼습니다.'},
+      {caption:'<b>② 결합법칙</b> — 묶는 순서를 바꿔도 결과는 같습니다 <span class="math">((a+b)+c=a+(b+c))</span>. 동류항끼리 점선으로 묶었습니다.'},
+      {caption:'묶은 동류항을 각각 계산합니다: <span class="math">x³-2x³=-x³</span>, <span class="math">-2xy-xy=-3xy</span> → 최종 결과 <span class="math">-x³-3xy+4x+2y</span>'}
+    ];
+    let step=0;
+    function render(){
+      $('w1_stepidx').textContent = (step+1)+' / '+steps.length;
+      $('w1_caption').innerHTML = steps[step].caption;
+      $('w1_prev').disabled = step===0;
+      $('w1_next').disabled = step===steps.length-1;
+      if(step===0) layoutOriginal();
+      else if(step===1) layoutGrouped(false);
+      else if(step===2) layoutGrouped(true);
+      else layoutFinal();
+    }
+    $('w1_prev').addEventListener('click', ()=>{ if(step>0){ step--; render(); } });
+    $('w1_next').addEventListener('click', ()=>{ if(step<steps.length-1){ step++; render(); } });
+    render();
+
+    const xs=$('w1_x'), ys=$('w1_y');
+    function upd(){
+      const x=+xs.value, y=+ys.value;
+      $('w1_xv').textContent=x; $('w1_yv').textContent=y;
+      const orig = (Math.pow(x,3)-2*x*y+4*x) - (2*Math.pow(x,3)+x*y-2*y);
+      const simp = -Math.pow(x,3)-3*x*y+4*x+2*y;
+      const same = Math.abs(orig-simp)<1e-6;
+      $('w1_out').innerHTML = '식을 정리하기 전 값 = <b>'+fmt(orig)+'</b> &nbsp;|&nbsp; 정리한 식 <span class="math">-x³-3xy+4x+2y</span>의 값 = <b>'+fmt(simp)+'</b>'
+        + ' &nbsp; <span class="wgt-badge '+(same?'green':'red')+'">'+(same?'값이 같다 ✓':'값이 다르다')+'</span>';
+    }
+    xs.addEventListener('input',upd); ys.addEventListener('input',upd); upd();
+  })();
+
+  /* ================= #2 다항식의 곱셈 : 넓이 모델 ================= */
+  (function(){
+    if(!$('w2_a')) return;
+    const aSl=$('w2_a'), bSl=$('w2_b');
+    function upd(){
+      const a=+aSl.value, b=+bSl.value;
+      $('w2_av').textContent=a; $('w2_bv').textContent=b;
+      drawRectModel('w2_svg', {a, b, unit:15, wx:66, c1:'x²', c2:'ax', c3:'bx', c4:String(a*b), topLabel1:'x', topLabel2:'a', sideLabel1:'x', sideLabel2:'b'});
+      $('w2_out').innerHTML = '<span class="math">(x+'+a+')(x+'+b+') = x² + '+(a+b)+'x + '+(a*b)+'</span> — 네 조각의 넓이를 모두 더한 것과 같습니다.';
+    }
+    aSl.addEventListener('input',upd); bSl.addEventListener('input',upd); upd();
+  })();
+
+  /* ================= #3 곱셈 공식 : (a+b)² 기하 증명 ================= */
+  (function(){
+    if(!$('w3_a')) return;
+    const aSl=$('w3_a'), bSl=$('w3_b');
+    function upd(){
+      const a=+aSl.value, b=+bSl.value;
+      $('w3_av').textContent=a; $('w3_bv').textContent=b;
+      const holder = $('w3_svg'); holder.innerHTML='';
+      const unit=20;
+      const La=a*unit, Lb=b*unit, pad=12;
+      const total=La+Lb;
+      const svg = makeSVG(total+pad*2+26, total+pad*2+20, 300);
+      const ox=pad+22, oy=pad;
+      function rect(x,y,w,h,fill,label){
+        svg.appendChild(el('rect',{x,y,width:w-2,height:h-2,fill,rx:4,ry:4}));
+        svg.appendChild(txt(x+w/2,y+h/2+4,label,{size: w<38||h<28?10:13,fill:'#16233B',weight:700,italic:true}));
+      }
+      rect(ox,oy,La,La,'#EAF1FE','a²');
+      rect(ox+La,oy,Lb,La,'#DCEAFE','ab');
+      rect(ox,oy+La,La,Lb,'#DCEAFE','ab');
+      rect(ox+La,oy+La,Lb,Lb,'#C7DBFE','b²');
+      svg.appendChild(txt(ox+La/2, oy-4, 'a', {size:11,italic:true,fill:'var(--axis-text)'}));
+      svg.appendChild(txt(ox+La+Lb/2, oy-4, 'b', {size:11,italic:true,fill:'var(--axis-text)'}));
+      svg.appendChild(txt(ox-8, oy+La/2+4, 'a', {size:11,italic:true,fill:'var(--axis-text)',anchor:'end'}));
+      svg.appendChild(txt(ox-8, oy+La+Lb/2+4, 'b', {size:11,italic:true,fill:'var(--axis-text)',anchor:'end'}));
+      holder.appendChild(svg);
+      $('w3_out').innerHTML = '<span class="math">('+a+'+'+b+')² = '+(a*a)+' + 2×'+a+'×'+b+' + '+(b*b)+' = '+((a+b)*(a+b))+'</span> — 큰 정사각형의 넓이 <span class="math">(a+b)²</span>는 네 조각(<span class="math">a², ab, ab, b²</span>)의 합과 같습니다.';
+    }
+    aSl.addEventListener('input',upd); bSl.addEventListener('input',upd); upd();
+  })();
+
+  /* ================= #4 다항식의 나눗셈 : 단계별 보기 ================= */
+  (function(){
+    if(!$('w4_stepper')) return;
+    mountStepper('w4_stepper', [
+      '<p><b>0단계.</b> <span class="math">x³-5x²+x+6</span>을 <span class="math">x-1</span>로 나눕니다. 몫의 최고차항부터 구합니다.</p>',
+      '<p><b>1단계.</b> <span class="math">x³ ÷ x = x²</span>. <span class="math">x²(x-1)=x³-x²</span>를 빼면 <span class="math">-4x²+x+6</span>이 남습니다.</p>',
+      '<p><b>2단계.</b> <span class="math">-4x² ÷ x = -4x</span>. <span class="math">-4x(x-1)=-4x²+4x</span>를 빼면 <span class="math">-3x+6</span>이 남습니다.</p>',
+      '<p><b>3단계.</b> <span class="math">-3x ÷ x = -3</span>. <span class="math">-3(x-1)=-3x+3</span>를 빼면 <span class="math">3</span>이 남습니다. 더 이상 <span class="math">x-1</span>보다 차수가 낮으므로 종료.</p>',
+      '<p><b>결과.</b> 몫 <span class="math">Q=x²-4x-3</span>, 나머지 <span class="math">R=3</span>. 검산: <span class="math">(x-1)(x²-4x-3)+3 = x³-5x²+x+6</span> ✓</p>'
+    ]);
+  })();
+
+  window.__WGT_CH1_HELPERS = { evalPoly, syntheticDiv, polyStr, drawRectModel, mountStepper };
+})();
+</script>
+
+
+<script>
+/* ============================================================
+   개념별 위젯 초기화 — Chapter 1: 다항식 (#5~#11)
+   ============================================================ */
+(function(){
+  "use strict";
+  const {$, el, txt, fmt, signed, makeSVG, Graph, NumberLine, ComplexPlane, matStatic, matInput, readMat} = WGT;
+  const H = window.__WGT_CH1_HELPERS || {};
+
+  /* ================= #5 항등식의 개념과 성질 ================= */
+  (function(){
+    if(!$('w5_x')) return;
+    const xSl=$('w5_x');
+    const idBtn=$('w5_mode_id'), eqBtn=$('w5_mode_eq');
+    let mode='identity';
+    function setMode(m){
+      mode=m;
+      idBtn.classList.toggle('active', m==='identity');
+      eqBtn.classList.toggle('active', m==='equation');
+      upd();
+    }
+    function upd(){
+      const x=+xSl.value; $('w5_xv').textContent=x;
+      let lhs,rhs,label;
+      if(mode==='identity'){ lhs=2*(x+1); rhs=2*x+2; label='2(x+1)  vs  2x+2'; }
+      else { lhs=x+1; rhs=3; label='x+1  vs  3'; }
+      const ok = Math.abs(lhs-rhs)<1e-9;
+      $('w5_out').innerHTML = '<span class="math">'+label+'</span> → 좌변='+fmt(lhs)+', 우변='+fmt(rhs)
+        +' &nbsp;<span class="wgt-badge '+(ok?'green':'gray')+'">'+(ok?'성립':'불성립')+'</span>'
+        + (mode==='identity' ? '<br><small style="color:var(--muted)">x를 어떤 값으로 바꿔도 항상 성립 → 항등식</small>' : '<br><small style="color:var(--muted)">x=2일 때만 성립 → 방정식(특정 값에서만 참)</small>');
+    }
+    idBtn.addEventListener('click',()=>setMode('identity'));
+    eqBtn.addEventListener('click',()=>setMode('equation'));
+    xSl.addEventListener('input',upd);
+    setMode('identity');
+  })();
+
+  /* ================= #6 미정계수 맞히기 게임 ================= */
+  (function(){
+    if(!$('w6_a')) return;
+    const aSl=$('w6_a'), bSl=$('w6_b'), xSl=$('w6_x');
+    function upd(){
+      const a=+aSl.value,b=+bSl.value,x=+xSl.value;
+      $('w6_av').textContent=a; $('w6_bv').textContent=b; $('w6_xv').textContent=x;
+      const lhs=(x+1)*(x-2), rhs=x*x+a*x+b;
+      const pointOk = Math.abs(lhs-rhs)<1e-9;
+      const fullOk = (a===-1 && b===-2);
+      $('w6_out').innerHTML =
+        '이 x에서: 좌변='+fmt(lhs)+', 우변='+fmt(rhs)+' &nbsp;<span class="wgt-badge '+(pointOk?'green':'red')+'">'+(pointOk?'일치':'불일치')+'</span><br>'
+        + '<span class="wgt-badge '+(fullOk?'blue':'gray')+'" style="margin-top:6px;display:inline-block;">'+(fullOk?'모든 x에서 성립 → 참된 항등식! (a=-1, b=-2)':'x를 바꿔가며 계속 맞는지 확인해보세요')+'</span>';
+    }
+    [aSl,bSl,xSl].forEach(s=>s.addEventListener('input',upd));
+    upd();
+  })();
+
+  /* ================= #7 나머지정리 탐색기 ================= */
+  (function(){
+    if(!$('w7_t')) return;
+    const coeffs=[1,9,2,-5];
+    const g = new Graph('w7_graph', {xmin:-5,xmax:3,ymin:-15,ymax:20, w:300,h:220});
+    const tSl=$('w7_t');
+    function upd(){
+      const t=+tSl.value; $('w7_tv').textContent=fmt(t);
+      const val=H.evalPoly(coeffs,t);
+      g.clear();
+      g.plot(x=>H.evalPoly(coeffs,x), '#2563EB', {width:2.4});
+      g.vline(t, '#D97706');
+      g.point(t,val,'#D97706',{r:5,label:'P('+fmt(t)+')='+fmt(val)});
+      $('w7_out').innerHTML = '<span class="math">x - ('+fmt(t)+')</span> 로 나눈 나머지 = <b>'+fmt(val)+'</b>';
+    }
+    tSl.addEventListener('input',upd); upd();
+  })();
+
+  /* ================= #8 인수정리로 인수 찾기 ================= */
+  (function(){
+    if(!$('w8_a')) return;
+    const coeffs=[1,-7,6,8];
+    const g = new Graph('w8_graph', {xmin:-3,xmax:7,ymin:-40,ymax:40, w:300,h:220});
+    const aSl=$('w8_a');
+    function upd(){
+      const a=+aSl.value; $('w8_av').textContent=a;
+      const val=H.evalPoly(coeffs,a);
+      const isRoot = Math.abs(val)<1e-9;
+      g.clear();
+      g.plot(x=>H.evalPoly(coeffs,x), '#7C3AED', {width:2.4});
+      g.vline(a, isRoot?'#059669':'#D97706');
+      g.point(a,val,isRoot?'#059669':'#D97706',{r:5,label:'P('+a+')='+fmt(val)});
+      $('w8_out').innerHTML = '<span class="math">P('+a+') = '+fmt(val)+'</span> &nbsp;<span class="wgt-badge '+(isRoot?'green':'gray')+'">'
+        + (isRoot ? 'x-'+a+' 는 인수! ✓' : '인수 아님') + '</span>';
+    }
+    aSl.addEventListener('input',upd); upd();
+  })();
+
+  /* ================= #9 조립제법 계산기 ================= */
+  (function(){
+    if(!$('w9_a')) return;
+    const coeffs=[1,-5,1,6];
+    const aSl=$('w9_a');
+    function upd(){
+      const a=+aSl.value; $('w9_av').textContent=a;
+      const {quotient, remainder} = H.syntheticDiv(coeffs,a);
+      const prod=[null], sum=[coeffs[0]];
+      for(let i=1;i<coeffs.length;i++){
+        const p = sum[i-1]*a;
+        prod.push(p);
+        sum.push(coeffs[i]+p);
+      }
+      let html = '<table style="border-collapse:collapse;font-family:Georgia,\'Times New Roman\',serif;font-style:italic;font-size:14px;margin:0 auto;">';
+      html += '<tr><td style="padding:4px 10px;font-weight:700;color:#D97706;white-space:nowrap;">α = '+a+'</td>';
+      coeffs.forEach(c=>{ html += '<td style="padding:4px 10px;border-bottom:1.5px solid #16233B;text-align:center;">'+fmt(c)+'</td>'; });
+      html += '</tr><tr><td></td>';
+      prod.forEach(p=>{ html += '<td style="padding:2px 10px;text-align:center;color:var(--axis-text);font-size:12px;">'+(p===null?'':('↓ '+fmt(p)))+'</td>'; });
+      html += '</tr><tr><td></td>';
+      sum.forEach((s,i)=>{ html += '<td style="padding:4px 10px;text-align:center;font-weight:700;color:'+(i===sum.length-1?'#DC2626':'#2563EB')+';">'+fmt(s)+'</td>'; });
+      html += '</tr></table>';
+      $('w9_table').innerHTML = html;
+      $('w9_out').innerHTML = '몫 <span class="math">Q(x) = '+H.polyStr(quotient)+'</span>, 나머지 <span class="math">R = '+fmt(remainder)+'</span>'
+        + (remainder===0 ? ' &nbsp;<span class="wgt-badge green">나누어떨어짐 → x-'+a+'는 인수!</span>' : '');
+    }
+    aSl.addEventListener('input',upd); upd();
+  })();
+
+  /* ================= #10 인수분해 공식 검증기 ================= */
+  (function(){
+    if(!$('w10_a')) return;
+    const aSl=$('w10_a'), bSl=$('w10_b');
+    const pills = Array.from(document.querySelectorAll('#w10_pills .wgt-btn'));
+    let f=0;
+    const defs = [
+      {left:(a,b)=>a*a+2*a*b+b*b, leftStr:'a²+2ab+b²', right:(a,b)=>(a+b)*(a+b), rightStr:'(a+b)²'},
+      {left:(a,b)=>a*a-2*a*b+b*b, leftStr:'a²-2ab+b²', right:(a,b)=>(a-b)*(a-b), rightStr:'(a-b)²'},
+      {left:(a,b)=>a*a-b*b, leftStr:'a²-b²', right:(a,b)=>(a+b)*(a-b), rightStr:'(a+b)(a-b)'},
+      {left:(a,b)=>a*a*a+b*b*b, leftStr:'a³+b³', right:(a,b)=>(a+b)*(a*a-a*b+b*b), rightStr:'(a+b)(a²-ab+b²)'}
+    ];
+    function upd(){
+      const a=+aSl.value,b=+bSl.value;
+      $('w10_av').textContent=a; $('w10_bv').textContent=b;
+      const d=defs[f];
+      const L=d.left(a,b), R=d.right(a,b);
+      const ok=Math.abs(L-R)<1e-6;
+      $('w10_out').innerHTML = '<span class="math">'+d.leftStr+' = '+d.rightStr+'</span><br>'
+        +'좌변='+fmt(L)+', 우변='+fmt(R)+' &nbsp;<span class="wgt-badge '+(ok?'green':'red')+'">'+(ok?'일치 ✓':'불일치')+'</span>';
+    }
+    pills.forEach(p=>p.addEventListener('click',()=>{
+      pills.forEach(x=>x.classList.remove('active'));
+      p.classList.add('active');
+      f=+p.dataset.f; upd();
+    }));
+    aSl.addEventListener('input',upd); bSl.addEventListener('input',upd);
+    upd();
+  })();
+
+  /* ================= #11 치환 인수분해 체험 ================= */
+  (function(){
+    if(!$('w11_sub')) return;
+    const exprEl=$('w11_expr'), out=$('w11_out');
+    const subBtn=$('w11_sub'), resetBtn=$('w11_reset');
+    function showOriginal(){
+      exprEl.innerHTML = '(<span style="color:#2563EB;font-weight:700;">x²-x</span>)² - 2(<span style="color:#2563EB;font-weight:700;">x²-x</span>) - 8';
+      out.innerHTML = '파란색으로 표시된 <span class="math">x²-x</span> 덩어리가 두 번 반복됩니다. 이 덩어리를 하나의 문자로 바꾸면 식이 간단해집니다.';
+    }
+    function showSub(){
+      exprEl.innerHTML = '<span style="color:#2563EB;font-weight:700;">t</span>² - 2<span style="color:#2563EB;font-weight:700;">t</span> - 8 &nbsp;=&nbsp; (t-4)(t+2)';
+      out.innerHTML = '치환 후 <span class="math">t</span>에 대한 이차식이 되어 바로 인수분해됩니다: <span class="math">(t-4)(t+2)</span>.<br>'
+        + '다시 <span class="math">t = x²-x</span>를 대입하면 → <span class="math">(x²-x-4)(x²-x+2)</span>';
+    }
+    subBtn.addEventListener('click', showSub);
+    resetBtn.addEventListener('click', showOriginal);
+    showOriginal();
+  })();
+
+})();
+</script>
+
+<script>
+/* ============================================================
+   개념별 위젯 초기화 — Chapter 2: 방정식과 부등식 (#12~#20)
+   ============================================================ */
+(function(){
+  "use strict";
+  const {$, el, txt, fmt, signed, makeSVG, Graph, NumberLine, ComplexPlane, matStatic, matInput, readMat} = WGT;
+
+  function csqrt(x){ return x>=0 ? {re:Math.sqrt(x), im:0} : {re:0, im:Math.sqrt(-x)}; }
+  function cmul(z1,z2){ return {re:z1.re*z2.re - z1.im*z2.im, im:z1.re*z2.im + z1.im*z2.re}; }
+  function cadd(z1,z2){ return {re:z1.re+z2.re, im:z1.im+z2.im}; }
+  function rootStr(x){ return '<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">'+fmt(x)+'</span></span>'; }
+  function cstr(z){
+    if(Math.abs(z.im)<1e-9) return fmt(z.re);
+    if(Math.abs(z.re)<1e-9) return fmt(z.im)+'i';
+    return fmt(z.re)+(z.im>=0?'+':'')+fmt(z.im)+'i';
+  }
+  window.__WGT_CH2_HELPERS = { csqrt, cmul, cadd, cstr, rootStr };
+
+  /* ================= #12 복소수 : 복소평면 켤레 ================= */
+  (function(){
+    if(!$('w12_a')) return;
+    const cp = new ComplexPlane('w12_plane', {r:5, w:220,h:220, maxWidth:240});
+    const aSl=$('w12_a'), bSl=$('w12_b');
+    function upd(){
+      const a=+aSl.value,b=+bSl.value;
+      $('w12_av').textContent=a; $('w12_bv').textContent=b;
+      cp.clear();
+      cp.line(a,b,a,-b,'var(--graph-faint)');
+      cp.pt(a,b,'#2563EB','z');
+      cp.pt(a,-b,'#D97706','z̄');
+      $('w12_out').innerHTML = '<span class="math">z = '+a+signed(b)+'i</span>, &nbsp; <span class="math">z̄ = '+a+signed(-b)+'i</span>'
+        + '<br><small style="color:var(--muted)">두 점은 실수축(가로축) 을 기준으로 서로 대칭입니다.</small>';
+    }
+    aSl.addEventListener('input',upd); bSl.addEventListener('input',upd); upd();
+  })();
+
+  /* ================= #13 복소수 연산 : 벡터 덧셈 ================= */
+  (function(){
+    if(!$('w13_a1')) return;
+    const cp = new ComplexPlane('w13_plane', {r:6, w:230,h:230, maxWidth:250});
+    const ids=['w13_a1','w13_b1','w13_a2','w13_b2'];
+    function upd(){
+      const a1=+$('w13_a1').value,b1=+$('w13_b1').value,a2=+$('w13_a2').value,b2=+$('w13_b2').value;
+      $('w13_a1v').textContent=a1; $('w13_b1v').textContent=b1; $('w13_a2v').textContent=a2; $('w13_b2v').textContent=b2;
+      cp.clear();
+      cp.pt(a1,b1,'#2563EB','z₁',{vector:true});
+      cp.pt(a2,b2,'#D97706','z₂',{vector:true});
+      const sr=a1+a2, si=b1+b2;
+      cp.line(a1,b1,sr,si,'var(--graph-faint)');
+      cp.line(a2,b2,sr,si,'var(--graph-faint)');
+      cp.pt(sr,si,'#7C3AED','z₁+z₂',{vector:true});
+      $('w13_out').innerHTML = '<span class="math">z₁+z₂ = ('+a1+signed(a2)+') + ('+b1+signed(b2)+')i = '+sr+signed(si)+'i</span>';
+    }
+    ids.forEach(id=>$(id).addEventListener('input',upd));
+    upd();
+  })();
+
+  /* ================= #14 음수의 제곱근 부호 확인기 ================= */
+  (function(){
+    if(!$('w14_A')) return;
+    const AS=$('w14_A'), BS=$('w14_B');
+    function upd(){
+      const A=+AS.value, B=+BS.value;
+      $('w14_Av').textContent=A; $('w14_Bv').textContent=B;
+      const zA=csqrt(A), zB=csqrt(B);
+      const prod=cmul(zA,zB);
+      let rule;
+      if(A<0 && B<0) rule='두 수가 모두 음수 → <span class="math"><span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">A</span></span><span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">B</span></span>=-<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">AB</span></span></span> (음의 실수)';
+      else if(A>=0 && B>=0) rule='두 수가 모두 0 이상 → <span class="math"><span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">A</span></span><span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">B</span></span>=<span class="sqrt"><svg class="sqrt-ico" viewBox="0 0 34 44" preserveAspectRatio="none"><path d="M2 26 L8 38 L17 2 L34 2"/></svg><span class="rt">AB</span></span></span> (일반적인 제곱근 규칙)';
+      else rule='한 수만 음수 → 결과가 순허수가 됩니다. 부호에 특히 주의!';
+      $('w14_out').innerHTML = '<span class="math">'+rootStr(A)+' × '+rootStr(B)+' = '+cstr(zA)+' × '+cstr(zB)+' = '+cstr(prod)+'</span><br>'
+        + '<small style="color:var(--muted)">'+rule+'</small>';
+    }
+    AS.addEventListener('input',upd); BS.addEventListener('input',upd); upd();
+  })();
+
+  /* ================= #15 판별식 실험실 ================= */
+  (function(){
+    if(!$('w15_a')) return;
+    const g = new Graph('w15_graph', {xmin:-8,xmax:8,ymin:-10,ymax:14, w:300,h:230});
+    const aSl=$('w15_a'), bSl=$('w15_b'), cSl=$('w15_c');
+    function upd(){
+      const a=+aSl.value,b=+bSl.value,c=+cSl.value;
+      $('w15_av').textContent=a; $('w15_bv').textContent=b; $('w15_cv').textContent=c;
+      g.clear();
+      if(a===0){
+        $('w15_out').innerHTML = '<span class="wgt-badge gray">a=0 이면 이차방정식이 아닙니다. a를 0이 아닌 값으로 바꿔보세요.</span>';
+        return;
+      }
+      g.plot(x=>a*x*x+b*x+c, '#2563EB', {width:2.4});
+      const D = b*b-4*a*c;
+      let badge, msg;
+      if(D>0){
+        const r1=(-b+Math.sqrt(D))/(2*a), r2=(-b-Math.sqrt(D))/(2*a);
+        g.point(r1,0,'#059669',{r:5}); g.point(r2,0,'#059669',{r:5});
+        badge='green'; msg='D&gt;0 → 서로 다른 두 실근 x='+fmt(Math.min(r1,r2))+', '+fmt(Math.max(r1,r2));
+      } else if(D===0){
+        const r=-b/(2*a);
+        g.point(r,0,'#D97706',{r:5.5});
+        badge='amber'; msg='D=0 → 중근 x='+fmt(r)+' (그래프가 x축에 접합니다)';
+      } else {
+        badge='red'; msg='D&lt;0 → 서로 다른 두 허근 (그래프가 x축과 만나지 않습니다)';
+      }
+      $('w15_out').innerHTML = '<span class="math">D = b²-4ac = '+fmt(D)+'</span> &nbsp;<span class="wgt-badge '+badge+'">'+msg+'</span>';
+    }
+    [aSl,bSl,cSl].forEach(s=>s.addEventListener('input',upd));
+    upd();
+  })();
+
+  /* ================= #16 D/4 를 이용한 근의 판별 ================= */
+  (function(){
+    if(!$('w16_k')) return;
+    const g = new Graph('w16_graph', {xmin:-4,xmax:12,ymin:-4,ymax:40, w:300,h:220});
+    const kSl=$('w16_k');
+    function upd(){
+      const k=+kSl.value; $('w16_kv').textContent=fmt(k);
+      const f = x => x*x-2*k*x+(k*k-k+3);
+      g.clear();
+      g.plot(f, '#7C3AED', {width:2.4});
+      const Dp = k - 3; // D/4 = k^2 - (k^2-k+3) = k-3
+      let badge,msg;
+      if(Dp>0){
+        const r1=k+Math.sqrt(Dp), r2=k-Math.sqrt(Dp);
+        g.point(r1,0,'#059669',{r:5}); g.point(r2,0,'#059669',{r:5});
+        badge='green'; msg='서로 다른 두 실근';
+      } else if(Dp===0){
+        g.point(k,0,'#D97706',{r:5.5});
+        badge='amber'; msg='중근';
+      } else { badge='red'; msg='서로 다른 두 허근'; }
+      $('w16_out').innerHTML = '<span class="math">D/4 = k - 3 = '+fmt(Dp)+'</span> &nbsp;<span class="wgt-badge '+badge+'">'+msg+'</span>'
+        + '<br><small style="color:var(--muted)">D/4&gt;0, 즉 k&gt;3 을 만족하는 최소 정수는 k=4 입니다.</small>';
+    }
+    kSl.addEventListener('input',upd); upd();
+  })();
+
+  /* ================= #17 근과 계수와의 관계 ================= */
+  (function(){
+    if(!$('w17_b')) return;
+    const bSl=$('w17_b'), cSl=$('w17_c');
+    function upd(){
+      const b=+bSl.value, c=+cSl.value;
+      $('w17_bv').textContent=b; $('w17_cv').textContent=c;
+      const D=b*b-4*c;
+      const sq=csqrt(D);
+      const r1={re:(-b+sq.re)/2, im:sq.im/2}, r2={re:(-b-sq.re)/2, im:-sq.im/2};
+      const sum=cadd(r1,r2), prod=cmul(r1,r2);
+      $('w17_out').innerHTML = '<span class="math">x²+'+b+'x+'+c+'=0</span> 의 두 근: <span class="math">α='+cstr(r1)+', β='+cstr(r2)+'</span><br>'
+        + '<span class="math">α+β = '+cstr(sum)+'</span> (공식: <span class="math">-b = '+(-b)+'</span>) &nbsp;'
+        + '<span class="math">αβ = '+cstr(prod)+'</span> (공식: <span class="math">c = '+c+'</span>) '
+        + '<span class="wgt-badge green">공식과 일치 ✓</span>';
+    }
+    bSl.addEventListener('input',upd); cSl.addEventListener('input',upd); upd();
+  })();
+
+  /* ================= #18 두 수를 근으로 하는 이차방정식 ================= */
+  (function(){
+    if(!$('w18_s')) return;
+    const sSl=$('w18_s'), pSl=$('w18_p');
+    function upd(){
+      const s=+sSl.value, p=+pSl.value;
+      $('w18_sv').textContent=s; $('w18_pv').textContent=p;
+      const D=s*s-4*p;
+      const sq=csqrt(D);
+      const r1={re:(s+sq.re)/2, im:sq.im/2}, r2={re:(s-sq.re)/2, im:-sq.im/2};
+      $('w18_out').innerHTML = '두 근의 합 <span class="math">'+s+'</span>, 곱 <span class="math">'+p+'</span> 이므로<br>'
+        + '<span class="math">x² - '+s+'x + '+p+' = 0</span> &nbsp;→&nbsp; <span class="math">x = '+cstr(r1)+' 또는 '+cstr(r2)+'</span>';
+    }
+    sSl.addEventListener('input',upd); pSl.addEventListener('input',upd); upd();
+  })();
+
+  /* ================= #19 이차방정식과 이차함수의 관계 ================= */
+  (function(){
+    if(!$('w19_b')) return;
+    const g = new Graph('w19_graph', {xmin:-8,xmax:8,ymin:-10,ymax:14, w:300,h:220});
+    const bSl=$('w19_b'), cSl=$('w19_c');
+    function upd(){
+      const b=+bSl.value, c=+cSl.value;
+      $('w19_bv').textContent=b; $('w19_cv').textContent=c;
+      g.clear();
+      g.plot(x=>x*x+b*x+c, '#2563EB', {width:2.4});
+      const D=b*b-4*c;
+      let n, badge;
+      if(D>0){ n=2; badge='green';
+        const r1=(-b+Math.sqrt(D))/2, r2=(-b-Math.sqrt(D))/2;
+        g.point(r1,0,'#059669',{r:5}); g.point(r2,0,'#059669',{r:5});
+      } else if(D===0){ n=1; badge='amber'; g.point(-b/2,0,'#D97706',{r:5.5}); }
+      else { n=0; badge='red'; }
+      $('w19_out').innerHTML = '그래프와 x축의 교점 개수 = <b>'+n+'개</b> &nbsp;<span class="wgt-badge '+badge+'">D = '+fmt(D)+'</span>'
+        + ' &nbsp;→&nbsp; 실근의 개수도 '+n+'개';
+    }
+    bSl.addEventListener('input',upd); cSl.addEventListener('input',upd); upd();
+  })();
+
+  /* ================= #20 그래프와 직선의 위치관계 ================= */
+  (function(){
+    if(!$('w20_m')) return;
+    const g = new Graph('w20_graph', {xmin:-6,xmax:6,ymin:-6,ymax:22, w:300,h:230});
+    const mSl=$('w20_m'), nSl=$('w20_n');
+    function upd(){
+      const m=+mSl.value, n=+nSl.value;
+      $('w20_mv').textContent=m; $('w20_nv').textContent=n;
+      g.clear();
+      g.plot(x=>2*x*x+3*x, '#2563EB', {width:2.4});
+      g.plot(x=>m*x+n, '#D97706', {width:2.2, dash:'5,4'});
+      const A=2, B=3-m, C=-n;
+      const D=B*B-4*A*C;
+      let badge,msg;
+      if(D>0){
+        const r1=(-B+Math.sqrt(D))/(2*A), r2=(-B-Math.sqrt(D))/(2*A);
+        g.point(r1,2*r1*r1+3*r1,'#059669',{r:5}); g.point(r2,2*r2*r2+3*r2,'#059669',{r:5});
+        badge='green'; msg='서로 다른 두 점에서 만남';
+      } else if(D===0){
+        const r=-B/(2*A);
+        g.point(r,2*r*r+3*r,'#D97706',{r:5.5});
+        badge='amber'; msg='한 점에서 접함';
+      } else { badge='red'; msg='만나지 않음'; }
+      $('w20_out').innerHTML = '직선 <span class="math">y='+m+'x'+signed(n)+'</span> &nbsp;<span class="wgt-badge '+badge+'">'+msg+'</span> (D='+fmt(D)+')';
+    }
+    mSl.addEventListener('input',upd); nSl.addEventListener('input',upd); upd();
+  })();
+
+})();
+</script>
+
+<script>
+/* ============================================================
+   개념별 위젯 초기화 — Chapter 2: 방정식과 부등식 (#21~#28)
+   ============================================================ */
+(function(){
+  "use strict";
+  const {$, el, txt, fmt, signed, makeSVG, Graph, NumberLine, ComplexPlane, matStatic, matInput, readMat} = WGT;
+  const H2 = window.__WGT_CH2_HELPERS || {};
+
+  /* ================= #21 이차함수의 최대와 최소 ================= */
+  (function(){
+    if(!$('w21_lo')) return;
+    const g = new Graph('w21_graph', {xmin:-6,xmax:6,ymin:-12,ymax:10, w:300,h:230});
+    const loSl=$('w21_lo'), hiSl=$('w21_hi');
+    const f = x => -(x+1)*(x+1)+8;
+    function upd(){
+      let lo=+loSl.value, hi=+hiSl.value;
+      if(lo>hi){ const t=lo; lo=hi; hi=t; }
+      $('w21_lov').textContent=fmt(lo); $('w21_hiv').textContent=fmt(hi);
+      g.clear();
+      g.plot(f, '#2563EB', {width:2.4});
+      g.hspan(lo,hi,'#2563EB',0.08);
+      const vertexIn = (lo<=-1 && -1<=hi);
+      const cands = [{x:lo,y:f(lo)},{x:hi,y:f(hi)}];
+      if(vertexIn) cands.push({x:-1,y:f(-1)});
+      let maxC=cands[0], minC=cands[0];
+      cands.forEach(c=>{ if(c.y>maxC.y) maxC=c; if(c.y<minC.y) minC=c; });
+      cands.forEach(c=> g.point(c.x,c.y,'var(--graph-faint)',{r:3.6}) );
+      g.point(maxC.x,maxC.y,'#059669',{r:5.5,label:'최대 '+fmt(maxC.y)});
+      g.point(minC.x,minC.y,'#DC2626',{r:5.5,label:'최소 '+fmt(minC.y),dy:16});
+      $('w21_out').innerHTML = '구간 <span class="math">['+fmt(lo)+', '+fmt(hi)+']</span> 에서 '
+        + '최댓값 = <b style="color:#059669">'+fmt(maxC.y)+'</b> (x='+fmt(maxC.x)+'), '
+        + '최솟값 = <b style="color:#DC2626">'+fmt(minC.y)+'</b> (x='+fmt(minC.x)+')'
+        + '<br><small style="color:var(--muted)">꼭짓점(x=-1)이 구간 '+(vertexIn?'안에 있습니다':'밖에 있습니다')+'.</small>';
+    }
+    loSl.addEventListener('input',upd); hiSl.addEventListener('input',upd); upd();
+  })();
+
+  /* ================= #22 삼차/사차방정식의 풀이 ================= */
+  (function(){
+    if(!$('w22_k')) return;
+    const g = new Graph('w22_graph', {xmin:-5,xmax:5,ymin:-20,ymax:20, w:300,h:230});
+    const kSl=$('w22_k');
+    function upd(){
+      const k=+kSl.value; $('w22_kv').textContent=fmt(k);
+      const f = x => x*x*x - x*x - k*x + k;
+      g.clear();
+      g.plot(f, '#7C3AED', {width:2.4});
+      g.point(1,0,'#2563EB',{r:5,label:'x=1'});
+      let msg, badge;
+      if(k>0){
+        const r=Math.sqrt(k);
+        g.point(r,0,'#059669',{r:5}); g.point(-r,0,'#059669',{r:5});
+        msg = '실근 3개: x = 1, '+fmt(r)+', '+fmt(-r); badge='green';
+      } else if(k===0){
+        g.point(0,0,'#D97706',{r:5.5});
+        msg = '실근 2개 (x=1, 중근 x=0)'; badge='amber';
+      } else {
+        msg = '실근 1개(x=1) + 허근 2개'; badge='red';
+      }
+      $('w22_out').innerHTML = '<span class="math">x³-x²-kx+k=(x-1)(x²-k)</span> &nbsp;<span class="wgt-badge '+badge+'">'+msg+'</span>';
+    }
+    kSl.addEventListener('input',upd); upd();
+  })();
+
+  /* ================= #23 ω(오메가)의 성질 ================= */
+  (function(){
+    if(!$('w23_toggle')) return;
+    const cp = new ComplexPlane('w23_plane', {r:1.6, w:220,h:220, maxWidth:240});
+    const w = {re:-0.5, im:Math.sqrt(3)/2};
+    const w2 = {re:-0.5, im:-Math.sqrt(3)/2};
+    let showSum=false;
+    function draw(){
+      cp.clear();
+      cp.circle(1,'var(--graph-faint)');
+      cp.pt(1,0,'#2563EB','1');
+      cp.pt(w.re,w.im,'#D97706','ω');
+      cp.pt(w2.re,w2.im,'#7C3AED','ω²');
+      if(showSum){
+        cp.line(0,0,w.re,w.im,'#D97706',null);
+        cp.line(w.re,w.im,w.re+w2.re,w.im+w2.im,'#7C3AED',null);
+        cp.pt(w.re+w2.re, w.im+w2.im, '#059669', 'ω+ω²=-1');
+      }
+      $('w23_out').innerHTML = showSum
+        ? '<span class="math">ω+ω² = -1</span> 이 실수축 위의 한 점이 되는 것을 벡터 합으로 확인할 수 있습니다. (<span class="math">ω²+ω+1=0</span> 과 같은 의미)'
+        : '세 점 <span class="math">1, ω, ω²</span>는 단위원 위에 <b>120°</b> 간격으로 놓여 있습니다. (모두 <span class="math">x³=1</span> 의 근)';
+    }
+    $('w23_toggle').addEventListener('click', ()=>{ showSum=!showSum; $('w23_toggle').textContent = showSum? '점으로 되돌리기' : 'ω+ω² 벡터 합 보기'; draw(); });
+    draw();
+  })();
+
+  /* ================= #24 연립이차방정식 ================= */
+  (function(){
+    if(!$('w24_R')) return;
+    const g = new Graph('w24_graph', {xmin:-5,xmax:5,ymin:-5,ymax:5, w:270,h:270});
+    const RSl=$('w24_R');
+    function upd(){
+      const R=+RSl.value; $('w24_Rv').textContent=R;
+      g.clear();
+      g.plot(x=> Math.sqrt(Math.max(0,R-x*x)), '#2563EB', {width:2});
+      g.plot(x=> -Math.sqrt(Math.max(0,R-x*x)), '#2563EB', {width:2});
+      g.plot(x=> 2*x, '#D97706', {width:2, dash:'5,4'});
+      g.plot(x=> -x/2, '#7C3AED', {width:2, dash:'5,4'});
+      const x1=Math.sqrt(R/5), x2=Math.sqrt(4*R/5);
+      const pts = [
+        {x:x1,y:2*x1},{x:-x1,y:-2*x1},{x:x2,y:-x2/2},{x:-x2,y:x2/2}
+      ];
+      let maxSum=-Infinity, maxPt=pts[0];
+      pts.forEach(p=>{ g.point(p.x,p.y,'#059669',{r:4}); if(p.x+p.y>maxSum){maxSum=p.x+p.y; maxPt=p;} });
+      $('w24_out').innerHTML = '원 <span class="math">x²+y²='+R+'</span> 과 두 직선의 교점 4개 중, <span class="math">x+y</span> 최댓값 ≈ <b>'+fmt(maxSum)+'</b> (점 ('+fmt(maxPt.x)+', '+fmt(maxPt.y)+'))'
+        + '<br><small style="color:var(--muted)">R=5일 때 원래 예제의 교점 (1,2),(-1,-2),(-2,1),(2,-1) 이 그대로 나타납니다.</small>';
+    }
+    RSl.addEventListener('input',upd); upd();
+  })();
+
+  /* ================= #25 절댓값 부등식 ================= */
+  (function(){
+    if(!$('w25_k')) return;
+    const nl = new NumberLine('w25_line', {min:-8,max:8,w:320,h:70, maxWidth:340});
+    const kSl=$('w25_k');
+    const gtBtn=$('w25_gt'), ltBtn=$('w25_lt');
+    let mode='gt';
+    function upd(){
+      const k=+kSl.value; $('w25_kv').textContent=k;
+      nl.clear();
+      const c1=(2-k)/3, c2=(2+k)/3; // 3x-2 = -k, +k  => x=(2-k)/3, (2+k)/3
+      let out;
+      if(mode==='gt'){
+        nl.segment(-Infinity, Math.min(c1,c2), '#DC2626', true, true);
+        nl.segment(Math.max(c1,c2), Infinity, '#DC2626', true, true);
+        out = '<span class="math">|3x-2| &gt; '+k+'</span> 의 해: <span class="math">x &lt; '+fmt(Math.min(c1,c2))+'</span> 또는 <span class="math">x &gt; '+fmt(Math.max(c1,c2))+'</span>';
+      } else {
+        if(k<=0){ out='해가 없습니다 (k≤0).'; }
+        else {
+          nl.segment(Math.min(c1,c2), Math.max(c1,c2), '#2563EB', true, true);
+          out = '<span class="math">|3x-2| &lt; '+k+'</span> 의 해: <span class="math">'+fmt(Math.min(c1,c2))+' &lt; x &lt; '+fmt(Math.max(c1,c2))+'</span>';
+        }
+      }
+      $('w25_out').innerHTML = out;
+    }
+    gtBtn.addEventListener('click', ()=>{ mode='gt'; gtBtn.classList.add('active'); ltBtn.classList.remove('active'); upd(); });
+    ltBtn.addEventListener('click', ()=>{ mode='lt'; ltBtn.classList.add('active'); gtBtn.classList.remove('active'); upd(); });
+    kSl.addEventListener('input',upd);
+    upd();
+  })();
+
+  /* ================= #26 이차부등식의 풀이 (기본) ================= */
+  (function(){
+    if(!$('w26_al')) return;
+    const g = new Graph('w26_graph', {xmin:-8,xmax:8,ymin:-6,ymax:20, w:280,h:190});
+    const nl = new NumberLine('w26_line', {min:-8,max:8,w:280,h:60, maxWidth:300});
+    const alSl=$('w26_al'), beSl=$('w26_be');
+    const ltBtn=$('w26_lt'), gtBtn=$('w26_gt');
+    let mode='lt';
+    function upd(){
+      let al=+alSl.value, be=+beSl.value;
+      if(al>be){ const t=al; al=be; be=t; }
+      $('w26_alv').textContent=al; $('w26_bev').textContent=be;
+      g.clear(); nl.clear();
+      const f = x => (x-al)*(x-be);
+      g.plot(f, '#2563EB', {width:2.4});
+      g.point(al,0,'var(--axis-text)',{r:3.6}); g.point(be,0,'var(--axis-text)',{r:3.6});
+      let out;
+      if(mode==='lt'){
+        g.hspan(al,be,'#2563EB',0.1);
+        nl.segment(al,be,'#2563EB',true,true);
+        out = 'f(x)&lt;0 의 해: <span class="math">'+al+' &lt; x &lt; '+be+'</span> (두 근 <b>사이</b>)';
+      } else {
+        g.hspan(-8,al,'#DC2626',0.08); g.hspan(be,8,'#DC2626',0.08);
+        nl.segment(-Infinity,al,'#DC2626',true,true); nl.segment(be,Infinity,'#DC2626',true,true);
+        out = 'f(x)&gt;0 의 해: <span class="math">x &lt; '+al+'</span> 또는 <span class="math">x &gt; '+be+'</span> (두 근 <b>바깥</b>)';
+      }
+      $('w26_out').innerHTML = '<span class="math">f(x)=(x-'+al+')(x-'+be+')</span><br>'+out;
+    }
+    ltBtn.addEventListener('click',()=>{mode='lt';ltBtn.classList.add('active');gtBtn.classList.remove('active');upd();});
+    gtBtn.addEventListener('click',()=>{mode='gt';gtBtn.classList.add('active');ltBtn.classList.remove('active');upd();});
+    alSl.addEventListener('input',upd); beSl.addEventListener('input',upd); upd();
+  })();
+
+  /* ================= #27 이차부등식의 풀이 (모든 경우) ================= */
+  (function(){
+    if(!$('w27_c')) return;
+    const g = new Graph('w27_graph', {xmin:-4,xmax:8,ymin:-8,ymax:14, w:280,h:200});
+    const nl = new NumberLine('w27_line', {min:-4,max:8,w:280,h:60, maxWidth:300});
+    const cSl=$('w27_c');
+    function upd(){
+      const c=+cSl.value; $('w27_cv').textContent=c;
+      const f = x => x*x-4*x+c;
+      const D = 16-4*c;
+      g.clear(); nl.clear();
+      g.plot(f, '#2563EB', {width:2.4});
+      let out, badge;
+      if(D>0){
+        const r1=2-Math.sqrt(D)/2, r2=2+Math.sqrt(D)/2;
+        g.hspan(r1,r2,'#2563EB',0.1);
+        nl.segment(r1,r2,'#2563EB',true,true);
+        out='f(x)&lt;0 의 해: <span class="math">'+fmt(r1)+' &lt; x &lt; '+fmt(r2)+'</span>'; badge='green';
+      } else if(D===0){
+        out='f(x)&lt;0 을 만족하는 x가 없습니다 (경계 x=2에서 f(x)=0).'; badge='amber';
+        nl.mark(2,'#D97706','x=2');
+      } else {
+        out='f(x)&lt;0 을 만족하는 실수 x가 없습니다 (그래프가 항상 x축 위쪽).'; badge='red';
+      }
+      $('w27_out').innerHTML = '<span class="math">f(x)=x²-4x+'+c+'</span>, <span class="math">D='+fmt(D)+'</span> &nbsp;<span class="wgt-badge '+badge+'">'+out+'</span>';
+    }
+    cSl.addEventListener('input',upd); upd();
+  })();
+
+  /* ================= #28 연립부등식의 풀이 ================= */
+  (function(){
+    if(!$('w28_a')) return;
+    const nl = new NumberLine('w28_line', {min:-2,max:14,w:320,h:100, maxWidth:340});
+    const aSl=$('w28_a');
+    function upd(){
+      const a=+aSl.value; $('w28_av').textContent=a;
+      nl.clear();
+      // range1 fixed [4,8]; range2: a>=1 -> [1,a], a<1 -> [a,1]
+      const lo2=Math.min(1,a), hi2=Math.max(1,a);
+      nl.segment(4,8,'#2563EB',false,false);
+      nl.segment(lo2,hi2,'#D97706',false,false);
+      const lo=Math.max(4,lo2), hi=Math.min(8,hi2);
+      let intCount=0;
+      if(lo<=hi){ for(let n=Math.ceil(lo);n<=Math.floor(hi);n++) intCount++; }
+      $('w28_out').innerHTML = '파란 구간: <span class="math">4≤x≤8</span> (고정) &nbsp;|&nbsp; 주황 구간: <span class="math">'+fmt(lo2)+'≤x≤'+fmt(hi2)+'</span><br>'
+        + '교집합: '+(lo<=hi? ('<span class="math">'+fmt(lo)+'≤x≤'+fmt(hi)+'</span>') : '공집합') + ' &nbsp;<span class="wgt-badge '+(intCount===1?'green':'gray')+'">정수해 '+intCount+'개</span>'
+        + (intCount===1 ? '<br><small style="color:var(--muted)">예제의 답 범위(4≤a&lt;5)에서 정수해가 정확히 1개가 됩니다.</small>' : '');
+    }
+    aSl.addEventListener('input',upd); upd();
+  })();
+
+})();
+</script>
+
+<script>
+/* ============================================================
+   개념별 위젯 초기화 — Chapter 3: 경우의 수 (#29~#32)
+   ============================================================ */
+(function(){
+  "use strict";
+  const {$, el, txt, fmt, signed, makeSVG, Graph, NumberLine, ComplexPlane, matStatic, matInput, readMat} = WGT;
+  function fact(k){ let r=1; for(let i=2;i<=k;i++) r*=i; return r; }
+  function nCr(n,r){ if(r<0||r>n) return 0; return Math.round(fact(n)/(fact(r)*fact(n-r))); }
+
+  /* ================= #29 합의 법칙 vs 곱의 법칙 ================= */
+  (function(){
+    if(!$('w29_m')) return;
+    const mSl=$('w29_m'), nSl=$('w29_n');
+    const sumBtn=$('w29_sum'), prodBtn=$('w29_prod');
+    let mode='sum';
+    function upd(){
+      const m=+mSl.value, n=+nSl.value;
+      $('w29_mv').textContent=m; $('w29_nv').textContent=n;
+      const viz=$('w29_viz');
+      if(mode==='sum'){
+        let a='', b='';
+        for(let i=1;i<=m;i++) a+='<span class="wgt-dot" style="background:#DCEAFE;border-color:#2563EB;color:#2563EB;">A'+i+'</span>';
+        for(let i=1;i<=n;i++) b+='<span class="wgt-dot" style="background:#FDECC8;border-color:#D97706;color:#D97706;">B'+i+'</span>';
+        viz.innerHTML = '<div style="display:flex;gap:18px;flex-wrap:wrap;justify-content:center;padding:10px;"><div>'+a+'</div><div>'+b+'</div></div>';
+        $('w29_out').innerHTML = '두 사건이 <b>동시에 일어나지 않으므로</b> 경우의 수는 <span class="math">'+m+' + '+n+' = '+(m+n)+'</span>';
+      } else {
+        let rows='';
+        for(let i=0;i<m;i++){
+          let row='';
+          for(let j=0;j<n;j++){ row += '<span class="wgt-dot" style="background:#EAE1FB;border-color:#7C3AED;color:#7C3AED;width:24px;height:24px;font-size:9.5px;">'+(i+1)+','+(j+1)+'</span>'; }
+          rows += '<div style="white-space:nowrap;">'+row+'</div>';
+        }
+        viz.innerHTML = '<div style="text-align:center;padding:10px;overflow-x:auto;">'+rows+'</div>';
+        $('w29_out').innerHTML = '두 사건이 <b>잇달아 일어나므로</b> 경우의 수는 <span class="math">'+m+' × '+n+' = '+(m*n)+'</span>';
+      }
+    }
+    sumBtn.addEventListener('click',()=>{mode='sum';sumBtn.classList.add('active');prodBtn.classList.remove('active');upd();});
+    prodBtn.addEventListener('click',()=>{mode='prod';prodBtn.classList.add('active');sumBtn.classList.remove('active');upd();});
+    mSl.addEventListener('input',upd); nSl.addEventListener('input',upd);
+    upd();
+  })();
+
+  /* ================= #30 순열 계산기 ================= */
+  (function(){
+    if(!$('w30_n')) return;
+    const nSl=$('w30_n'), rSl=$('w30_r');
+    function upd(){
+      let n=+nSl.value, r=+rSl.value;
+      rSl.max=n; if(r>n){ r=n; rSl.value=n; }
+      $('w30_nv').textContent=n; $('w30_rv').textContent=r;
+      let html='<div style="text-align:center;padding:8px;">';
+      for(let i=0;i<n;i++){ html += '<span class="wgt-seat'+(i<r?' filled':'')+'">'+(i<r?(i+1):'')+'</span>'; }
+      html += '</div>';
+      $('w30_seats').innerHTML = html;
+      const chain=[];
+      for(let i=0;i<r;i++) chain.push(n-i);
+      const val = chain.reduce((a,b)=>a*b,1);
+      $('w30_out').innerHTML = '<span class="math">ₙPᵣ : '+n+'P'+r+' = '+(chain.join(' × ')||1)+' = '+val+'</span>';
+    }
+    nSl.addEventListener('input',upd); rSl.addEventListener('input',upd);
+    upd();
+  })();
+
+  /* ================= #31 조합 계산기 & 선택 게임 ================= */
+  (function(){
+    if(!$('w31_n')) return;
+    const nSl=$('w31_n'), rSl=$('w31_r');
+    let picked = new Set();
+    function renderDots(n){
+      const holder=$('w31_dots');
+      let html='<div style="text-align:center;padding:8px;">';
+      for(let i=1;i<=n;i++){ html += '<span class="wgt-dot'+(picked.has(i)?' picked':'')+'" data-i="'+i+'">'+i+'</span>'; }
+      html += '</div>';
+      holder.innerHTML = html;
+      holder.querySelectorAll('.wgt-dot').forEach(d=>{
+        d.addEventListener('click', ()=>{
+          const i=+d.dataset.i;
+          if(picked.has(i)) picked.delete(i); else picked.add(i);
+          renderDots(n); updOut();
+        });
+      });
+    }
+    function updOut(){
+      const n=+nSl.value, r=+rSl.value;
+      const val = nCr(n,r);
+      const match = picked.size===r;
+      $('w31_out').innerHTML = '<span class="math">ₙCᵣ : '+n+'C'+r+' = '+val+'</span> &nbsp;'
+        + '<span class="wgt-badge '+(match?'green':'gray')+'">현재 '+picked.size+'개 선택됨'+(match?' — 목표 달성!':'')+'</span>';
+    }
+    function upd(){
+      let n=+nSl.value, r=+rSl.value;
+      rSl.max=n; if(r>n){ r=n; rSl.value=n; }
+      $('w31_nv').textContent=n; $('w31_rv').textContent=r;
+      picked = new Set(Array.from(picked).filter(i=>i<=n));
+      renderDots(n);
+      updOut();
+    }
+    nSl.addEventListener('input',upd); rSl.addEventListener('input',upd);
+    upd();
+  })();
+
+  /* ================= #32 그룹 나누기 계산기 ================= */
+  (function(){
+    if(!$('w32_p')) return;
+    const N=8;
+    const pSl=$('w32_p'), qSl=$('w32_q');
+    function upd(){
+      let p=+pSl.value, q=+qSl.value;
+      if(p+q>N){ q=N-p; if(q<1){ q=1; p=N-1; pSl.value=p; } qSl.value=q; }
+      let r = N-p-q;
+      $('w32_pv').textContent=p; $('w32_qv').textContent=q;
+      const base = nCr(N,p)*nCr(N-p,q)*nCr(N-p-q,r);
+      let divisor=1, note='';
+      const allSame = (p===q && q===r);
+      const twoSame = !allSame && (p===q || q===r || p===r);
+      if(allSame){ divisor=6; note='세 그룹의 크기가 모두 같아 3!으로 나눕니다.'; }
+      else if(twoSame){ divisor=2; note='두 그룹의 크기가 같아 2!으로 나눕니다.'; }
+      else { note='세 그룹의 크기가 모두 달라 그대로 계산합니다.'; }
+      const result = base/divisor;
+      $('w32_out').innerHTML = 'p='+p+', q='+q+', r='+r+' (p+q+r=8) &nbsp; <span class="math">₈C'+p+' × '+(N-p)+'C'+q+' × '+r+'C'+r+' = '+base+'</span>'
+        + (divisor>1? ' ÷ '+divisor : '') + ' = <b>'+result+'</b><br><small style="color:var(--muted)">'+note+'</small>';
+    }
+    pSl.addEventListener('input',upd); qSl.addEventListener('input',upd);
+    upd();
+  })();
+
+})();
+</script>
+
+<script>
+/* ============================================================
+   개념별 위젯 초기화 — Chapter 4: 행렬 (#33~#36)
+   ============================================================ */
+(function(){
+  "use strict";
+  const {$, el, txt, fmt, signed, makeSVG, Graph, NumberLine, ComplexPlane, matStatic, matInput, readMat} = WGT;
+
+  /* ================= #33 행렬 생성기 ================= */
+  (function(){
+    if(!$('w33_m')) return;
+    const mSl=$('w33_m'), nSl=$('w33_n');
+    function upd(){
+      const m=+mSl.value, n=+nSl.value;
+      $('w33_mv').textContent=m; $('w33_nv').textContent=n;
+      const values=[];
+      for(let i=1;i<=m;i++){ const row=[]; for(let j=1;j<=n;j++){ row.push(2*i+j-3); } values.push(row); }
+      $('w33_mat').innerHTML = matStatic(values, {idPrefix:'w33cell'});
+      $('w33_mat').querySelectorAll('.cell').forEach(c=>{
+        c.style.cursor='pointer';
+        c.addEventListener('click', ()=>{
+          const ci=+c.dataset.i+1, cj=+c.dataset.j+1;
+          $('w33_mat').querySelectorAll('.cell').forEach(x=>x.classList.remove('hl'));
+          c.classList.add('hl');
+          $('w33_out').innerHTML = '(i, j) = ('+ci+', '+cj+') 성분 = 2×'+ci+'+'+cj+'-3 = <b>'+(2*ci+cj-3)+'</b>';
+        });
+      });
+    }
+    mSl.addEventListener('input',upd); nSl.addEventListener('input',upd);
+    upd();
+  })();
+
+  /* ================= #34 A = B 조건 확인기 ================= */
+  (function(){
+    if(!$('w34_A')) return;
+    $('w34_A').innerHTML = matInput([[1,2],[3,4]], 'w34a');
+    $('w34_B').innerHTML = matInput([[1,2],[3,4]], 'w34b');
+    function upd(){
+      const A=readMat('w34a',2,2), B=readMat('w34b',2,2);
+      let all=true;
+      for(let i=0;i<2;i++) for(let j=0;j<2;j++){ if(A[i][j]!==B[i][j]) all=false; }
+      $('w34_out').innerHTML = '<span class="wgt-badge '+(all?'green':'red')+'">'+(all?'A = B (모든 대응 성분이 같음)':'A ≠ B (다른 성분이 있음)')+'</span>';
+    }
+    document.querySelectorAll('#w34_A input, #w34_B input').forEach(inp=>inp.addEventListener('input',upd));
+    upd();
+  })();
+
+  /* ================= #35 행렬 덧셈·뺄셈 계산기 ================= */
+  (function(){
+    if(!$('w35_A')) return;
+    $('w35_A').innerHTML = matInput([[2,-3,1],[0,4,-5]], 'w35a');
+    $('w35_B').innerHTML = matInput([[1,1,1],[1,1,1]], 'w35b');
+    let op='plus';
+    function upd(){
+      const A=readMat('w35a',2,3), B=readMat('w35b',2,3);
+      const R = A.map((row,i)=> row.map((v,j)=> op==='plus'? v+B[i][j] : v-B[i][j]));
+      $('w35_opsign').textContent = op==='plus' ? '+' : '−';
+      $('w35_out').innerHTML = (op==='plus'?'A + B':'A - B') + ' = ' + matStatic(R);
+    }
+    $('w35_plus').addEventListener('click', ()=>{ op='plus'; $('w35_plus').classList.add('active'); $('w35_minus').classList.remove('active'); upd(); });
+    $('w35_minus').addEventListener('click', ()=>{ op='minus'; $('w35_minus').classList.add('active'); $('w35_plus').classList.remove('active'); upd(); });
+    document.querySelectorAll('#w35_A input, #w35_B input').forEach(inp=>inp.addEventListener('input',upd));
+    upd();
+  })();
+
+  /* ================= #36 실수배 계산기 ================= */
+  (function(){
+    if(!$('w36_k')) return;
+    $('w36_A').innerHTML = matInput([[1,2],[3,4]], 'w36a');
+    const kSl=$('w36_k');
+    function upd(){
+      const k=+kSl.value; $('w36_kv').textContent=k;
+      const A=readMat('w36a',2,2);
+      const R = A.map(row=>row.map(v=>k*v));
+      $('w36_out').innerHTML = k+'A = '+matStatic(R);
+    }
+    kSl.addEventListener('input',upd);
+    document.querySelectorAll('#w36_A input').forEach(inp=>inp.addEventListener('input',upd));
+    upd();
+  })();
+
+})();
+</script>
+
+<script>
+/* ============================================================
+   개념별 위젯 초기화 — Chapter 4: 행렬 (#37~#39)
+   ============================================================ */
+(function(){
+  "use strict";
+  const {$, el, txt, fmt, signed, makeSVG, Graph, NumberLine, ComplexPlane, matStatic, matInput, readMat} = WGT;
+
+  /* ================= #37 곱셈 가능 여부 확인기 ================= */
+  (function(){
+    if(!$('w37_m')) return;
+    const mSl=$('w37_m'), k1Sl=$('w37_k1'), k2Sl=$('w37_k2'), nSl=$('w37_n');
+    function upd(){
+      const m=+mSl.value, k1=+k1Sl.value, k2=+k2Sl.value, n=+nSl.value;
+      $('w37_mv').textContent=m; $('w37_k1v').textContent=k1; $('w37_k2v').textContent=k2; $('w37_nv').textContent=n;
+      const ok = k1===k2;
+      $('w37_out').innerHTML = '<span class="math">A</span>는 '+m+'×'+k1+', <span class="math">B</span>는 '+k2+'×'+n+' 행렬입니다.<br>'
+        + '<span class="wgt-badge '+(ok?'green':'red')+'">'+(ok? ('곱셈 가능! 결과는 '+m+'×'+n+' 행렬') : 'A의 열의 개수 ≠ B의 행의 개수 → 곱셈 불가능')+'</span>';
+    }
+    [mSl,k1Sl,k2Sl,nSl].forEach(s=>s.addEventListener('input',upd));
+    upd();
+  })();
+
+  /* ================= #38 행렬 곱셈, 한 칸씩 계산하기 ================= */
+  (function(){
+    if(!$('w38_A')) return;
+    $('w38_A').innerHTML = matInput([[1,2],[3,4]], 'w38a');
+    $('w38_B').innerHTML = matInput([[0,1],[1,0]], 'w38b');
+    const steps=[[0,0],[0,1],[1,0],[1,1]];
+    let step=-1;
+    let R=[[null,null],[null,null]];
+    function render(){
+      const A=readMat('w38a',2,2), B=readMat('w38b',2,2);
+      const cur = (step>=0 && step<steps.length) ? steps[step] : null;
+      const i = cur? cur[0]:null, j = cur? cur[1]:null;
+      document.querySelectorAll('#w38_A input').forEach((inp,idx)=>{
+        const ri=Math.floor(idx/2);
+        inp.style.background = (i!==null && ri===i) ? '#FDF0DF' : '';
+      });
+      document.querySelectorAll('#w38_B input').forEach((inp,idx)=>{
+        const ci=idx%2;
+        inp.style.background = (j!==null && ci===j) ? '#FDF0DF' : '';
+      });
+      if(cur){
+        const dot = A[i][0]+'×'+B[0][j]+' + '+A[i][1]+'×'+B[1][j];
+        const val = A[i][0]*B[0][j] + A[i][1]*B[1][j];
+        $('w38_calc').innerHTML = '<span class="math">('+(i+1)+', '+(j+1)+')</span> 성분 = '+dot+' = <b>'+val+'</b>';
+        R[i][j]=val;
+      } else if(step>=steps.length-1 && step>=0){
+        $('w38_calc').innerHTML = '모든 계산이 끝났습니다! 🎉';
+      } else {
+        $('w38_calc').innerHTML = '"다음 칸 계산" 버튼을 눌러 시작하세요.';
+      }
+      const dispR = R.map(row=>row.map(v=> v===null? '?':v));
+      $('w38_result').innerHTML = matStatic(dispR, {hl:(ri,rj)=> !!cur && ri===i && rj===j});
+      $('w38_next').disabled = step>=steps.length-1;
+      $('w38_out').textContent = cur ? ('A의 '+(i+1)+'행과 B의 '+(j+1)+'열의 성분을 각각 곱해서 더합니다.') : '';
+    }
+    $('w38_next').addEventListener('click', ()=>{ if(step<steps.length-1){ step++; render(); } });
+    $('w38_reset').addEventListener('click', ()=>{ step=-1; R=[[null,null],[null,null]]; render(); });
+    document.querySelectorAll('#w38_A input, #w38_B input').forEach(inp=>inp.addEventListener('input', ()=>{ step=-1; R=[[null,null],[null,null]]; render(); }));
+    render();
+  })();
+
+  /* ================= #39 단위행렬 체험하기 ================= */
+  (function(){
+    if(!$('w39_A')) return;
+    $('w39_A').innerHTML = matInput([[-1,1],[0,-3]], 'w39a');
+    $('w39_E').innerHTML = matStatic([[1,0],[0,1]]);
+    function mul2(A,B){
+      const R=[[0,0],[0,0]];
+      for(let i=0;i<2;i++) for(let j=0;j<2;j++){ let s=0; for(let k=0;k<2;k++) s+=A[i][k]*B[k][j]; R[i][j]=s; }
+      return R;
+    }
+    function upd(){
+      const A=readMat('w39a',2,2);
+      const E=[[1,0],[0,1]];
+      const AE=mul2(A,E), EA=mul2(E,A);
+      $('w39_out').innerHTML = 'AE = '+matStatic(AE)+' &nbsp; EA = '+matStatic(EA)+' &nbsp;<span class="wgt-badge green">AE = EA = A ✓</span>';
+    }
+    document.querySelectorAll('#w39_A input').forEach(inp=>inp.addEventListener('input',upd));
+    upd();
+  })();
+
+})();
+</script>
+
+
+
+</body>
+</html>
