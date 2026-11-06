@@ -6,13 +6,13 @@
 <title>공통수학1 개념 총정리 | 다항식 · 방정식과 부등식 · 경우의 수 · 행렬</title>
 <style>
   :root{
-    --bg:#F6F8F7;
+    --bg:#FFFFFF;
     --panel:#FFFFFF;
     --ink:#16233B;
     --body:#33415C;
     --muted:#6B7A90;
-    --line:#DCE6E2;
-    --line-soft:#E9EFED;
+    --line:#E2E8F0;
+    --line-soft:#EDF1F6;
     --c1:#2563EB;   /* 다항식 - blue */
     --c1-soft:#EAF1FE;
     --c2:#059669;   /* 방정식과 부등식 - green */
@@ -23,28 +23,12 @@
     --c4-soft:#F1EAFE;
     --amber:#B45309;
     --amber-soft:#FEF3E2;
-    --example-bg:#FBFDFC;
+    --example-bg:#F8FAFC;
     --tip-text:#7C4A0A;
-    --grid-line:#EEF2F0;
+    --grid-line:#EDF1F6;
     --axis-line:#A9B7C9;
     --axis-text:#8C9AB0;
     --graph-faint:#B7C0CE;
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --bg:#0F1520; --panel:#161E2C; --ink:#EDF1F7; --body:#C3CEDD; --muted:#93A0B4;
-      --line:#2A3547; --line-soft:#212B3B;
-      --c1-soft:#1B2A47; --c2-soft:#132A20; --c3-soft:#332411; --c4-soft:#241A3D; --amber-soft:#332411;
-      --example-bg:#1B2536; --tip-text:#F0C387;
-      --grid-line:#212C3F; --axis-line:#45536D; --axis-text:#8493AD; --graph-faint:#3A4760;
-    }
-  }
-  :root[data-theme="dark"]{
-    --bg:#0F1520; --panel:#161E2C; --ink:#EDF1F7; --body:#C3CEDD; --muted:#93A0B4;
-    --line:#2A3547; --line-soft:#212B3B;
-    --c1-soft:#1B2A47; --c2-soft:#132A20; --c3-soft:#332411; --c4-soft:#241A3D; --amber-soft:#332411;
-    --example-bg:#1B2536; --tip-text:#F0C387;
-    --grid-line:#212C3F; --axis-line:#45536D; --axis-text:#8493AD; --graph-faint:#3A4760;
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth; scroll-padding-top:env(safe-area-inset-top,0px);}
@@ -754,6 +738,77 @@
     .wgt{ padding:13px 13px 15px; }
     .wgt-row label{ min-width:0; }
   }
+
+  /* ================= MOBILE FIT (모바일 잘림 방지) ================= */
+  html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+  /* grid 1fr 칸이 내용물 폭만큼 늘어나 화면 밖으로 밀리는 현상 방지 (핵심) */
+  .layout > *{ min-width:0; }
+  main{ min-width:0; max-width:100%; }
+  .concept, .def, .example-body, .wgt, details.example{ min-width:0; max-width:100%; }
+  .def, .example-body, .wgt-out, .tip{ overflow-wrap:break-word; }
+  .wgt-canvas-wrap{ max-width:100%; }
+  @media (max-width:600px){
+    main{ padding:20px 12px 72px; }
+    .chapter-banner{ margin:40px 0 16px; }
+    .concept{ padding:18px 14px; }
+    .concept h3{ font-size:16px; }
+    details.example{ padding:0 10px; }
+    .wgt{ padding:11px 10px 13px; }
+    .wgt-canvas-wrap{ padding:6px 4px; }
+    .wgt-out{ padding:8px 10px; }
+    .hero{ padding:44px 18px 36px; }
+    .sidebar{ padding:14px 12px 6px; }
+  }
+  @media (max-width:400px){
+    .formula{ font-size:13.5px; padding:9px 10px; }
+    .intro-stat{ padding:0 12px; }
+  }
+
+  /* ================= WHITE THEME (인트로 아래 전체) ================= */
+  :root{ color-scheme:light; }
+  html, body{ background:#FFFFFF; }
+
+  /* 히어로: 흰 배경 + 얇은 수학 격자 + 4색 포인트 라인 */
+  .hero{ background:#FFFFFF; color:var(--ink); border-bottom:1px solid var(--line); padding:52px 24px 44px; }
+  .hero::before{
+    background-image:
+      linear-gradient(rgba(22,35,59,.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(22,35,59,.045) 1px, transparent 1px);
+    background-size:34px 34px;
+    mask-image:linear-gradient(180deg, rgba(0,0,0,.9), rgba(0,0,0,0) 95%);
+    -webkit-mask-image:linear-gradient(180deg, rgba(0,0,0,.9), rgba(0,0,0,0) 95%);
+  }
+  .hero::after{
+    content:""; position:absolute; left:0; right:0; bottom:0; height:3px;
+    background:linear-gradient(90deg, var(--c1), var(--c2), var(--c3), var(--c4));
+  }
+  .hero .hero-eyebrow{ color:var(--c4); font-weight:700; }
+  .hero h1{ color:var(--ink); }
+  .hero p{ color:var(--muted); }
+  .hero-curve path:nth-child(1){ stroke:var(--c4); opacity:.55; }
+  .hero-curve path:nth-child(2), .hero-curve path:nth-child(3){ stroke:#CBD5E1; }
+  .hero-curve circle{ fill:var(--c4); }
+
+  /* 목차 / 상단 바로가기 */
+  .sidebar{ background:#FFFFFF; border-right:1px solid var(--line); }
+  .toc-list a:hover{ background:#F4F7FA; }
+  .toc-list a.active{ background:#F1F5F9; border-left-color:var(--ink); }
+  .mobile-jump{ background:#FFFFFF; border-bottom:1px solid var(--line); }
+  .mobile-jump a{ box-shadow:0 3px 8px -4px rgba(22,35,59,.35); }
+
+  /* 개념 카드: 흰 카드 + 은은한 그림자 */
+  main{ background:#FFFFFF; }
+  .concept{
+    background:#FFFFFF; border:1px solid var(--line);
+    box-shadow:0 1px 2px rgba(22,35,59,.04), 0 10px 24px -16px rgba(22,35,59,.16);
+  }
+  .concept:hover{ box-shadow:0 1px 2px rgba(22,35,59,.05), 0 16px 30px -16px rgba(22,35,59,.24); }
+  .chapter-banner{ border-bottom:1px solid var(--line); padding-bottom:12px; }
+  .chapter-banner h2{ letter-spacing:-0.01em; }
+  details.example{ background:#F8FAFC; border:1px solid var(--line); }
+  .wgt{ border:1px solid rgba(22,35,59,.06); }
+  .wgt-canvas-wrap, .wgt-out, .wgt-val{ background:#FFFFFF; }
+  footer{ background:#FFFFFF; border-top:1px solid var(--line); }
 
 </style>
 </head>
@@ -2461,8 +2516,27 @@
       {label:'+4x', group:'c'},
       {label:'+2y', group:'d'}
     ];
-    const SLOT = 92, CHIP_W = 78;
-    stage.style.width = (chips.length*SLOT + 16) + 'px';
+    // 모바일 대응: 컨테이너 폭에 맞춰 칩 간격·크기를 자동 조절
+    const SLOT_MAX = 92, CHIP_RATIO = 78/92;
+    let SLOT = SLOT_MAX, CHIP_W = 78, MARGIN = 8, X0 = MARGIN;
+    const wrap = stage.parentElement;
+    function fitStage(){
+      const cs = getComputedStyle(wrap);
+      const avail = wrap.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      if(!(avail > 0)) return false;                       // 접힌 <details> 안에서는 폭이 0
+      MARGIN = avail < 420 ? 6 : 8;
+      const fullW = (chips.length-1)*SLOT_MAX + 78 + 2*MARGIN;
+      SLOT = Math.min(SLOT_MAX, Math.floor((avail - 2*MARGIN) / ((chips.length-1) + CHIP_RATIO)));
+      CHIP_W = Math.round(SLOT*CHIP_RATIO);
+      MARGIN = Math.max(2, Math.min(8, Math.floor((SLOT-CHIP_W)/2) - 1));   // 이웃한 묶음 상자가 겹치지 않도록
+      X0 = MARGIN;
+      stage.style.width = Math.min(fullW, avail) + 'px';
+      stage.style.margin = '0 auto';
+      const fs = Math.max(10, Math.min(14, Math.floor(CHIP_W/3.3)));
+      stage.querySelectorAll('.term-chip').forEach(c=>{ c.style.width = CHIP_W+'px'; c.style.fontSize = fs+'px'; });
+      return true;
+    }
+    fitStage();
 
     let elems = [], groupBoxEls = {}, finalEls = [];
     function mkChip(label, group){
@@ -2474,7 +2548,7 @@
       stage.appendChild(d);
       return d;
     }
-    elems = chips.map((c,i)=>{ const d=mkChip(c.label,c.group); d.style.left=(i*SLOT)+'px'; return d; });
+    elems = chips.map((c,i)=>{ const d=mkChip(c.label,c.group); d.style.left=(X0+i*SLOT)+'px'; return d; });
     ['a','b','c','d'].forEach(g=>{
       const b = document.createElement('div');
       b.className='term-group-box';
@@ -2482,15 +2556,15 @@
       stage.appendChild(b);
       groupBoxEls[g]=b;
     });
-    finalEls = finalChips.map((c)=>{ const d=mkChip(c.label,c.group); d.style.opacity='0'; d.style.left='0px'; return d; });
+    finalEls = finalChips.map((c)=>{ const d=mkChip(c.label,c.group); d.style.opacity='0'; d.style.left=X0+'px'; return d; });
 
     function layoutOriginal(){
-      chips.forEach((c,i)=>{ elems[i].style.left=(i*SLOT)+'px'; elems[i].style.opacity='1'; });
+      chips.forEach((c,i)=>{ elems[i].style.left=(X0+i*SLOT)+'px'; elems[i].style.opacity='1'; });
       Object.values(groupBoxEls).forEach(b=> b.style.opacity='0');
       finalEls.forEach(f=> f.style.opacity='0');
     }
     function layoutGrouped(showBoxes){
-      groupedOrder.forEach((origIdx, rank)=>{ elems[origIdx].style.left=(rank*SLOT)+'px'; });
+      groupedOrder.forEach((origIdx, rank)=>{ elems[origIdx].style.left=(X0+rank*SLOT)+'px'; });
       elems.forEach(e=> e.style.opacity='1');
       finalEls.forEach(f=> f.style.opacity='0');
       const groupsSeq = groupedOrder.map(idx=>chips[idx].group);
@@ -2506,8 +2580,8 @@
         const box = groupBoxEls[g];
         const r = ranges[g];
         if(showBoxes && r){
-          box.style.left = (r.start*SLOT - 8)+'px';
-          box.style.width = (r.count*SLOT - (SLOT-CHIP_W) + 16)+'px';
+          box.style.left = (X0 + r.start*SLOT - MARGIN)+'px';
+          box.style.width = (r.count*SLOT - (SLOT-CHIP_W) + 2*MARGIN)+'px';
           box.style.opacity='1';
         } else {
           box.style.opacity='0';
@@ -2517,7 +2591,7 @@
     function layoutFinal(){
       elems.forEach(e=> e.style.opacity='0');
       Object.values(groupBoxEls).forEach(b=> b.style.opacity='0');
-      finalChips.forEach((c,i)=>{ finalEls[i].style.left=(i*SLOT)+'px'; finalEls[i].style.opacity='1'; });
+      finalChips.forEach((c,i)=>{ finalEls[i].style.left=(X0+i*SLOT)+'px'; finalEls[i].style.opacity='1'; });
     }
 
     const steps = [
@@ -2540,6 +2614,12 @@
     $('w1_prev').addEventListener('click', ()=>{ if(step>0){ step--; render(); } });
     $('w1_next').addEventListener('click', ()=>{ if(step<steps.length-1){ step++; render(); } });
     render();
+    // 폭이 바뀌거나(회전·리사이즈) 접힌 예제가 펼쳐질 때 다시 맞춤
+    if(window.ResizeObserver){
+      new ResizeObserver(()=>{ if(fitStage()) render(); }).observe(wrap);
+    } else {
+      window.addEventListener('resize', ()=>{ if(fitStage()) render(); });
+    }
 
     const xs=$('w1_x'), ys=$('w1_y');
     function upd(){
